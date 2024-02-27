@@ -31,8 +31,6 @@
     "SmtpPort"              : 587,
     "SmtpSender"            : "noreply@sergioescobar.cl",
 
-    "SendGridApiKey"        : "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",
-
     "MailReceiptCrear"      : "automate@gmail.com",
     "MailReceiptAprobar"    : "automate@gmail.com",
     "MailReceiptRechazar"   : "automate@gmail.com",
