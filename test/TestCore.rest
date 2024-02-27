@@ -1,0 +1,7 @@
+POST http://localhost.chexo.resolved.cl/api/core/test HTTP/1.1
+content-type: application/json
+
+{
+    "LoginName" : "c.gonzalez@shutdown.cl",
+    "Password": "123456"
+}

@@ -1,0 +1,42 @@
+{
+    "ApplicationName"           : "Cciti",
+    "ApplicationDescription"    : "App",
+    "ApplicationCopyright"      : "Sergio Escobar",
+    "ApplicationWebsite"        : "www.sergioescobar.cl",
+    "ApplicationWebsiteLink"    : "http://localhost.cciti.cl",
+
+    "ImageEndPoint"             : "http://localhost.cciti.cl/images",
+    "PdfToolPath"               : "/usr/local/bin/wkhtmltopdf",
+    "Watermark"                 : "Developing Site",
+    "DemoUser"                  : "demo@alcaino.cl",
+    "Languages"                 : "es:Español,en:English",
+    "Producto"                  : "RETAIL,PSTORE",
+    "ShowLanguageSelector"      : false,
+
+    "ReportServerURI"   : "https://reports.cciti.cl/jasperserver",
+    "ServerUsername"    : "jasperadmin",
+    "ServerPassword"    : "GoPetSup2021!",
+
+    "LocalEnvironment"  : true,
+
+    "CloudFrontImageApiEndpoint" : "https://images.cciti.cl",
+    "CloudFrontImageMainFolder"  : "images", 
+
+    "CloudFrontAssetApiEndpoint" : "https://assets.cciti.cl",
+    "CloudFrontAssetMainFolder"  : "",
+
+    "SmtpServer"            : "",
+    "SmtpUser"              : "",
+    "SmtpPassword"          : "",
+    "SmtpPort"              : 587,
+    "SmtpSender"            : "noreply@sergioescobar.cl",
+
+    "SendGridApiKey"        : "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",
+
+    "MailReceiptCrear"      : "automate@gmail.com",
+    "MailReceiptAprobar"    : "automate@gmail.com",
+    "MailReceiptRechazar"   : "automate@gmail.com",
+    "MailReceiptAsignar"    : "automate@gmail.com",
+    "MailReceiptRendir"     : "automate@gmail.com",
+    "MailReceiptAdmin"      : "automate@gmail.com"
+}

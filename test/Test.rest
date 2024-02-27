@@ -1,0 +1,10 @@
+POST https://chexo.resolved.cl/api/core/Test HTTP/1.1
+content-type: application/json
+
+{
+    "Registros" : 
+        {
+            "loginName": "Prueba",
+            "password": "Demo"
+        }
+}

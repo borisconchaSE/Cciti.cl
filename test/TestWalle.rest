@@ -1,0 +1,30 @@
+
+GET http://localhost.chexo.resolved.cl/api/stock/walle/ObtenerVehiculosPorLiberarSiga HTTP/1.1
+
+content-type: application/json
+{
+}
+###
+
+GET https://chexo.resolved.cl/api/stock/walle/ObtenerVehiculosPorLiberarSap HTTP/1.1
+
+content-type: application/json
+{
+}
+
+
+
+GET http://localhost.chexo.resolved.cl/api/stock/walle/ObtenerVehiculosPorLiberarSiga HTTP/1.1
+
+content-type: application/json
+{
+}
+###
+
+GET http://localhost.chexo.resolved.cl/api/stock/walle/ObtenerVehiculosPorLiberarSap HTTP/1.1
+
+content-type: application/json
+{
+}
+
+

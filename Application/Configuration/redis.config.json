@@ -1,0 +1,5 @@
+{
+    "Endpoint" : "localhost",
+    "Port" : "6379",
+    "TokenPrefix" : "montaje"
+}

@@ -1,0 +1,57 @@
+<script type="text/javascript">
+    
+    setTimeout( function () {
+        
+        try {
+            $('.input-group.clockpicker').clockpicker({ 
+                autoclose: true
+            });
+        }
+        catch (err) {}
+
+        try {
+            $('.input-group.date').datepicker({
+                locale: 'es', autoclose: true, format: 'dd-mm-yyyy',language: "es"
+            });
+        }
+        catch (err) {}
+
+        try {
+            $('.js-source-states.search-on.new').select2({
+                minimumResultsForSearch: 0
+            });
+            $('.js-source-states.search-on.new').removeClass('new');
+
+            $('.js-source-states.search-off.new').select2({
+                minimumResultsForSearch: Infinity
+            });
+            $('.js-source-states.search-off.new').removeClass('new');
+        }
+        catch(err) {}
+
+        try {
+            $('[data-toggle="toggle"]').popover({
+                trigger: 'hover'
+            });
+        }
+        catch(err) {}
+
+        try {
+            baguetteBox.run('.tz-gallery');
+        }
+        catch (err) {
+        }
+
+        try {
+[[EVENTS]]
+
+        }
+        catch(err) {
+            alert(err);
+        }
+
+    },
+    250);
+
+//# sourceURL=dinamicloaded_[[IDSCRIPT]].js
+</script>

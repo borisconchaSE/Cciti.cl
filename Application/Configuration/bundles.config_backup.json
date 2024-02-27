@@ -1,0 +1,390 @@
+{
+    "jqueryJS": {
+        "IdBundle": "jqueryJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "jquery/dist", "File" : "jquery.min.js"},
+            { "Folder" : "jquery-ui", "File" : "jquery-ui.min.js"},
+            { "Folder" : "jquery-validation", "File" : "jquery.validate.min.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "bootstrapJS": {
+        "IdBundle": "bootstrapJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "bootstrap/dist/js", "File": "bootstrap.min.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "destinosJS": {
+        "IdBundle": "destinosJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "core/configuracion", "File": "*.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "consultaStockJS": {
+        "IdBundle": "consultaStockJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "stock/consultastock", "File": "*.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "consultaSolicitudPreEntregaJS": {
+        "IdBundle": "consultaSolicitudPreEntregaJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "preentrega", "File": "consultasolicitud.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "gestionarPreEntregasJS": {
+        "IdBundle": "gestionarPreEntregasJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "preentrega", "File": "gestionarpreentregas.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "gestionarPreEntregasTerminadasJS": {
+        "IdBundle": "gestionarPreEntregasTerminadasJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "preentrega", "File": "gestionarpreentregasterminadas.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "nuevaSolicitudPreEntregaJS": {
+        "IdBundle": "nuevaSolicitudPreEntregaJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "preentrega", "File": "nuevasolicitud.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "aprobarSolicitudPreEntregaJS": {
+        "IdBundle": "aprobarSolicitudPreEntregaJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "preentrega", "File": "aprobar.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "verSolicitudCompraJS": {
+        "IdBundle": "verSolicitudCompraJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "stock/solicitudcompra", "File": "ver.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "aprobarSolicitudCompraJS": {
+        "IdBundle": "aprobarSolicitudCompraJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "stock/solicitudcompra", "File": "aprobar.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "nuevaSolicitudCompraJS": {
+        "IdBundle": "nuevaSolicitudCompraJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "stock/solicitudcompra", "File": "nueva.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "amChart5JS": {
+        "IdBundle": "amChart5JS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "amchart5",            "File" : "index.js"},
+            { "Folder" : "amchart5",            "File" : "xy.js"},
+            { "Folder" : "amchart5",            "File" : "radar.js"},
+            { "Folder" : "amchart5",            "File" : "stock.js"},
+            { "Folder" : "amchart5",            "File" : "venn.js"},
+            { "Folder" : "amchart5",            "File" : "wc.js"},
+            { "Folder" : "amchart5/themes",     "File" : "*.js"},
+            { "Folder" : "amchart5/plugins",    "File" : "*.js"},
+            { "Folder" : "amchart5/locales",    "File" : "es_ES.js"},
+            { "Folder" : "amchart5/deps",       "File" : "*.js"},
+            { "Folder" : "amchart5/fonts",      "File" : "*.js"},
+            { "Folder" : "amchart5",            "File" : "flow.js"},
+            { "Folder" : "amchart5",            "File" : "hierarchy.js"},
+            { "Folder" : "amchart5",            "File" : "map.js"},
+            { "Folder" : "amchart5",            "File" : "percent.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "commonJS": {
+        "IdBundle": "commonJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "metisMenu/dist", "File" : "metisMenu.min.js"},
+            { "Folder" : "iCheck", "File" : "icheck.min.js"},
+            { "Folder" : "sparkline", "File" : "index.js"},
+            { "Folder" : "peity", "File" : "jquery.peity.min.js"},
+            { "Folder" : "slimScroll", "File" : "jquery.slimscroll.min.js"},
+            { "Folder" : "moment", "File" : "moment-2019.js"},
+            { "Folder" : "select2-3.5.2", "File" : "select2.min.js"},
+            { "Folder" : "ladda/dist", "File" : "spin.min.js"},
+            { "Folder" : "ladda/dist", "File" : "ladda.min.js"},
+            { "Folder" : "ladda/dist", "File" : "ladda.jquery.min.js"},
+            { "Folder" : "bootstrap-datepicker-master/dist/js", "File" : "bootstrap-datepicker.min.js"},
+            { "Folder" : "bootstrap-datepicker-master/dist/locales", "File" : "bootstrap-datepicker.es.min.js"},
+            { "Folder" : "eonasdan-bootstrap-datetimepicker/build/js", "File" : "bootstrap-datetimepicker.min.js"},
+            { "Folder" : "clockpicker/dist", "File" : "bootstrap-clockpicker.min.js"},
+            { "Folder" : "fileinput/js", "File" : "fileinput.js"},
+            { "Folder" : "fileinput/js/locales", "File" : "es.js"},
+            { "Folder" : "datatables/media/js", "File" : "jquery.dataTables.min.js"},
+            { "Folder" : "datatables.net-bs/js", "File" : "dataTables.bootstrap.min.js"},
+            { "Folder" : "pdfmake/build", "File" : "pdfmake.min.js"},
+            { "Folder" : "pdfmake/build", "File" : "vfs_fonts.js"},
+            { "Folder" : "datatables.net-buttons/js", "File" : "buttons.html5.min.js"},
+            { "Folder" : "datatables.net-buttons/js", "File" : "buttons.print.min.js"},
+            { "Folder" : "datatables.net-buttons/js", "File" : "dataTables.buttons.min.js"},
+            { "Folder" : "datatables.net-buttons-bs/js", "File" : "buttons.bootstrap.min.js"},
+            { "Folder" : "fooTable/dist", "File" : "footable.all.min.js"},
+            { "Folder" : "jquery-asRange-master/dist", "File" : "jquery-asRange.js"},
+            { "Folder" : "daterangepicker", "File" : "daterangepicker.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "appJS": {
+        "IdBundle": "appJS",
+        "Tipo": "javascript",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "", "File" : "homer.js"},
+            { "Folder": "", "File" : "charts.js"},
+            { "Folder": "", "File" : "app.js"},
+            { "Folder": "", "File" : "utils.js"},
+            { "Folder": "", "File" : "errorcodes.js"},
+            { "Folder": "", "File" : "baguette.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "appFonts": {
+        "IdBundle": "appFonts",
+        "Tipo": "css",
+        "Versionado": true,
+        "Sources": [
+            {"Folder" : "googlefonts", "File": "*.css"},
+            {"Folder" : "fontawesome-free-5.12.1-web/css", "File" : "all.css"},
+            {"Folder" : "flaticon", "File" : "flaticon.css"},
+            {"Folder" : "pe-icon-7-stroke/css", "File" : "pe-icon-7-stroke.css"},
+            {"Folder" : "pe-icon-7-stroke/css", "File" : "helper.css"}
+        ],
+        "BundleLocation": "fonts"
+    },
+    "galleryCSS": {
+        "IdBundle": "galleryCSS",
+        "Tipo": "css",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "", "File" : "fluid-gallery.css"},
+            { "Folder" : "", "File" : "baguette.css"}
+        ],
+        "BundleLocation" : "styles"
+    },
+    "galleryJS": {
+        "IdBundle": "galleryJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            {"Folder" : "", "File": "baguette.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "nodeModulesCSS" : {
+        "IdBundle": "nodeModulesCSS",
+        "Tipo": "css",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "@sweetalert2/themes/default", "File": "default.css"}
+        ],
+        "BundleLocation": "node_modules"
+    },
+    "nodeModulesJS" : {
+        "IdBundle": "nodeModulesJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "sweetalert2/dist", "File": "sweetalert2.js"}
+        ],
+        "BundleLocation": "node_modules"
+    },
+    "vendorCSS": {
+        "IdBundle": "vendorCSS",
+        "Tipo": "css",
+        "Versionado": false,
+        "Sources": [
+            { "Folder" : "iCheck/skins", "File" : "all.css"},
+            { "Folder" : "metisMenu/dist", "File" : "metisMenu.css"},
+            { "Folder" : "animate.css", "File" : "animate.css"},
+            { "Folder" : "bootstrap/dist/css", "File" : "bootstrap.css"},
+            { "Folder" : "ladda/dist", "File" : "ladda-themeless.min.css"},
+            { "Folder" : "select2-3.5.2", "File" : "select2.css"},
+            { "Folder" : "select2-bootstrap", "File" : "select2-bootstrap.css"},
+            { "Folder" : "awesome-bootstrap-checkbox", "File" : "awesome-bootstrap-checkbox.css"},
+            { "Folder" : "bootstrap-datepicker-master/dist/css", "File" : "bootstrap-datepicker3.min.css"},
+            { "Folder" : "eonasdan-bootstrap-datetimepicker/build/css", "File" : "bootstrap-datetimepicker.min.css"},
+            { "Folder" : "clockpicker/dist", "File" : "bootstrap-clockpicker.min.css"},
+            { "Folder" : "fileinput/css", "File" : "fileinput.css"},
+            { "Folder" : "datatables.net-bs/css", "File" : "dataTables.bootstrap.min.css"},
+            { "Folder" : "fooTable/css", "File" : "footable.core.min.css"},
+            { "Folder" : "jquery-asRange-master/dist/css", "File" : "asRange.min.css"},
+            { "Folder" : "daterangepicker", "File" : "daterangepicker.css"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "appCSS": {
+        "IdBundle": "appCSS",
+        "Tipo": "css",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "", "File" : "style.css"},
+            { "Folder": "", "File" : "colores.css"},
+            { "Folder": "", "File" : "spinner.css"},
+            { "Folder": "", "File" : "baguette.css"}
+        ],
+        "BundleLocation" : "styles"
+    },
+    "loginJS": {
+        "IdBundle": "loginJS",
+        "Tipo": "javascript",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "core", "File" : "login.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "rightsideJS": {
+        "IdBundle": "rightsideJS",
+        "Tipo": "javascript",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "", "File" : "rightside.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "loginCSS": {
+        "IdBundle": "loginCSS",
+        "Tipo": "css",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "core", "File" : "login.css"}
+        ],
+        "BundleLocation" : "styles"
+    },
+    "sexytabsCSS": {
+        "IdBundle": "sexytabsCSS",
+        "Tipo": "css",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "", "File" : "sexy_tabs.css"}
+        ],
+        "BundleLocation" : "styles"
+    },
+    "materialSwitchCSS": {
+        "IdBundle": "materialSwitchCSS",
+        "Tipo": "css",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "", "File" :"material_switch.css"}
+        ],
+        "BundleLocation" : "styles"
+    },
+    "zingchartJS": {
+        "IdBundle": "zingchartJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder": "zingchart", "File" :"zingchart.min.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "colorPickerJS": {
+        "IdBundle": "colorPickerJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder": "bootstrap-colorpicker-2.5.2/dist/js", "File" :"bootstrap-colorpicker.min.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "colorPickerCSS": {
+        "IdBundle": "colorPickerCSS",
+        "Tipo": "css",
+        "Versionado": false,
+        "Sources": [
+            { "Folder": "bootstrap-colorpicker-2.5.2/dist/css", "File" :"bootstrap-colorpicker.min.css"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "fontAwesomeCSS": {
+        "IdBundle": "fontAwesomeCSS",
+        "Tipo": "css",
+        "Versionado": false,
+        "Sources": [
+            { "Folder": "fontawesome-free-5.10.1-web/css", "File" :"all.css"}
+        ],
+        "BundleLocation" : "fonts"
+    },
+    "printAreaCSS": {
+        "IdBundle": "printAreaCSS",
+        "Tipo": "css",
+        "Versionado": false,
+        "Sources": [
+            { "Folder": "jquery-printarea/css/ui-lightness", "File" :"jquery-ui-1.10.4.custom.min.css"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "printAreaJS": {
+        "IdBundle": "printAreaJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder": "jquery-printarea", "File" :"jquery.PrintArea.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "chartJS": {
+        "IdBundle": "chartJS",
+        "Tipo": "javascript",
+        "Versionado": false,
+        "Sources": [
+            { "Folder": "chartjs", "File" :"Chart.min.js"}
+        ],
+        "BundleLocation" : "vendor"
+    },
+    "ServiceJS": {
+        "IdBundle": "ServiceJS",
+        "Tipo": "javascript",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "", "File" : "Service.js"},
+            { "Folder" : "administracion", "File": "*.js"},
+            { "Folder" : "core", "File": "*.js"},
+            { "Folder" : "stock", "File": "*.js"}
+        ],
+        "BundleLocation" : "services"
+    }
+}

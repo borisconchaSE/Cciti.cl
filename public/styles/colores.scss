@@ -1,0 +1,295 @@
+@use 'base-colors.scss' as colors;
+
+.header-link.side {
+    border-left: 1px solid colors.$application-dark;
+    margin-right: 0px;
+}
+
+.color-line {
+    background-color: colors.$application;
+    height: 6px;
+}
+
+.color-line.success {
+    background-color: colors.$success
+}
+
+.color-line.danger {
+    background-color: #607080;
+}
+
+.color-line.warning {
+    background-color: colors.$warning;
+}
+
+.color-line.primary {
+    background: colors.$primary;
+}
+
+.color-line.info {
+    background: colors.$info
+}
+
+.color-line.default {
+    background-color: colors.$default;
+}
+
+.color-line-default {
+    background-color: colors.$default-light;
+}
+
+#logo {
+    float: left;
+    width: 280px;
+    background-color: colors.$default-dark;
+    /*padding: 18px 10px 18px 18px;*/
+    height: 56px;
+    text-align: center
+}
+
+#logo.light-version {
+    background-color: colors.$application;
+    border-bottom: 1px solid colors.$separator;
+    text-align: center;
+    color: colors.$text-secondary;
+}
+
+#wrapper {
+    margin: 0 0 0 280px;
+    padding: 0;
+    /*background: #e8e8e8;*/
+    border-left: 1px solid colors.$separator;
+    transition: margin .4s ease 0s;
+    position: relative;
+    min-height: 100%
+}
+
+.light-version-dark {
+    height: 4px;
+    background: colors.$application-dark;
+}
+
+.text-personal-menu {
+    color: colors.$text-secondary;
+    font-size: 95% !important;
+}
+
+.text-page-title {
+    color: colors.$text-title;
+}
+
+.text-bold {
+    font-weight: 700;
+}
+
+.text-important-number {
+    color: colors.$important-number;    
+}
+
+.login-left {
+    background-color: colors.$application;
+    /* background-image: linear-gradient(120deg, #ca3232, #a03232, #752525); */
+    /* background-image: linear-gradient(120deg, #ff4a4a, #e82929, #920707); */
+    background-image: linear-gradient(120deg, colors.$application-gradient-light, colors.$application-gradient-medium, colors.$application-gradient-dark);
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover {
+    color: colors.$text-secondary;
+}
+
+.menu-title {
+    color: colors.$menu-title;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase; 
+    margin-top: 0px;
+}
+
+.menu-subtitle {
+    color: colors.$menu-subtitle;
+    font-size: 11.05px; 
+    line-height: 15.7857px;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-color: darken(colors.$primary, 30);
+    border-color: darken(colors.$primary-dark, 30);
+    color: colors.$text-secondary
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-image: none
+}
+
+.btn-primary.disabled,
+.btn-primary.disabled:hover,
+.btn-primary.disabled:focus,
+.btn-primary.disabled:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled],
+.btn-primary[disabled]:hover,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:active,
+.btn-primary.active[disabled],
+fieldset[disabled] .btn-primary,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary:active,
+fieldset[disabled] .btn-primary.active {
+    background-color: lighten(colors.$primary, 35);
+    border-color: lighten(colors.$primary-dark, 35);
+    cursor:not-allowed !important;
+}
+
+.btn-warning.disabled, 
+.btn-warning.disabled:hover, 
+.btn-warning.disabled:focus, 
+.btn-warning.disabled:active, 
+.btn-warning.disabled.active, 
+.btn-warning[disabled], 
+.btn-warning[disabled]:hover, 
+.btn-warning[disabled]:focus, 
+.btn-warning[disabled]:active, 
+.btn-warning.active[disabled], 
+fieldset[disabled] .btn-warning, 
+fieldset[disabled] .btn-warning:hover, 
+fieldset[disabled] .btn-warning:focus, 
+fieldset[disabled] .btn-warning:active, 
+fieldset[disabled] .btn-warning.active {
+    background-color: #e6c26a;
+    border-color: #e6c26a;
+}
+
+.navbar.navbar-static-top a, .nav.navbar-nav li a {
+    color: colors.$menu-color;
+}
+
+.navbar.navbar-static-top a, .nav.navbar-nav li a:hover {
+    color: colors.$menu-color-hover;
+    background-color: colors.$menu-background-hover;
+}
+
+.navbar.navbar-static-top a, .nav.navbar-nav li.active a {
+    /*color: #0f316f;*/
+    color: #9e9e9e;
+    /*background-color: #212121;*/
+}
+.navbar.navbar-static-top a, .nav.navbar-nav li.active a:hover {
+    /*color: #0f316f;*/
+    color: #8e8e8e;
+    background-color: colors.$menu-background;
+}
+
+.navbar-nav>li.active, .navbar-nav>li.active>a {
+    /*background-color: #dedede;*/
+    border-bottom: 3px solid colors.$menu-active-border;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    color: #fff;
+    text-decoration: none;    
+    outline: 0;
+    background-color: colors.$menu-item-background-selected;
+    /*border-left: 3px solid #9c2222;*/
+    border-left: 3px solid colors.$menu-item-border-selected;
+}
+
+.hpanel.hred .panel-body {
+    border: 1px solid #eaeaea !important;
+    border-top: 2px solid #E0001C !important;
+}
+
+/* ESTADO Mantencion: ELIMINADA */
+.label-color0 {
+    background-color: #3f3f3f;
+}
+
+/* ESTADO Mantencion: NO INICIADA */
+.label-color1 {
+    background-color: #a6bcc1;
+}
+
+/* ESTADO Mantencion: EN EJECUCION */
+.label-color2 {
+    background-color: #337ab7;
+}
+
+/* ESTADO Mantencion: TERMINADA */
+.label-color3 {
+    background-color: #70bb4e;
+}
+
+/* ESTADO Mantencion: ARCHIVADA */
+.label-color4 {
+    background-color: #e67e22;
+}
+
+.label-light {
+    background-color: #dfdfdf !important;
+}
+
+
+div.small-header-icon > i {
+    color: #e6e6e6;
+}
+
+
+
+
+.info {
+    font-size: 14px;
+    font-variant-caps: small-caps;
+}
+
+.info.lg > label {
+    font-size: 18px;
+}
+
+.info.dark > label {
+    color: #696969;
+}
+
+.info-section {
+    margin: 10px 0px 0px 0px;
+}
+
+.info-data {
+    margin: 0px 0px 0px 0px;
+}
+
+.info-label {
+    margin: -8px 0px 0px 0px;
+    color: #7b7b7b;
+}
+
+#myChart-license-text {
+    display: none;
+}
+
+#myChart_ruta-license-text {
+    display: none;
+}
+
+.icon-default {
+   color: colors.$primary; 
+   font-size: 18px; 
+   padding: 3px;
+}
+
+tr.eliminado {
+    color: colors.$text-disabled;
+}
+
+img.eliminado {
+    opacity: colors.$img-disabled-opacity;
+}

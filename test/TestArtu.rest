@@ -1,0 +1,174 @@
+
+# Prueba: Existencia Fecha
+POST http://localhost.chexo.resolved.cl/api/stock/artu/AgregarExistenciaFecha HTTP/1.1
+content-type: application/json
+
+{
+    "Registros" : [
+        {
+            "Codigo": "VU   8211",
+            "Marca": "XCMG",
+            "Modelo": null,
+            "Agno": 2011,
+            "Color": "AZUL",
+            "DocumentoRecepcion": "FC -      4738",
+            "FechaDocumento": "17/01/2012",
+            "FechaRecepcion": "17/01/2012",
+            "OC": 10631.0,
+            "FechaOC": "17/01/2012",
+            "Costo": 4600000,
+            "Proveedor": "SERGIO ESCOBAR CIA LTDA",
+            "Factura": "FC -      4738",
+            "LibroFC": null,
+            "Egreso": 40675.0,
+            "Cheque": 8425532.0,
+            "FechaEmision": "19/01/2012",
+            "FechaVencimiento": "19/03/2012",
+            "FechaCobro": "03/04/2012",
+            "LocalVenta": "TRASPASOS",
+            "NVenta": null,
+            "FechaVenta": null,
+            "Factura1": null,
+            "FechaFactura": null,
+            "Chasis": "KNADH411AB6775360",
+            "NStock": "CVJJ21",
+            "Patente": "CVJJ21",
+            "Estado": "A.Fijo",
+            "Gastos": 0,
+            "RutProveedor": " 88.525.600-7",
+            "DPS": "4.269",
+            "DPE": "4.269",
+            "Origen": "SEMY",
+            "PeriodoYear": 2023,
+            "PeriodoMonth": 9,
+            "PrecioLista": null
+        }
+    ]
+}
+
+###
+
+# Prueba: Existencia Usados
+POST http://localhost.chexo.resolved.cl/api/stock/artu/AgregarExistenciaUsados HTTP/1.1
+content-type: application/json
+
+{
+    "Registros" : [
+        {
+            "Clave": "002VU 023179",
+            "Codigo": "VU  23179",
+            "Marca": "CHEVROLET",
+            "Modelo": "SONIC LT 1.6",
+            "CodigoModelo": null,
+            "Agno": 2013,
+            "Color": "BLANCO",
+            "Chassis": "KL1JM5CE9CB125673",
+            "Patente": "DZTB-79",
+            "KM": 135000,
+            "Combustible": "Gasolina Sin Plomo",
+            "Transmision": "Mecanica",
+            "Traccion": "4x2",
+            "FechaIngreso": "13/10/2022",
+            "FechaRecepcion": "13/10/2022",
+            "DPS": 347,
+            "DPE": 347,
+            "DPL": 112,
+            "Cod": null,
+            "TasacionFiscal": 0,
+            "PrecioLista": 5500000,
+            "PrecioOferta": 0,
+            "PrecioCompra": 5000000,
+            "Gastos": 0,
+            "Margen": "500.000",
+            "Porcentaje": "9,09",
+            "LocalVenta": "USADOS CASA MATRIZ",
+            "Ubicacion": "Taller multimarca",
+            "FechaRecepcion1": "05/06/2023",
+            "Observaciones": "ELIMINA ASGINACION NV-0000622875",
+            "Stock": "DZTB-79",
+            "Motor": "F16D4352386KA",
+            "VIN": null,
+            "LocalRecepcion": "USADOS CHILLAN",
+            "RecibidoPor": "MATOLMOS",
+            "Comprador": "Mathias Alejandro Olmos Rodrguez",
+            "Estado": "Propio",
+            "NotaVenta": null,
+            "OrdenCompra": "NV -  619747",
+            "FacturaCompra": null,
+            "NroLVC": null,
+            "DocumentoRecepcion": "NV -  619747",
+            "NLlave": "02",
+            "Usuario": "EVELINSA",
+            "Fecha": "26/04/2023",
+            "Hora": "13:39",
+            "Origen": "SEMY",
+            "PeriodoYear": 2023,
+            "PeriodoMonth": 9
+        }
+    ]
+}
+
+###
+
+# Prueba: Existencia SAP
+POST http://localhost.chexo.resolved.cl/api/stock/artu/AgregarExistenciaSap HTTP/1.1
+content-type: application/json
+
+{
+    "Registros" : [
+        {
+            "NumeroExternoVehiculo": 4200275,
+            "FechaFactura": "14/09/2023",
+            "TipoStock": "STOCK PROPIO",
+            "DescripcionStatusDisp": "Vendido",
+            "DescripcionModeloVehiculo": "SWIFT 1.2 GL",
+            "DescripcionColor": "AZUL - SZ8",
+            "DescEmplImp": "Escobar Paicavi 2613",
+            "EmplazamientoVehImportador": "C009",
+            "DenominacionCentro": "Escobar Autoplaza El Trébol",
+            "NombreCliente": "MIGUEL ANGEL MORAGA VIDAL",
+            "DiasDesdeDocVta": 6,
+            "NumeroInternoVehiculo": 4229109,
+            "ContadorFechaFactura": 13,
+            "NumChasis": "MBHZC63S7RGC60282",
+            "AgnoModelo": 2024,
+            "DiasInventario": 12,
+            "StatusCompra": "QP60",
+            "StatusVehiculo": "QS5X_Se ha creado factura emitida",
+            "StatusVenta": "QS5X",
+            "Centro": "C011",
+            "Costo": 8109916,
+            "EmplazamientoDealer": "C009",
+            "Sociedad": "C003",
+            "Almacen": 1,
+            "ModeloVehiculo": "SW412HHGL",
+            "VehiculoImportador": "D",
+            "DescEmplDealer": "Escobar Paicavi 2613",
+            "DenomUtilVehiculo": "Vehiculo Floor Planning",
+            "Cliente": 20902356,
+            "SectorPatio": null,
+            "UtilVehiculo": 4,
+            "NumIdentVehiculo": "MBHZC63S7RGC60282",
+            "NumMotor": "K12MP1449737",
+            "TipoUnidad": "AUTOMOVIL",
+            "Marca": 2,
+            "Descripcion": "Vehículo nuevo",
+            "MatriVehiculo": null,
+            "GrupoMaterial2": "0",
+            "ValorContador": 8,
+            "UnidadContador": "KM",
+            "StatusVehiculo1": "QP60_Se ha creado factura recibida",
+            "FechaEM": "15/09/2023",
+            "MonedaDocumento": "CLP",
+            "FechaSalidaLoBoza": null,
+            "ContadorFSalidaLoBoza": 0,
+            "IDUnicoVehiculo": "6TQKpLpa7jwHqFNg{5{Y4m",
+            "DocumentoVentas": 404026588,
+            "EntExistImp": null,
+            "Marca1": "SUZUKI",
+            "Temporada": 2023,
+            "Periodo": 9,
+            "CodigoSociedad": "C003"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.16",
+        "symfony/process": "^5.2",
+        "phpoffice/phpproject": "^0.2.0",
+        "karriere/json-decoder": "^4.0",
+        "knplabs/knp-snappy": "^1.2",
+        "aws/aws-sdk-php": "^3.173",
+        "phpmailer/phpmailer": "^6.3",
+        "intouch/framework": "^1.0",
+        "endroid/qr-code": "^4.6"
+    },
+    "repositories":[
+        {
+            "type":"package",
+            "package":{
+                "name":"intouch/framework",
+                "version": "1.0.5",
+                "source":{
+                    "type":"git",
+                    "url":"git@bitbucket.org:projects_intouch/php.framework.git",
+                    "reference":"1.0.5"
+                },
+                "autoload": {
+                    "psr-4": {
+                        "Intouch\\Framework\\": "src/"
+                    }
+                }
+            }
+        }
+    ]
+    
+}

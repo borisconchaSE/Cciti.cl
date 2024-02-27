@@ -1,0 +1,77 @@
+/*
+$application : #40b0ff;
+$application : #4da2c7;
+*/
+
+$body-color: #444f5e;
+$application : #bd2326;
+
+$application-gradient-light : #db3639;
+$application-gradient-medium : #bd2326;
+$application-gradient-dark: #a1181a;
+
+$application-dark: darken($application, 8);
+
+$menu-background: #0e1e32;
+$menu-color: #a5a5a5;
+$menu-bottom: #001444;
+
+$header-link: #0a1524;
+$header-link-hover: #04060a;
+
+$menu-item-background-selected: #243342;
+$menu-item-border-selected: #bd2326;
+
+$menu-background-hover: darken($menu-background, 10);
+$menu-color-hover: darken($menu-color, 3);
+$menu-bottom-hover: lighten($menu-bottom, 30);
+
+$menu-active-border: #bd2326;
+
+$menu-title: #ffb606;
+$menu-subtitle: #ababab;
+
+$menu-icon: #bd2326;
+$menu-icon-withtext: #bd2326;
+$menu-item-icon: #6785a2;
+
+$success : #31cb9d;
+$success-dark : darken($success, 10);
+
+$warning : #ffb606;
+$warning-dark: #e4a304;
+
+$danger : #e0001c;
+$danger-dark: darken($danger, 10);
+
+$primary : #34559d;
+$primary-dark: darken($primary, 10);
+
+
+$info : #5BC0DE;
+$important-number: #116eda;
+
+$default-light : #b6b6b6;
+$default : #777777;
+$default-dark: #34495e;
+
+
+$bk-header: #9d9fa2;
+$bk-footer: #f7f9fa;
+
+$separator : #eaeaea;
+
+$text-secondary : #ffffff;
+$text-menu-title: #8ab6ce;
+$text-disabled  : #c1c1c1;
+
+$text-title: #425676;
+
+$img-disabled-opacity: 0.3;
+
+$card-text-color: #607080;
+$card-icon-color: #607080;
+$card-icon-hover-color: #605cad;
+
+$card-icon-relevant-color: #25ac84;
+$card-icon-relevant-hover-color: #13ecac;

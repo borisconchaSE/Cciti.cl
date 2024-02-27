@@ -1,0 +1,20 @@
+{
+    "name": "intouch/framework",
+    "description": "Framework para implementacion de 3 capas en PHP y capa de presentación basada en Widgets",
+    "keywords": ["framework", "intouch"],
+    "authors": [
+        {
+            "name": "Claudio Gonzalez",
+            "email": "claudioalfonso@gmail.com",
+            "role": "Maintainer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Intouch\\Framework\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.0"
+    }
+}

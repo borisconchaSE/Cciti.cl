@@ -1,0 +1,22 @@
+{
+    "Default": {
+        "IdRestriction" : "Default",
+        "PositiveAction": "",
+        "NegativeAction": "disabled",
+        "Roles": [
+            "DEFAULT"
+        ]
+    },
+    "EDIRTAR_CUENTAS_SISTEMA": {
+        "IdRestriction" : "EDIRTAR_CUENTAS_SISTEMA",
+        "PositiveAction": true,
+        "NegativeAction": false,
+        "Roles": [
+            "R_ADMIN_USERS",
+            "R_ADMIN_ENABLE_DISABLE_USERS",
+            "R_ADMIN_EDIT_USERS",
+            "R_ADMIN_CHANGE_OTHER_USER_PASSWORD",
+            "R_ADMIN_CREAR_NUEVO_USUARIO"
+        ]
+    }
+}

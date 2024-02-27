@@ -1,0 +1,26 @@
+{
+    "LblWait": {
+        "RETAIL_es": "Por favor espere...",
+        "RETAIL_en": "Please wait...",
+        "PSTORE_es": "Por favor espere...",
+        "PSTORE_en": "Please wait..."
+    },
+    "LblCargandoContenido" : {
+        "RETAIL_es": "Cargando el contenido",
+        "RETAIL_en": "Loading content",
+        "PSTORE_es": "Cargando el contenido",
+        "PSTORE_en": "Loading content"
+    },
+    "LblLoginBienvenido": {
+        "RETAIL_es": "Bienvenido",
+        "RETAIL_en": "Welcome",
+        "PSTORE_es": "Bienvenido",
+        "PSTORE_en": "Welcome"
+    },
+    "LblBienvenidoDescripcion": {
+        "RETAIL_es": "Sistema de Consulta - SergioNET 3.0",
+        "RETAIL_en": "Sistema de Consulta - SergioNET 3.0",
+        "PSTORE_es": "Sistema de Consulta - SergioNET 3.0",
+        "PSTORE_en": "Sistema de Consulta - SergioNET 3.0"
+    }
+}

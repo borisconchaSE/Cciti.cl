@@ -1,0 +1,53 @@
+body, html {
+    height: 100% !important;
+}
+
+
+#div_listado_registro .buscadorBox,
+#div_listado_asegurados .buscadorBox{
+    float:right; 
+    background: #f1f3f6; 
+    padding:20px; 
+    margin-bottom:15px;
+    border-radius: 5px;
+}
+#div_listado_registro .descargarExcel,
+#div_listado_asegurados .descargarExcel{
+    margin-bottom:10px;
+}
+
+.float-right{
+    float:rigth;
+}
+
+.float-left{
+    float:left;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.no-btn{
+    background: transparent;
+    border: none;
+}
+
+.margin-bottom-5{
+    margin-top: 5px;
+}

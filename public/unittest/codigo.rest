@@ -1,0 +1,6 @@
+POST http://localhost.chexo.resolved.cl/api/stock/consultastock/ConsultaStockUsados
+content-type: application/json
+
+{
+    "AgnoDesde": "2023"
+}

@@ -1,0 +1,644 @@
+{
+    "LblWait": {
+        "BODEGA_es": "Por favor espere...",
+        "BODEGA_en": "Please wait...",
+        "PSTORE_es": "Por favor espere...",
+        "PSTORE_en": "Please wait..."
+    },
+    "LblCargandoContenido": {
+        "BODEGA_es": "Cargando contenido",
+        "BODEGA_en": "Loading content",
+        "PSTORE_es": "Cargando contenido",
+        "PSTORE_en": "Loading content"
+    },
+    "LblUsermenuMicuenta": {
+        "BODEGA_es": "Mi Cuenta",
+        "BODEGA_en": "My Account",
+        "PSTORE_es": "Mi Cuenta",
+        "PSTORE_en": "My Account"
+    },
+    "LblUsermenuCambiarclave": {
+        "BODEGA_es": "Cambiar mi clave",
+        "BODEGA_en": "Change my password",
+        "PSTORE_es": "Cambiar mi clave",
+        "PSTORE_en": "Change my password"
+    },
+    "LblUsermenuCerrarsesion": {
+        "BODEGA_es": "Cerrar sesi\u00f3n",
+        "BODEGA_en": "Logout",
+        "PSTORE_es": "Cerrar sesi\u00f3n",
+        "PSTORE_en": "Logout"
+    },
+    "LblLoginBienvenido": {
+        "BODEGA_es": "Bienvenidos",
+        "BODEGA_en": "Welcome",
+        "PSTORE_es": "Bienvenidos",
+        "PSTORE_en": "Welcome"
+    },
+    "BtnLoginIngresar": {
+        "BODEGA_es": "Ingresar",
+        "BODEGA_en": "Login",
+        "PSTORE_es": "Ingresar",
+        "PSTORE_en": "Login"
+    },
+    "LblLoginIngreseCredenciales": {
+        "BODEGA_es": "Por favor ingrese sus credenciales",
+        "BODEGA_en": "Please enter your credentials",
+        "PSTORE_es": "Por favor ingrese sus credenciales",
+        "PSTORE_en": "Please enter your credentials"
+    },
+    "LblLoginUsuarioDescripcion": {
+        "BODEGA_es": "Su nombre de usuario",
+        "BODEGA_en": "Your username",
+        "PSTORE_es": "Su nombre de usuario",
+        "PSTORE_en": "Your username"
+    },
+    "LblLoginClave": {
+        "BODEGA_es": "Contrase\u00f1a",
+        "BODEGA_en": "Password",
+        "PSTORE_es": "Contrase\u00f1a",
+        "PSTORE_en": "Password"
+    },
+    "LblLoginClaveDescripcion": {
+        "BODEGA_es": "Su contrae\u00f1a actual",
+        "BODEGA_en": "Your current password",
+        "PSTORE_es": "Su contrae\u00f1a actual",
+        "PSTORE_en": "Your current password"
+    },
+    "LblLoginIdioma": {
+        "BODEGA_es": "Idioma",
+        "BODEGA_en": "Language",
+        "PSTORE_es": "Idioma",
+        "PSTORE_en": "Language"
+    },
+    "LblLoginSeleccioneIdioma": {
+        "BODEGA_es": "Seleccione Idioma",
+        "BODEGA_en": "Select Language",
+        "PSTORE_es": "Seleccione Idioma",
+        "PSTORE_en": "Select Language"
+    },
+    "BtnRefrescar": {
+        "BODEGA_es": "Refrescar",
+        "BODEGA_en": "Refresh",
+        "PSTORE_es": "Refrescar",
+        "PSTORE_en": "Refresh"
+    },
+    "MnuHome": {
+        "BODEGA_es": "Inicio",
+        "BODEGA_en": "Home",
+        "PSTORE_es": "Inicio",
+        "PSTORE_en": "Home"
+    },
+    "LblAtencion": {
+        "BODEGA_es": "Atenci\u00f3n!",
+        "BODEGA_en": "Warning!",
+        "PSTORE_es": "Atenci\u00f3n!",
+        "PSTORE_en": "Warning!"
+    },
+    "LblDateTimeFormatDatabase": {
+        "BODEGA_es": "Y-m-d H:i:s",
+        "BODEGA_en": "Y-m-d H:i:s",
+        "PSTORE_es": "Y-m-d H:i:s",
+        "PSTORE_en": "Y-m-d H:i:s"
+    },
+    "LblDateTimeFormatYMD": {
+        "BODEGA_es": "Y-m-d H:i:s",
+        "BODEGA_en": "Y-d-m H:i:s",
+        "PSTORE_es": "Y-m-d H:i:s",
+        "PSTORE_en": "Y-d-m H:i:s"
+    },
+    "LblDateTimeFormatDMYNoSec": {
+        "BODEGA_es": "d-m-Y H:i",
+        "BODEGA_en": "m-d-Y H:i",
+        "PSTORE_es": "d-m-Y H:i",
+        "PSTORE_en": "m-d-Y H:i"
+    },
+    "LblDateFormatYMD": {
+        "BODEGA_es": "Y-m-d",
+        "BODEGA_en": "Y-d-m",
+        "PSTORE_es": "Y-m-d",
+        "PSTORE_en": "Y-d-m"
+    },
+    "LblDateFormatDMY": {
+        "BODEGA_es": "d-m-Y",
+        "BODEGA_en": "m-d-Y",
+        "PSTORE_es": "d-m-Y",
+        "PSTORE_en": "m-d-Y"
+    },
+    "LblDateFormatHi": {
+        "BODEGA_es": "H:i",
+        "BODEGA_en": "H:i",
+        "PSTORE_es": "H:i",
+        "PSTORE_en": "H:i"
+    },
+    "FormatDateChart": {
+        "BODEGA_es": "%dd\/%mm\/%Y<br>%H:%i",
+        "BODEGA_en": "%mm\/%dd\/%Y<br>%H:%i",
+        "PSTORE_es": "%dd\/%mm\/%Y<br>%H:%i",
+        "PSTORE_en": "%mm\/%dd\/%Y<br>%H:%i"
+    },
+    "BtnChartVerTodo": {
+        "BODEGA_es": "Ver Todo",
+        "BODEGA_en": "Show All",
+        "PSTORE_es": "Ver Todo",
+        "PSTORE_en": "Show All"
+    },
+    "ErrorEstandar": {
+        "BODEGA_es": "Error - Ocurri\u00f3 un error al ejecutar la operaci\u00f3n",
+        "BODEGA_en": "Error - Ocurri\u00f3 un error al ejecutar la operaci\u00f3n",
+        "PSTORE_es": "Error - Ocurri\u00f3 un error al ejecutar la operaci\u00f3n",
+        "PSTORE_en": "Error - Ocurri\u00f3 un error al ejecutar la operaci\u00f3n"
+    },
+    "Error500": {
+        "BODEGA_es": "Ha ocurrido un error en el sistema",
+        "BODEGA_en": "There has been an error in the application",
+        "PSTORE_es": "Ha ocurrido un error en el sistema",
+        "PSTORE_en": "There has been an error in the application"
+    },
+    "Error500Descripcion": {
+        "BODEGA_es": "La p\u00e1gina que est\u00e1 buscando ha sufrido un problema.<br><br>Por favor intente la operaci\u00f3n nuevamente",
+        "BODEGA_en": "The page your requesting cant load.<br><br>Please try again",
+        "PSTORE_es": "La p\u00e1gina que est\u00e1 buscando ha sufrido un problema.<br><br>Por favor intente la operaci\u00f3n nuevamente",
+        "PSTORE_en": "The page your requesting cant load.<br><br>Please try again"
+    },
+    "Error401": {
+        "BODEGA_es": "No se ha iniciado sesi\u00f3n",
+        "BODEGA_en": "You are not logged in",
+        "PSTORE_es": "No se ha iniciado sesi\u00f3n",
+        "PSTORE_en": "You are not logged in"
+    },
+    "Error401Descripcion": {
+        "BODEGA_es": "La p\u00e1gina que est\u00e1 buscando requiere que inicie sesi\u00f3n.<br><br>El sistema no ha podido encontrar una sesi\u00f3n activa, puede haber cerrado accidentalmente su sesi\u00f3n o la sesi\u00f3n actual ha caducado.",
+        "BODEGA_en": "The page your requesting needs you to login first.<br><br>There is no active session in the systema, or the session has timed out.",
+        "PSTORE_es": "La p\u00e1gina que est\u00e1 buscando requiere que inicie sesi\u00f3n.<br><br>El sistema no ha podido encontrar una sesi\u00f3n activa, puede haber cerrado accidentalmente su sesi\u00f3n o la sesi\u00f3n actual ha caducado.",
+        "PSTORE_en": "The page your requesting needs you to login first.<br><br>There is no active session in the systema, or the session has timed out."
+    },
+    "Error401IrLogin": {
+        "BODEGA_es": "Ir a la p\u00e1gina de Inicio de Sesi\u00f3n",
+        "BODEGA_en": "Go to the Login Screen",
+        "PSTORE_es": "Ir a la p\u00e1gina de Inicio de Sesi\u00f3n",
+        "PSTORE_en": "Go to the Login Screen"
+    },
+    "Error403": {
+        "BODEGA_es": "No autorizado",
+        "BODEGA_en": "Permission denied",
+        "PSTORE_es": "No autorizado",
+        "PSTORE_en": "Permission denied"
+    },
+    "Error403Descripcion": {
+        "BODEGA_es": "La p\u00e1gina que est\u00e1 buscando requiere autorizaci\u00f3n de su perfil de usuario.<br><br>Su perfil de usuario no le permite acceder a esta p\u00e1gina. Revise con el administrador del sistema para que le otorgue los privilegios necesarios.",
+        "BODEGA_en": "The page your requesting needs permissions to your user profile.<br><br>Your user profile does not allow you to load this page. Check your permissions with the systema administrator.",
+        "PSTORE_es": "La p\u00e1gina que est\u00e1 buscando requiere autorizaci\u00f3n de su perfil de usuario.<br><br>Su perfil de usuario no le permite acceder a esta p\u00e1gina. Revise con el administrador del sistema para que le otorgue los privilegios necesarios.",
+        "PSTORE_en": "The page your requesting needs permissions to your user profile.<br><br>Your user profile does not allow you to load this page. Check your permissions with the systema administrator."
+    },
+    "Error404": {
+        "BODEGA_es": "No se ha encontrado la p\u00e1gina",
+        "BODEGA_en": "Page not found",
+        "PSTORE_es": "No se ha encontrado la p\u00e1gina",
+        "PSTORE_en": "Page not found"
+    },
+    "Error404Descripcion": {
+        "BODEGA_es": "La p\u00e1gina que est\u00e1 buscando no ha sido encontrada. Revise posibles errores en la direcci\u00f3n web y luego haga clic en el bot\u00f3n refrescar de su navegador.",
+        "BODEGA_en": "The page you are requesting cannot be found. Check posible errors in the URL and click the refresh button in the browser.",
+        "PSTORE_es": "La p\u00e1gina que est\u00e1 buscando no ha sido encontrada. Revise posibles errores en la direcci\u00f3n web y luego haga clic en el bot\u00f3n refrescar de su navegador.",
+        "PSTORE_en": "The page you are requesting cannot be found. Check posible errors in the URL and click the refresh button in the browser."
+    },
+    "ErrorNombreUsuario": {
+        "BODEGA_es": "Debe especificar un NOMBRE para el usuario",
+        "BODEGA_en": "You must enter a valid NAME for the user",
+        "PSTORE_es": "Debe especificar un NOMBRE para el usuario",
+        "PSTORE_en": "You must enter a valid NAME for the user"
+    },
+    "LblEstado": {
+        "BODEGA_es": "ESTADO",
+        "BODEGA_en": "STATUS",
+        "PSTORE_es": "ESTADO",
+        "PSTORE_en": "STATUS"
+    },
+    "LblPendiente": {
+        "BODEGA_es": "PENDIENTE",
+        "BODEGA_en": "PENDING",
+        "PSTORE_es": "PENDIENTE",
+        "PSTORE_en": "PENDING"
+    },
+    "LblNo": {
+        "BODEGA_es": "NO",
+        "BODEGA_en": "NO",
+        "PSTORE_es": "NO",
+        "PSTORE_en": "NO"
+    },
+    "LblSi": {
+        "BODEGA_es": "SI",
+        "BODEGA_en": "YES",
+        "PSTORE_es": "SI",
+        "PSTORE_en": "YES"
+    },
+    "BtnEliminar": {
+        "BODEGA_es": "Eliminar",
+        "BODEGA_en": "Delete",
+        "PSTORE_es": "Eliminar",
+        "PSTORE_en": "Delete"
+    },
+    "BtnFinalizar": {
+        "BODEGA_es": "Finalizar",
+        "BODEGA_en": "Finish",
+        "PSTORE_es": "Finalizar",
+        "PSTORE_en": "Finish"
+    },
+    "BtnLimpiar": {
+        "BODEGA_es": "Limpiar",
+        "BODEGA_en": "Clean All",
+        "PSTORE_es": "Limpiar",
+        "PSTORE_en": "Clean All"
+    },
+    "Nombre": {
+        "BODEGA_es": "Nombre",
+        "BODEGA_en": "Name",
+        "PSTORE_es": "Nombre",
+        "PSTORE_en": "Name"
+    },
+    "Descripcion": {
+        "BODEGA_es": "Descripcion",
+        "BODEGA_en": "Description",
+        "PSTORE_es": "Descripcion",
+        "PSTORE_en": "Description"
+    },
+    "LblLoginUsuario": {
+        "BODEGA_es": "Usuario",
+        "BODEGA_en": "Username",
+        "PSTORE_es": "Usuario",
+        "PSTORE_en": "Username"
+    },
+    "LblUsermenuCambiarClave": {
+        "BODEGA_es": "Cambiar mi clave",
+        "BODEGA_en": "Change password",
+        "PSTORE_es": "Cambiar mi clave",
+        "PSTORE_en": "Change password"
+    },
+    "LblDescripcion": {
+        "BODEGA_es": "Descripcion",
+        "BODEGA_en": "Description",
+        "PSTORE_es": "Descripcion",
+        "PSTORE_en": "Description"
+    },
+    "LblDomingo": {
+        "BODEGA_es": "Domingo",
+        "BODEGA_en": "Sunday",
+        "PSTORE_es": "Domingo",
+        "PSTORE_en": "Sunday"
+    },
+    "LblLunes": {
+        "BODEGA_es": "Lunes",
+        "BODEGA_en": "Monday",
+        "PSTORE_es": "Lunes",
+        "PSTORE_en": "Monday"
+    },
+    "LblMartes": {
+        "BODEGA_es": "Martes",
+        "BODEGA_en": "Tuesday",
+        "PSTORE_es": "Martes",
+        "PSTORE_en": "Tuesday"
+    },
+    "LblMiercoles": {
+        "BODEGA_es": "Miercoles",
+        "BODEGA_en": "Wednesday",
+        "PSTORE_es": "Miercoles",
+        "PSTORE_en": "Wednesday"
+    },
+    "LblJueves": {
+        "BODEGA_es": "Jueves",
+        "BODEGA_en": "Thursday",
+        "PSTORE_es": "Jueves",
+        "PSTORE_en": "Thursday"
+    },
+    "LblViernes": {
+        "BODEGA_es": "Viernes",
+        "BODEGA_en": "Friday",
+        "PSTORE_es": "Viernes",
+        "PSTORE_en": "Friday"
+    },
+    "LblSabado": {
+        "BODEGA_es": "Sabado",
+        "BODEGA_en": "Saturday",
+        "PSTORE_es": "Sabado",
+        "PSTORE_en": "Saturday"
+    },
+    "LblOrigenWeb": {
+        "BODEGA_es": "WEB",
+        "BODEGA_en": "WEB",
+        "PSTORE_es": "WEB",
+        "PSTORE_en": "WEB"
+    },
+    "LblOrigenMovil": {
+        "BODEGA_es": "MOVIL",
+        "BODEGA_en": "MOBILE",
+        "PSTORE_es": "MOVIL",
+        "PSTORE_en": "MOBILE"
+    },
+    "LblSincronizado": {
+        "BODEGA_es": "Sincronizado",
+        "BODEGA_en": "Sync Time",
+        "PSTORE_es": "Sincronizado",
+        "PSTORE_en": "Sync Time"
+    },
+    "LblSeleccioneArchivos": {
+        "BODEGA_es": "Seleccione los archivos que desea subir",
+        "BODEGA_en": "Select files to upload",
+        "PSTORE_es": "Seleccione los archivos que desea subir",
+        "PSTORE_en": "Select files to upload"
+    },
+    "LblArchivos": {
+        "BODEGA_es": "ARCHIVOS (JPG, PNG)",
+        "BODEGA_en": "FILES (JPG, PNG)",
+        "PSTORE_es": "ARCHIVOS (JPG, PNG)",
+        "PSTORE_en": "FILES (JPG, PNG)"
+    },
+    "LblSeleccionePerfil": {
+        "BODEGA_es": "Seleccione un Perfil",
+        "BODEGA_en": "Select Profile",
+        "PSTORE_es": "Seleccione un Perfil",
+        "PSTORE_en": "Select Profile"
+    },
+    "LblSeleccioneGenero": {
+        "BODEGA_es": "Seleccione G\u00e9nero",
+        "BODEGA_en": "Select Gender",
+        "PSTORE_es": "Seleccione G\u00e9nero",
+        "PSTORE_en": "Select Gender"
+    },
+    "OpcFemenino": {
+        "BODEGA_es": "Femenino",
+        "BODEGA_en": "Female",
+        "PSTORE_es": "Femenino",
+        "PSTORE_en": "Female"
+    },
+    "OpcMasculino": {
+        "BODEGA_es": "Masculino",
+        "BODEGA_en": "Male",
+        "PSTORE_es": "Masculino",
+        "PSTORE_en": "Male"
+    },
+    "TituloNuevoUsuario": {
+        "BODEGA_es": "Nuevo Usuario",
+        "BODEGA_en": "New User",
+        "PSTORE_es": "Nuevo Usuario",
+        "PSTORE_en": "New User"
+    },
+    "SubTituloNuevoUsuario": {
+        "BODEGA_es": "Creaci\u00f3n de nuevos usuarios.",
+        "BODEGA_en": "Create new users",
+        "PSTORE_es": "Creaci\u00f3n de nuevos usuarios.",
+        "PSTORE_en": "Create new users"
+    },
+    "LblEmail": {
+        "BODEGA_es": "Email  (\u00e9ste ser\u00e1 su LOGIN en el sistema)",
+        "BODEGA_en": "Email  (this will be your login name)",
+        "PSTORE_es": "Email  (\u00e9ste ser\u00e1 su LOGIN en el sistema)",
+        "PSTORE_en": "Email  (this will be your login name)"
+    },
+    "LblPerfil": {
+        "BODEGA_es": "Perfil",
+        "BODEGA_en": "Profile",
+        "PSTORE_es": "Perfil",
+        "PSTORE_en": "Profile"
+    },
+    "LblGenero": {
+        "BODEGA_es": "G\u00e9nero",
+        "BODEGA_en": "Gender",
+        "PSTORE_es": "G\u00e9nero",
+        "PSTORE_en": "Gender"
+    },
+    "LblCargo": {
+        "BODEGA_es": "Cargo",
+        "BODEGA_en": "Position",
+        "PSTORE_es": "Cargo",
+        "PSTORE_en": "Position"
+    },
+    "LblTelefono": {
+        "BODEGA_es": "Tel\u00e9fono",
+        "BODEGA_en": "Phone number",
+        "PSTORE_es": "Tel\u00e9fono",
+        "PSTORE_en": "Phone number"
+    },
+    "BtnGuardarNuevoUsuario": {
+        "BODEGA_es": "Guardar Nuevo Usuario",
+        "BODEGA_en": "Save New User",
+        "PSTORE_es": "Guardar Nuevo Usuario",
+        "PSTORE_en": "Save New User"
+    },
+    "MnuConfiguracion": {
+        "BODEGA_es": "Configuraci\u00f3n",
+        "BODEGA_en": "Settings",
+        "PSTORE_es": "Configuraci\u00f3n",
+        "PSTORE_en": "Settings"
+    },
+    "TitMnuUsuario": {
+        "BODEGA_es": "Usuarios",
+        "BODEGA_en": "Users",
+        "PSTORE_es": "Usuarios",
+        "PSTORE_en": "Users"
+    },
+    "MnuItmNuevoUsuario": {
+        "BODEGA_es": "Nuevo Usuario",
+        "BODEGA_en": "New User",
+        "PSTORE_es": "Nuevo Usuario",
+        "PSTORE_en": "New User"
+    },
+    "MsgGuardandoNuevoUsuario": {
+        "BODEGA_es": "Guardando nuevo usuario",
+        "BODEGA_en": "Saving new user",
+        "PSTORE_es": "Guardando nuevo usuario",
+        "PSTORE_en": "Saving new user"
+    },
+    "ErrorPasswordUsuario": {
+        "BODEGA_es": "La CONTRASE\u00d1A debe tener: \\nM\u00ednimo 8 caracteres \\nDebe contener 1 n\u00famero \\nDebe iniciar con una letra \\nDebe contener may\u00fasculas \\nDebe contener letras min\u00fasculas",
+        "BODEGA_en": "The PASSWORD must have: \\nMinimum 8 characters \\nMust contain 1 number \\nMust start with a letter \\nMust contain capital letters \\nMust contain lower case letters",
+        "PSTORE_es": "La CONTRASE\u00d1A debe tener: \\nM\u00ednimo 8 caracteres \\nDebe contener 1 n\u00famero \\nDebe iniciar con una letra \\nDebe contener may\u00fasculas \\nDebe contener letras min\u00fasculas",
+        "PSTORE_en": "The PASSWORD must have: \\nMinimum 8 characters \\nMust contain 1 number \\nMust start with a letter \\nMust contain capital letters \\nMust contain lower case letters"
+    },
+    "ErrorPasswordNoCoincide": {
+        "BODEGA_es": "Las contrase\u00f1as no coinciden",
+        "BODEGA_en": "Passwords do not match",
+        "PSTORE_es": "Las contrase\u00f1as no coinciden",
+        "PSTORE_en": "Passwords do not match"
+    },
+    "ErrorEmailUsuario": {
+        "BODEGA_es": "Debe especificar un CORREO valido",
+        "BODEGA_en": "You must enter a valid EMAIL",
+        "PSTORE_es": "Debe especificar un CORREO valido ",
+        "PSTORE_en": "You must enter a valid EMAIL"
+    },
+    "ErrorPerfilUsuario": {
+        "BODEGA_es": "Debe seleccionar un PERFIL para el usuario",
+        "BODEGA_en": "You must select a PROFILE for the user",
+        "PSTORE_es": "Debe seleccionar un PERFIL para el usuario",
+        "PSTORE_en": "You must select a PROFILE for the user"
+    },
+    "ErrorGeneroUsuario": {
+        "BODEGA_es": "Debe seleccionar un G\u00c9NERO para el usuario",
+        "BODEGA_en": "You must select a GENDER for the user",
+        "PSTORE_es": "Debe seleccionar un GENERO para el usuario",
+        "PSTORE_en": "You must select a G\u00c9NDER for the user"
+    },
+    "ErrorCargoUsuario": {
+        "BODEGA_es": "Debe especificar un CARGO para el usuario",
+        "BODEGA_en": "You must enter a valid POSITION for the user",
+        "PSTORE_es": "Debe especificar un CARGO para el usuario",
+        "PSTORE_en": "You must enter a valid POSITION for the user"
+    },
+    "ErrorTelefonoUsuario": {
+        "BODEGA_es": "Debe especificar un TEL\u00c9FONO valido para el usuario",
+        "BODEGA_en": "You must enter a valid PHONE NUMBER for the user",
+        "PSTORE_es": "Debe especificar un TEL\u00c9FONO valido para el usuario",
+        "PSTORE_en": "You must enter a valid PHONE NUMBER for the user"
+    },
+    "MnuItmListarUsuarios": {
+        "BODEGA_es": "Usuarios",
+        "BODEGA_en": "Users",
+        "PSTORE_es": "Usuarios",
+        "PSTORE_en": "Users"
+    },
+    "LblLoginName": {
+        "BODEGA_es": "Nombre de Usuario",
+        "BODEGA_en": "Login Name",
+        "PSTORE_es": "Nombre de Usuario",
+        "PSTORE_en": "Login Name"
+    },
+    "MsgGuardandoCambios": {
+        "BODEGA_es": "Guardando cambios",
+        "BODEGA_en": "Saving changes",
+        "PSTORE_es": "Guardando cambios",
+        "PSTORE_en": "Saving changes"
+    },
+    "LblNombreCompleto": {
+        "BODEGA_es": "Nombre Completo",
+        "BODEGA_en": "Full Name",
+        "PSTORE_es": "Nombre Completo",
+        "PSTORE_en": "Full Name"
+    },
+    "LblNombrePerfil": {
+        "BODEGA_es": "Nombre Perfil",
+        "BODEGA_en": "Profile Name",
+        "PSTORE_es": "Nombre Perfil",
+        "PSTORE_en": "Profile Name"
+    },
+    "LblFechaCreacion": {
+        "BODEGA_es": "Fecha Creaci\u00f3n",
+        "BODEGA_en": "Creation Date",
+        "PSTORE_es": "Fecha Creaci\u00f3n",
+        "PSTORE_en": "Creation Date"
+    },
+    "LblActivo": {
+        "BODEGA_es": "Activo",
+        "BODEGA_en": "Active",
+        "PSTORE_es": "Activo",
+        "PSTORE_en": "Active"
+    },
+    "BtnCancelar": {
+        "BODEGA_es": "Cancelar",
+        "BODEGA_en": "Cancel",
+        "PSTORE_es": "Cancelar",
+        "PSTORE_en": "Cancel"
+    },
+    "LblLoginRepitaClave": {
+        "BODEGA_es": "Repita su Contrase\u00f1a",
+        "BODEGA_en": "Repeat Password",
+        "PSTORE_es": "Repita su Contrase\u00f1a",
+        "PSTORE_en": "Repeat Password"
+    },
+    "LblDatosUsuario": {
+        "BODEGA_es": "Datos del usuario",
+        "BODEGA_en": "User Data",
+        "PSTORE_es": "Datos del usuario",
+        "PSTORE_en": "User Data"
+    },
+    "LblResetearContrase\u00f1a": {
+        "BODEGA_es": "Resetear Contrase\u00f1a",
+        "BODEGA_en": "Reset Password",
+        "PSTORE_es": "Resetear Contrase\u00f1a",
+        "PSTORE_en": "Reset Password"
+    },
+    "SubTituloNuevaClave": {
+        "BODEGA_es": "Ingrese la nueva contrase\u00f1a para este usuario",
+        "BODEGA_en": "Enter the new password for this user",
+        "PSTORE_es": "Ingrese la nueva contrase\u00f1a para este usuario",
+        "PSTORE_en": "Enter the new password for this user"
+    },
+    "MsgEditarPassword": {
+        "BODEGA_es": "La contrase\u00f1a ha sido cambiada",
+        "BODEGA_en": "Enter the new password for this user",
+        "PSTORE_es": "La contrase\u00f1a ha sido cambiada",
+        "PSTORE_en": "Enter the new password for this user"
+    },
+    "BtnVolver": {
+        "BODEGA_es": "Volver",
+        "BODEGA_en": "Back",
+        "PSTORE_es": "Volver",
+        "PSTORE_en": "Back"
+    },
+    "BtnCerrar": {
+        "BODEGA_es": "Cerrar",
+        "BODEGA_en": "Close",
+        "PSTORE_es": "Cerrar",
+        "PSTORE_en": "Close"
+    },
+    "BtnAgregar": {
+        "BODEGA_es": "Agregar",
+        "BODEGA_en": "Add new",
+        "PSTORE_es": "Agregar",
+        "PSTORE_en": "Add new"
+    },
+    "LblClaveActual": {
+        "BODEGA_es": "Contrase\u00f1a actual",
+        "BODEGA_en": "Current password",
+        "PSTORE_es": "Contrase\u00f1a actual",
+        "PSTORE_en": "Current password"
+    },
+    "LblClaveNueva": {
+        "BODEGA_es": "Contrase\u00f1a nueva",
+        "BODEGA_en": "New password",
+        "PSTORE_es": "Contrase\u00f1a nueva",
+        "PSTORE_en": "New password"
+    },
+    "BtnGuardarCambios": {
+        "BODEGA_es": "Guardar Cambios",
+        "BODEGA_en": "Save Changes",
+        "PSTORE_es": "Guardar Cambios",
+        "PSTORE_en": "Save Changes"
+    },
+    "LblEmailEnviado": {
+        "BODEGA_es": "Si el usuario existe se le enviara un correo",
+        "BODEGA_en": "If the user exists, an email will be sent",
+        "PSTORE_es": "Si el usuario existe se le enviara un correo",
+        "PSTORE_en": "If the user exists, an email will be sent"
+    },
+    "BtnAceptarSeleccion": {
+        "BODEGA_es": "Aceptar Selecci\u00f3n",
+        "BODEGA_en": "Confirm Choice",
+        "PSTORE_es": "Aceptar Selecci\u00f3n",
+        "PSTORE_en": "Confirm Choice"
+    },
+    "BtnAceptar": {
+        "BODEGA_es": "Aceptar",
+        "BODEGA_en": "Confirm",
+        "PSTORE_es": "Aceptar",
+        "PSTORE_en": "Confirm"
+    },
+    "ErrNoSessionTitle": {
+        "BODEGA_es": "No hay sesi\u00f3n activa",
+        "BODEGA_en": "No session detected",
+        "PSTORE_es": "No hay sesi\u00f3n activa",
+        "PSTORE_en": "No session detected"
+    },
+    "ErrNoSessionMessage": {
+        "BODEGA_es": "Su sesi\u00f3n ha caducado por inactividad. El sistema le redirigir\u00e1 a la pantalla de inicio de sesi\u00f3n.",
+        "BODEGA_en": "Your session has expired due to inactivity. You will be redirected to the login page.",
+        "PSTORE_es": "Su sesi\u00f3n ha caducado por inactividad. El sistema le redirigir\u00e1 a la pantalla de inicio de sesi\u00f3n.",
+        "PSTORE_en": "Your session has expired due to inactivity. You will be redirected to the login page."
+    },
+    "LblBienvenidoDescripcion": {
+        "BODEGA_es": "Bodega",
+        "BODEGA_en": "Bodega",
+        "PSTORE_es": "Bodega",
+        "PSTORE_en": "Bodega"
+    }
+}

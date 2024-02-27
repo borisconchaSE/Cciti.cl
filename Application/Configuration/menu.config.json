@@ -1,0 +1,23 @@
+{
+    "home": {
+        "Description": "@@{MnuHome, Home}",
+        "Icon": "fa-home",
+        "Uri": "/home",
+        "Decorators": [],
+        "Items" : []
+    },
+    "Stock": {
+        "Description": "@@{MnuStock, Stock}",
+        "Icon": "fa-cubes",
+        "Uri": "/stock",
+        "Decorators": [],
+        "Items" : []
+    },
+    "Compras": {
+        "Description": "@@{MnuCompras, Compras}",
+        "Icon": "fa-shopping-basket",
+        "Uri": "/compra",
+        "Decorators": [],
+        "Items" : []
+    }
+}
