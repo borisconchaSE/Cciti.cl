@@ -10,10 +10,10 @@ use Intouch\Framework\Mapper\Mapper;
 trait ordenCompraSvcT
 {
     public $innerMappings = [
-        'proveedor'     => proveedorDto::class,
+        'proveedor'    => proveedorDto::class,
         'estadoOC'     => estadoOCDto::class,
         'estadoFC'     => estadoFCDto::class,
-        'empresa'       => empresaDto::class,
+        'empresa'      => empresaDto::class,
     ];
 
     public function BuscarCompras()

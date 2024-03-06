@@ -106,12 +106,25 @@ $display->AddFormFromObject(
                         Required        :   true,
                         Colspan         :   4
                     ),
-                    new FormRowFieldText(
-                        PropertyName    :   'Fecha_asignacion',
-                        FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                        Label           :   'Fecha Asignación',
+                    new FormRowFieldDate(
+                        PropertyName    :   'Fecha',
+                        FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
+                        Label           :   'Fecha Llegada',
                         Required        :   true,
-                        Colspan         :   4
+                        Colspan         :   4, 
+                        Events          :   [
+                            new FormOnChangeEvent()
+                        ]
+                    ),
+                    new FormRowFieldDate(
+                        PropertyName    :   'Fecha_Asignacion',
+                        FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
+                        Label           :   'Fecha Entrega',
+                        Required        :   true,
+                        Colspan         :   4, 
+                        Events          :   [
+                            new FormOnChangeEvent()
+                        ]
                     ),
                     new FormRowFieldSelect(
                         PropertyName: 'tipo',

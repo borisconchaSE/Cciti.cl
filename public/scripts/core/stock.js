@@ -57,7 +57,7 @@ function btnEditarStock_OnClick(eventInfo){
 }
 
 function btnAgregarNuevoStock_OnClick(eventInfo){
-    debugger;
+    // debugger;
     console.log(eventInfo);
 
     /* almacenamos en variables los datos que vamos a utilizar */
@@ -85,12 +85,13 @@ function btnAgregarNuevoStock_OnClick(eventInfo){
 
     var entity      =   {
         "NuevoStock"  :  JSON.stringify({
-            "Fecha_asignacion"      :   eventInfo.FormData.Fecha_asignacion,
+            "Fecha"                 :   eventInfo.FormData.Fecha,
+            "Fecha_Asignacion"      :   eventInfo.FormData.Fecha_Asignacion,
             "Descripcion"           :   eventInfo.FormData.Descripcion,
             "Cantidad"              :   eventInfo.FormData.Cantidad,
             "Precio_Unitario"       :   eventInfo.FormData.Precio_Unitario,
             "Precio_total"          :   eventInfo.FormData.Precio_total,
-            "idMarca"               :   eventInfo.FormData.IdMarca,
+            "idMarca"               :   eventInfo.FormData.idMarca,
             "IdEmpresa"             :   eventInfo.FormData.IdEmpresa,
             "tipo"                  :   eventInfo.FormData.tipo,
             "estado_stock"          :   eventInfo.FormData.estado_stock,
@@ -124,7 +125,7 @@ function btnAgregarNuevoStock_OnClick(eventInfo){
 }
 
 function DibujarNuevoStock(DatosStock = {
-    'Fecha_asignacion'      :   '19-01-2024',
+    'Fecha'                 :   '2024-01-19',
     'Descripcion'           :   'brotherdr-2340',
     'Cantidad'              :   '1',
     'Precio_Unitario'       :   '50980',
@@ -137,7 +138,7 @@ function DibujarNuevoStock(DatosStock = {
  
     var table       = $('#tbListadoStock').DataTable();
 
-    var Fecha_asignacion        =   DatosStock.Fecha_asignacion;
+    var Fecha                   =   DatosStock.Fecha;
     var Descripcion             =   DatosStock.Descripcion;
     var Cantidad                =   DatosStock.Cantidad;
     var Precio_Unitario         =   DatosStock.Precio_Unitario;
@@ -147,7 +148,7 @@ function DibujarNuevoStock(DatosStock = {
     var tipo                    =   DatosStock.tipo;
     var estado_stock            =   DatosStock.estado_stock;
 
-    var rowNode     = table.row.add( [ Fecha_asignacion, Descripcion, Cantidad, Precio_Unitario, Precio_total, IdEmpresa, idMarca, tipo, estado_stock] ).draw().node();
+    var rowNode     = table.row.add( [ Fecha, Descripcion, Cantidad, Precio_Unitario, Precio_total, IdEmpresa, idMarca, tipo, estado_stock] ).draw().node();
     
     /* AGREGAMOS LOS VALORES PK */
     debugger;
@@ -165,7 +166,7 @@ function DibujarNuevoStock(DatosStock = {
     $(rowNode).find('td:eq(7)').attr('data-pk',DatosStock.id_stock)
 
     /* INCORPORAMOS EL NOMBRE DE LA PROPIEDAD A LA TABLA */
-    $(rowNode).find('td:eq(0)').attr('data-property-name','Fecha_asignacion')
+    $(rowNode).find('td:eq(0)').attr('data-property-name','Fecha')
     $(rowNode).find('td:eq(1)').attr('data-property-name','Descripcion')
     $(rowNode).find('td:eq(2)').attr('data-property-name','Cantidad')
     $(rowNode).find('td:eq(3)').attr('data-property-name','Precio_Unitario')
@@ -175,6 +176,88 @@ function DibujarNuevoStock(DatosStock = {
     $(rowNode).find('td:eq(7)').attr('data-property-name','tipo')
     $(rowNode).find('td:eq(8)').attr('data-property-name','estado_stock') 
 
+}
+
+function btnGuardarCambiosStock_OnClick(eventInfo){
+
+    debugger;
+    /* almacenamos en variables los datos que vamos a utilizar */
+    var frmkey      =   eventInfo.FormKey; 
+
+    var txtbackup   =   $('#btnGuardarCambiosStock').html(); 
+    $('#btnGuardarCambiosStock').addClass('disabled')
+
+    $('#btnGuardarCambiosStock').html('<i class="fa fa-spinner fa-pulse"></i>');
+    /* ------------------------------------------------------------------------------------------------ */
+    /* VALIDAMOS EL INPUT QUE CORRESPONDE AL NOMBRE DEL NUEVO USUARIO                                   */
+    /* ------------------------------------------------------------------------------------------------ */
+    
+    var status =    validarInputsStock(frmkey)
+    if (status != true){
+        $('#btnGuardarCambiosStock').removeClass('disabled')
+        $('#btnGuardarCambiosStock').html(txtbackup); 
+        return; 
+    }
+
+
+
+    var id_stock                    =   eventInfo.FormData.id_stock;
+    var Fecha                       =   eventInfo.FormData.Fecha;
+    var Descripcion                 =   eventInfo.FormData.Descripcion;
+    var Cantidad                    =   eventInfo.FormData.Cantidad;
+    var Precio_Unitario             =   eventInfo.FormData.Precio_Unitario;
+    var Precio_total                =   eventInfo.FormData.Precio_total;
+    var idMarca                     =   eventInfo.FormData.idMarca;
+    var IdEmpresa                   =   eventInfo.FormData.IdEmpresa;
+    var tipo                        =   eventInfo.FormData.tipo;
+    var estado_stock                =   eventInfo.FormData.estado_stock;
+
+     
+    var entity      =   {
+        "DatosStock"  :   JSON.stringify({
+
+            id_stock                        :   id_stock,
+            Fecha                           :   Fecha,
+            Descripcion                     :   Descripcion,
+            Cantidad                        :   Cantidad,
+            Precio_Unitario                 :   Precio_Unitario,
+            Precio_total                    :   Precio_total,
+            idMarca                         :   idMarca,
+            IdEmpresa                       :   IdEmpresa,
+            tipo                            :   tipo,
+            estado_stock                    :   estado_stock
+        })
+    }
+
+    const service = new BotonesStockSvc(); 
+ 
+    service.CambiarParametrosStock(
+        entity,
+        function(result){  
+            $('.modal').modal('hide');  
+            $(`td[data-pk="${id_stock}"][data-property-name="Fecha"]`).html(Fecha)
+            $(`td[data-pk="${id_stock}"][data-property-name="Descripcion"]`).html(Descripcion)
+            $(`td[data-pk="${id_stock}"][data-property-name="Cantidad"]`).html(Cantidad)
+            $(`td[data-pk="${id_stock}"][data-property-name="Precio_Unitario"]`).html(Precio_Unitario)
+            $(`td[data-pk="${id_stock}"][data-property-name="Precio_total"]`).html(Precio_total)
+            $(`td[data-pk="${id_stock}"][data-property-name="idMarca"]`).html(idMarca)
+            $(`td[data-pk="${id_stock}"][data-property-name="IdEmpresa"]`).html(IdEmpresa)
+            $(`td[data-pk="${id_stock}"][data-property-name="tipo"]`).html(tipo)
+            $(`td[data-pk="${id_stock}"][data-property-name="estado_stock"]`).html(estado_stock)
+            Toast.fire({
+                icon: 'success',
+                title: 'Cambios guardados correctamente'
+            }); 
+        },
+        function(errorCode,errorMessage){ 
+            $('#btnGuardarCambiosStock').removeClass('disabled')
+            $('#btnGuardarCambiosStock').html(txtbackup); 
+            Toast.fire({
+                icon: 'error',
+                title: errorMessage
+            });
+        }
+    )
 }
 
 function validarInputsStock(frmkey){
@@ -203,18 +286,22 @@ function validarInputsStock(frmkey){
     /* VALIDAMOS EL INPUT QUE CORRESPONDE LA CONTRASEÑA DEL NUEVO USUARIO                                   */
     /* ------------------------------------------------------------------------------------------------ */
     var statusInputFecha = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-Fecha_asignacion`, /* facilitamos el ID del input que debemos validar */
+        `${frmkey}-Fecha`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
             /* validamos el input ingresado */
             x = validarTextoInput(x)
 
-            $(`${frmkey}-Fecha_asignacion`).val(x)
+            $(`${frmkey}-Fecha`).val(x)
 
-            if (x.length < 8 || x != null) { 
+            y = x.length;
+
+            if (y == 10) { 
+                return true;
+            }
+            else{
                 return false;
             }
-            return true;
 
 
         }, /*  --- */

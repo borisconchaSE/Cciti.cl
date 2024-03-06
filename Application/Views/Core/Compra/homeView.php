@@ -300,7 +300,7 @@ $content->Draw();
 
 
 ## DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
-$display->DrawScripts(addLoadEvent:false);
+$display->DrawScripts(addLoadEvent:true);
 
 ?>
 @@RenderBundle(compraJS)

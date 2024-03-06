@@ -77,9 +77,27 @@ class CompraController extends BaseController
         ## PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL USUARIO EN EL BO
         $CompraDto         =   (new CompraBO())->GetCompra($IdO_C);
 
+        $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosModelo        =   (new modeloSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosProveedor     =   (new proveedorSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosOC            =   (new estadoOCSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosFC            =   (new estadoFCSvc(ConnectionEnum::TI))->GetAll();
+
         ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
-            "Compra"           =>  $CompraDto
+            "Compra"                =>  $CompraDto,
+            "DatosMarca"            =>  $DatosMarca,
+            "DatosModelo"           =>  $DatosModelo,
+            "DatosEmpresa"          =>  $DatosEmpresa,
+            "DatosProveedor"        =>  $DatosProveedor,
+            "DatosOC"               =>  $DatosOC,
+            "DatosFC"               =>  $DatosFC
         ];
 
         ## RENDERIZAMOS LA VISTA
@@ -88,12 +106,12 @@ class CompraController extends BaseController
 
     #[Route(Methods: ['POST'], RequireSession:true)]
     #[ReturnActionResult]
-    public function GuardarNuevoProducto(NuevoUsuarioFilterDto $NuevoCompra) 
+    public function GuardarNuevoProducto($NuevoCompra) 
     {  
 
         $CompraBO          =   new CompraBO();
 
-        $CompraDto         =   $CompraBO->GuardarNuevoProducto($NuevoCompra);
+        $CompraDto         =   $CompraBO->GuardarProducto($NuevoCompra);
 
         if ( empty($CompraDto) ){
             throw new BusinessException(code:ExceptionCodesEnum::ERR_DATA_INSERT, message:'ha ocurrido un error inesperado');
@@ -102,20 +120,124 @@ class CompraController extends BaseController
         return (object)[
             "Fecha_compra"              =>  $CompraDto->Fecha_compra,
             "Descripcion"               =>  $CompraDto->Descripcion,
-            "marca"                     =>  $CompraDto->marca,
-            "modelo"                    =>  $CompraDto->modelo,
+            "idMarca"                   =>  $CompraDto->idMarca,
+            "idModelo"                  =>  $CompraDto->idModelo,
             "Orden_compra"              =>  $CompraDto->Orden_compra,
             "Factura_compra"            =>  $CompraDto->Factura_compra,
             "Precio_U"                  =>  $CompraDto->Precio_U,
             "Cantidad"                  =>  $CompraDto->Cantidad,
             "Precio_total"              =>  $CompraDto->Precio_total,
             "tipo"                      =>  $CompraDto->tipo,
-            "Proveedor_idProveedor"     =>  $CompraDto->Proveedor_idProveedor,
-            "id_estadoOC"               =>  $CompraDto->id_estadoOC,
-            "id_estadoFC"               =>  $CompraDto->id_estadoFC,
-            "id_empresa"                =>  $CompraDto->id_empresa,
+            "idProveedor"               =>  $CompraDto->idProveedor,
+            "idEstado_oc"               =>  $CompraDto->idEstado_oc,
+            "idEstado_FC"               =>  $CompraDto->idEstado_FC,
+            "IdEmpresa"                 =>  $CompraDto->IdEmpresa,
         ] ;
-    } 
+    }
+
+    #[Route(Methods: ['POST'], RequireSession:true)]
+    #[ReturnActionViewResult]
+    public function CambiarParametrosCompra($DatosCompra) 
+    { 
+        
+        ## ----------------------------------------------------------------------
+        ## PARA VALIDAR LA INFORMACIÓN QUE PROVIENE DESDE LA REQUEST
+        ## UTILIZAMOS UN TIPO DE DTO LLAMADO FILTER QUE NOS PERMITE IDENTIFICAR 
+        ## Y ESTABLECER CUALES SON LOS PARAMETROS QUE ACEPTA LA API
+        ## ----------------------------------------------------------------------
+
+        ## en primer lugar validamos los campos ingresados
+
+        ## validamos el id del usuario
+        if ($DatosCompra->Cantidad < 1 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Cantidad ingresada invalida");
+        }
+
+        if ($DatosCompra->idMarca < 1 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Marca ingresada invalida");
+        }
+
+        if ($DatosCompra->idModelo < 1 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Empresa ingresada invalida");
+        }
+
+        ## validamos el nombre
+        if ( strlen($DatosCompra->Fecha_compra) > 10   ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Fecha ingresada invalida");
+        }
+
+        ## validamos el nombre
+        if ( strlen($DatosCompra->Descripcion) < 4   ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Descripcion ingresada invalida");
+        }
+
+        ## validamos la sigla
+        if ( strlen($DatosCompra->Precio_U) < 4 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Precio unitario ingresado invalida");
+        }
+
+        if ( strlen($DatosCompra->Precio_total) < 4 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Precio total ingresado invalida");
+        }
+
+        if ( strlen($DatosCompra->tipo) < 5 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Tipo ingresado invalido");
+        }
+
+        if ( strlen($DatosCompra->Orden_compra) < 5 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Estado del stock invalido");
+        }
+
+        if ( strlen($DatosCompra->Factura_compra) < 5 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Estado del stock invalido");
+        }
+
+        ## -----------------------------------------------------------------------
+        ## UNA VEZ VALIDADO LOS INPUTS
+        ## PROCEDEMOS A INSTANCIAR EL BO 
+        ## PARA REALIZAR LAS ACCIONES DEL NEGOCIO
+        ## -----------------------------------------------------------------------
+        $CompraBO      =   new CompraBO();
+        
+
+        ## PROCEDEMOS A ACTUALIZAR LA INFORMACIÓN EN LA BBDD
+        $status         =   $CompraBO->UpdateCompra($DatosCompra);
+
+        $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosModelo        =   (new modeloSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosProveedor     =   (new proveedorSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosOC            =   (new estadoOCSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosFC            =   (new estadoFCSvc(ConnectionEnum::TI))->GetAll();
+        
+        $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$DatosCompra->idMarca);
+
+        $Empresa        =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosCompra->IdEmpresa);
+        
+        if ( $status != true ){
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_DATA_UPDATE, message: "No ha sido posible actualizar el producto");
+        }
+        
+        return [
+            "Fecha"                 =>  $DatosCompra->Fecha,
+            "Descripcion"           =>  $DatosCompra->Descripcion,
+            "Cantidad"              =>  $DatosCompra->Cantidad,
+            "Precio_Unitario"       =>  $DatosCompra->Precio_Unitario,
+            "Precio_total"          =>  $DatosCompra->Precio_total,
+            "idMarca"               =>  $Marca->Descripcion,
+            "IdEmpresa"             =>  $Empresa->Descripcion,
+            "tipo"                  =>  $DatosCompra->tipo,
+            "estado_stock"          =>  $DatosCompra->estado_stock
+        ] ;
+
+
+
+    }
    
 
 }

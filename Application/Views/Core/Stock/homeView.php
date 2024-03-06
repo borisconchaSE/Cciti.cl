@@ -104,16 +104,16 @@ $tableheader =  new Container(
 ## COMENZAMOS A DIBUJAR LA TABLA
 
 $cellDefinitions    =   [
-    // new TableCell(
-    //     PropertyName: 'Fecha',
-    //     Colspan: 2,
-    //     Label: 'Fecha Llegada'
-    // ),
     new TableCell(
-        PropertyName: 'Fecha_asignacion',
+        PropertyName: 'Fecha',
         Colspan: 2,
-        Label: 'Fecha Asignacion'
+        Label: 'Fecha Llegada'
     ),
+    // new TableCell(
+    //     PropertyName: 'Fecha_asignacion',
+    //     Colspan: 2,
+    //     Label: 'Fecha Asignacion'
+    // ),
     new TableCell(
         PropertyName: 'Descripcion',
         Colspan: 2,
@@ -267,11 +267,8 @@ $content->Draw();
 
 
 // ## DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
-$display->DrawScripts(addLoadEvent:false);
+$display->DrawScripts(addLoadEvent:true);
 
-// $vista  =   Display::GetRenderer('Core/Stock')->RenderView('tabla',$data);
-
-// echo $vista;
 
 ?>
 

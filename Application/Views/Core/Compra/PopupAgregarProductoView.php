@@ -10,6 +10,7 @@ use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\FormButton;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldHidden;
+use Intouch\Framework\View\DisplayDefinitions\FormRowFieldDate;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelect;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldText;
@@ -109,7 +110,8 @@ if(!empty($data->DatosEmpresa)){
 $Proveedor = [
     new proveedorDto(
         idProveedor         :   -1,
-        Nombre              :   'Sin Seleccionar'
+        Nombre              :   'Sin Seleccionar',
+        Rut                 :   3
     )
 ];
 
@@ -171,13 +173,16 @@ $display->AddFormFromObject(
             Key: 'frg-informaciónCompra', 
             Rows: [
                 [ 
-                    new FormRowFieldText(
+                    new FormRowFieldDate(
                         PropertyName    :   'Fecha_compra',
-                        FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
+                        FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
                         Label           :   'Fecha Compra',
                         Required        :   true,
-                        Colspan         :   4
-                    ), 
+                        Colspan         :   4, 
+                        Events          :   [
+                            new FormOnChangeEvent()
+                        ]
+                    ),
                     new FormRowFieldText(
                         PropertyName    :   'Descripcion',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
@@ -188,7 +193,7 @@ $display->AddFormFromObject(
                     new FormRowFieldSelect(
                         PropertyName: 'idMarca',
                         Label: 'Marca',
-                        Colspan: 6,
+                        Colspan: 4,
                         Required: true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
                             Values          : $Marca,
@@ -198,10 +203,12 @@ $display->AddFormFromObject(
                             DisplaySearch   : true
                         ), 
                     ),
+                ],
+                [
                     new FormRowFieldSelect(
                         PropertyName: 'idModelo',
                         Label: 'Modelo',
-                        Colspan: 6,
+                        Colspan: 4,
                         Required: true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
                             Values          : $Modelo,
@@ -211,8 +218,6 @@ $display->AddFormFromObject(
                             DisplaySearch   : true
                         ), 
                     ),
-                ],
-                [
                     new FormRowFieldText(
                         PropertyName    :   'Orden_compra',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
@@ -226,15 +231,6 @@ $display->AddFormFromObject(
                         Label           :   'Factura Compra',
                         Required        :   true,
                         Colspan         :   4,
-                    ), 
-                ],
-                [
-                    new FormRowFieldText(
-                        PropertyName    :   'Precio_U',
-                        FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                        Label           :   'Precio Unitario',
-                        Required        :   true,
-                        Colspan         :   4
                     ),
                     new FormRowFieldText(
                         PropertyName    :   'Cantidad',
@@ -244,12 +240,19 @@ $display->AddFormFromObject(
                         Colspan         :   4,
                     ),
                     new FormRowFieldText(
+                        PropertyName    :   'Precio_U',
+                        FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
+                        Label           :   'Precio Unitario',
+                        Required        :   true,
+                        Colspan         :   4
+                    ),
+                    new FormRowFieldText(
                         PropertyName    :   'Precio_total',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                         Label           :   'Precio Total',
                         Required        :   true,
                         Colspan         :   4,
-                    ),
+                    ), 
                 ],
                 [
                     new FormRowFieldSelect(
@@ -278,12 +281,12 @@ $display->AddFormFromObject(
                     new FormRowFieldSelect(
                         PropertyName: 'idProveedor',
                         Label: 'Proveedor',
-                        Colspan: 6,
+                        Colspan: 4,
                         Required: true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
                             Values          : $Proveedor,
                             Key             : 'idProveedor',
-                            Description     : 'Descripcion',
+                            Description     : 'Nombre',
                             SelectedValue   : -1,
                             DisplaySearch   : true
                         ), 
@@ -291,7 +294,7 @@ $display->AddFormFromObject(
                     new FormRowFieldSelect(
                         PropertyName: 'idEstado_oc',
                         Label: 'Estado OC',
-                        Colspan: 6,
+                        Colspan: 4,
                         Required: true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
                             Values          : $EstadoOC,
@@ -301,12 +304,10 @@ $display->AddFormFromObject(
                             DisplaySearch   : true
                         ), 
                     ),
-                ],
-                [
                     new FormRowFieldSelect(
                         PropertyName: 'idEstado_FC',
                         Label: 'Estado FC',
-                        Colspan: 6,
+                        Colspan: 4,
                         Required: true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
                             Values          : $EstadoFC,
@@ -319,7 +320,7 @@ $display->AddFormFromObject(
                     new FormRowFieldSelect(
                         PropertyName: 'IdEmpresa',
                         Label: 'Empresa',
-                        Colspan: 6,
+                        Colspan: 4,
                         Required: true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
                             Values          : $Empresa,
@@ -328,7 +329,7 @@ $display->AddFormFromObject(
                             SelectedValue   : -1,
                             DisplaySearch   : true
                         ), 
-                    ),
+                    )
                 ]
             ]
         ) 

@@ -17,7 +17,7 @@ trait ordenCompraDaoT
                 ->With(estadoFC::class)
                 ->With(empresa::class)
                 ->OrderBy('Fecha_compra desc')
-                ->Top(100);
+                ->Top(25);
 
         return $this->Query(
             query: $qry

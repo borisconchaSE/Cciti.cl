@@ -16,9 +16,9 @@ class BotonesCompraSvc extends Service {
         this.Call('GuardarNuevoProducto', 'post', entity, onSuccessCallback, onErrorCallback);
     }
     
-    // CambiarParametrosCompra(entity = {}, onSuccessCallback = null, onErrorCallback = null) {
-    //     this.Call('CambiarParametrosCompra', 'post', entity, onSuccessCallback, onErrorCallback);
-    // }
+    CambiarParametrosCompra(entity = {}, onSuccessCallback = null, onErrorCallback = null) {
+        this.Call('CambiarParametrosCompra', 'post', entity, onSuccessCallback, onErrorCallback);
+    }
 
 }
 

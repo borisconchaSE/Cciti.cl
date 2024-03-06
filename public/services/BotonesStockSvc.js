@@ -16,9 +16,9 @@ class BotonesStockSvc extends Service {
         this.Call('GuardarStockNuevo', 'post', entity, onSuccessCallback, onErrorCallback);
     }
     
-    // CambiarParametrosCompra(entity = {}, onSuccessCallback = null, onErrorCallback = null) {
-    //     this.Call('CambiarParametrosCompra', 'post', entity, onSuccessCallback, onErrorCallback);
-    // }
+    CambiarParametrosStock(entity = {}, onSuccessCallback = null, onErrorCallback = null) {
+        this.Call('CambiarParametrosStock', 'post', entity, onSuccessCallback, onErrorCallback);
+    }
 
 }
 

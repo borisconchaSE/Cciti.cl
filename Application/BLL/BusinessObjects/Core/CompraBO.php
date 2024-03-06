@@ -7,7 +7,9 @@ use Application\Configuration\ConnectionEnum;
 use Intouch\Framework\BLL\Service\GenericSvc;
 use Application\BLL\DataTransferObjects\Core\ordenCompraDto;
 use Intouch\Framework\Exceptions\BusinessException;
-use Intouch\Framework\Exceptions\ExceptionCodesEnum; 
+use Intouch\Framework\Exceptions\ExceptionCodesEnum;
+use Application\BLL\Services\Core\stockSvc;
+use Application\BLL\DataTransferObjects\Core\stockDto; 
 
 class CompraBO 
 {
@@ -49,7 +51,7 @@ class CompraBO
 
     }
 
-    public function GuardarNuevoProducto($NuevoCompra) : ordenCompraDto|null  {
+    public function GuardarProducto($NuevoCompra) : ordenCompraDto|null  {
 
         ## VALIDAMOS LOS PARAMETROS DE LA FECHA
         if (strlen($NuevoCompra->Fecha_compra) < 11){
@@ -65,13 +67,18 @@ class CompraBO
         ## PROCEDEMOS A GENERAR EL NUEVO ITEM DEL STOCK
 
         $ordenSvc     =   new ordenCompraSvc(ConnectionEnum::TI);
+        $StockSvc     =   new stockSvc(ConnectionEnum::TI);
 
-        GenericSvc::BeginMultipleOperations(ConnectionEnum::CORE);
+        GenericSvc::BeginMultipleOperations(ConnectionEnum::TI);
 
         try{
+            $user           = "No aplica";
+            $estado_stock   = "En Stock";
+            $ciclo          = 1;
+            $limite         = $NuevoCompra->Cantidad;
 
 
-            ## EN PRIMER LUGAR PROCEDEMOS A CREAR EL DTO DEL STOCK
+            ## EN PRIMER LUGAR PROCEDEMOS A CREAR EL DTO DEL PRODUCTO
             $OrdenDto     =   new ordenCompraDto(
                 Fecha_compra                :   $NuevoCompra->Fecha_compra,
                 Descripcion                 :   $NuevoCompra->Descripcion,
@@ -88,9 +95,30 @@ class CompraBO
                 idEstado_FC                 :   $NuevoCompra->id_estadoFC,
                 IdEmpresa                   :   $NuevoCompra->id_empresa
             );
+
+            ## PROCEDEMOS A CREAR EL DTO PARA INSERTAR AL STOCK ACTUAL
+            $StockDto     =   new stockDto(
+                Fecha                       :   $NuevoCompra->Fecha_compra,
+                Descripcion                 :   $NuevoCompra->Descripcion,
+                Usuario_asignado            :   $user,
+                Cantidad                    :   $ciclo,
+                Precio_Unitario             :   $NuevoCompra->Precio_U,
+                Precio_total                :   $NuevoCompra->Precio_total,
+                IdEmpresa                   :   $NuevoCompra->id_empresa,
+                idMarca                     :   $NuevoCompra->marca,
+                tipo                        :   $NuevoCompra->tipo,
+                estado_stock                :   $estado_stock
+            );
+
             
             ## GUARDAMOS EL NUEVO ITEM EN LA BBDD
-            $OrdenDto                 =   $ordenSvc->Insert($OrdenDto);
+            $OrdenDto                   =   $ordenSvc->Insert($OrdenDto);
+
+            ## CICLO PARA INSERTAR EN EL STOCK ACTUAL
+            while($ciclo <= $limite){
+                $StockDto                   =   $StockSvc->Insert($StockDto);
+                $ciclo  = $ciclo+1;
+            };
 
 
             ## EN CASO DE QUE ESTE TODO CORRECTO, PROCEDEMOS A GUARDAR LOS CAMBIOS
@@ -100,6 +128,49 @@ class CompraBO
         }catch (\Exception $ex) {
             GenericSvc::UndoMultipleOperations();
             return null;
+
+        }
+
+    }
+
+    public function UpdateCompra($DatosCompra){
+
+        ## INSTANCIAMOS EL SERVICE DEL USUARIO
+        $CompraSvc      = new ordenCompraSvc(ConnectionEnum::TI);
+
+        ## BUSCAMOS EL DTO DEL USUARIO
+        $CompraDto         =   $CompraSvc->FindByForeign('idO_C',$DatosCompra->idO_C);
+
+        ## VALIDAMOS SI EL USUARIO EXISTEE DENTRO DE LA BBDD
+        if ($CompraDto == null){
+            throw new BusinessException(code:ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: 'El producto no se encuentra disponble');
+        }
+
+        ## PROCEDEMOS DENTRO DE UN TRY CATCH A PROCESAR LA SOLICITUD
+        try{
+
+            $FechaData      =   $DatosCompra->Fecha;
+            $FechaData      =   date("Y-m-d", strtotime($FechaData));
+            ## 
+            $CompraDto->Fecha                            =   $FechaData;
+            $CompraDto->Descripcion                      =   $DatosCompra->Descripcion;
+            $CompraDto->Cantidad                         =   $DatosCompra->Cantidad;
+            $CompraDto->Precio_Unitario                  =   $DatosCompra->Precio_Unitario;
+            $CompraDto->Precio_total                     =   $DatosCompra->Precio_total;
+            $CompraDto->idMarca                          =   $DatosCompra->idMarca;
+            $CompraDto->IdEmpresa                        =   $DatosCompra->IdEmpresa;
+            $CompraDto->tipo                             =   $DatosCompra->tipo;
+            $CompraDto->estado_stock                     =   $DatosCompra->estado_stock;
+            
+            ## ACTUALIZAMOS LOS VALORES EN LA BBDD
+            $CompraSvc->Update($CompraDto);
+
+            return true;
+
+
+        } catch (\Exception $ex) {
+
+            return false;
 
         }
 

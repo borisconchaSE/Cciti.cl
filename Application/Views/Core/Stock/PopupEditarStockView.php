@@ -1,10 +1,13 @@
 <?php
 
 use Application\BLL\DataTransferObjects\Core\stockDto;
+use Application\BLL\DataTransferObjects\Core\marcaDto;
+use Application\BLL\DataTransferObjects\Core\empresaDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\FormButton;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldHidden;
+use Intouch\Framework\View\DisplayDefinitions\FormRowFieldDate;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelect;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldText;
@@ -22,7 +25,7 @@ $BodyContent     =   new Container(
     Classes     :   ['alert alert-danger label-arrow'],
     Attributes  :   ['role','alert'],
     Children    : [
-        new Text('Usted no puede visualizar este usuario o no tiene permisos sobre el')
+        new Text('Error al visualizar los datos del producto')
     ]
 );
 
@@ -30,20 +33,77 @@ $BodyContent     =   new Container(
 $display        =   new Display();
 
 
+if(!empty($data->Stock->tipo)){
 
-## -------------------------------------------------------------------------------
-## GENERAMOS LOS VALORES POR DEFECTO DE LOS INPUTS
-## -------------------------------------------------------------------------------
-## -------------------------------------------------------------------------------
+    if(($data->Stock->tipo) == "Original" ){
+        $Tipo   = "Original";
+    }else{
+        $Tipo   = "Alternativo";
+    }
+
+
+}
+
+if(!empty($data->Stock->estado_stock)){
+
+    if(($data->Stock->estado_stock) == "En Stock" ){
+        $estado   = "En Stock";
+    }else{
+        $estado   = "Entregado";
+    }
+
+
+}
+
+$Empresa = [
+    new empresaDto(
+        IdEmpresa           :   -1,
+        Descripcion         :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosEmpresa)){
+
+    $Empresa   = array_merge($Empresa,$data->DatosEmpresa->Values);
+
+    $Empresa   =   new GenericCollection(
+        DtoName     :   empresaDto::class,
+        Key         :   'IdEmpresa',
+        Values      :   $Empresa
+    ) ;
+}
+
+$Marca = [
+    new marcaDto(
+        idMarca   :   -1,
+        Descripcion     :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosMarca)){
+
+    $Marca   = array_merge($Marca,$data->DatosMarca->Values);
+
+    $Marca   =   new GenericCollection(
+        DtoName     :   marcaDto::class,
+        Key         :   'idMarca',
+        Values      :   $Marca
+    ) ;
+}
+
+$EmpresaData    =   $data->Stock->IdEmpresa;
+$MarcaData      =   $data->Stock->idMarca;
+$FechaData      =   $data->Stock->Fecha;
+$FechaData      =   date("d-m-Y", strtotime($FechaData));
 
 ## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
-if($data->Compra != null){
+if($data->Stock != null){
 
     ## AGREGAMOS EL BTN QUE NOS PERMITE GUARDAR LOS CAMBIOS
     $display->AddButton(
         new FormButton(
-            Key             :   'btnGuardarCambiosCompra',
-            FormKey         :   'frmEditarCompra',
+            Key             :   'btnGuardarCambiosStock',
+            FormKey         :   'frmEditarStock',
             Child           :   new Text('Guardar Cambios'),
             #Classes         :   ['pull-right', 'wide'],
             ButtonStyle     :     ButtonStyleEnum::BUTTON_SOFT_SUCCESS,
@@ -57,73 +117,70 @@ if($data->Compra != null){
     ## IMPRIMIMOS UN ERROR EN PANTALLA 
    $display->AddFormFromObject( 
         formKey         :   'frmEditarStock',
-        object          :   $data->id_stock,
+        object          :   $data->Stock,
         keyFieldName    :   'id_stock',
         rowGroups       :   [ 
             new FormRowGroup(
-                Key: 'frg-informaciónStock', 
+                Key: 'frg-informaciónEditarStock', 
                 Rows: [
                     [
                         new FormRowFieldHidden(
                             PropertyName    :   'id_stock',
-                        ), 
-                        new FormRowFieldText(
-                            PropertyName    :   'Fecha_compra',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Fecha Compra',
-                            Required        :   true,
-                            Colspan         :   4
-                        ), 
+                        ),
                         new FormRowFieldText(
                             PropertyName    :   'Descripcion',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Nombre Producto',
                             Required        :   true,
                             Colspan         :   4
-                        ),
-                        new FormRowFieldText(
-                            PropertyName    :   'marca',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Marca',
-                            Required        :   true,
-                            Colspan         :   4
-                        ),
-                        new FormRowFieldText(
-                            PropertyName    :   'modelo',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Modelo',
-                            Required        :   true,
-                            Colspan         :   4
-                        ),
-                    ],
-                    [
-                        new FormRowFieldText(
-                            PropertyName    :   'Orden_compra',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Orden Compra',
-                            Required        :   true,
-                            Colspan         :   4
-                        ),
-                        new FormRowFieldText(
-                            PropertyName    :   'Factura_compra',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Factura Compra',
-                            Required        :   true,
-                            Colspan         :   4,
                         ), 
+                        new FormRowFieldDate(
+                            PropertyName    :   'Fecha',
+                            FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
+                            Label           :   'Fecha Llegada',
+                            Placeholder     :   $FechaData,    
+                            Required        :   true,
+                            Colspan         :   4, 
+                            Events          :   [
+                                new FormOnChangeEvent()
+                            ]
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName: 'tipo',
+                            Label: 'Tipo',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : [
+                                    (object)    [
+                                        "tipo"              =>   "Original",
+                                        "Descripcion"       =>   "Original"
+                                    ],
+                                    (object)    [
+                                        "tipo"              =>   "Alternativo",
+                                        "Descripcion"       =>   "Alternativo"
+                                    ]
+                                ],
+                                Key             : 'tipo',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $Tipo,
+                                DisplaySearch   : true
+                            ),
+                            Events      :   [new FormOnChangeEvent()]
+                        )
                     ],
                     [
-                        new FormRowFieldText(
-                            PropertyName    :   'Precio_U',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Precio Unitario',
-                            Required        :   true,
-                            Colspan         :   4
-                        ),
                         new FormRowFieldText(
                             PropertyName    :   'Cantidad',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Cantidad',
+                            Required        :   true,
+                            Colspan         :   4
+                        ),
+                        new FormRowFieldText(
+                            PropertyName    :   'Precio_Unitario',
+                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
+                            Label           :   'Precio Unitario',
                             Required        :   true,
                             Colspan         :   4,
                         ),
@@ -133,35 +190,58 @@ if($data->Compra != null){
                             Label           :   'Precio Total',
                             Required        :   true,
                             Colspan         :   4,
-                        ),
+                        )
                     ],
                     [
-    
                         new FormRowFieldSelect(
-                            PropertyName: 'IdTipoUsuario',
-                            Label: 'Tipo Usuario',
-                            Colspan: 6,
+                            PropertyName: 'estado_stock',
+                            Label: 'Estado Producto',
+                            Colspan: 4,
                             Required: true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : $TipoUsuarios,
-                                Key             : 'IdTipoUsuario',
+                                Values          : [
+                                    (object)    [
+                                        "tipo"              =>   "En Stock",
+                                        "Descripcion"       =>   "En Stock"
+                                    ],
+                                    (object)    [
+                                        "tipo"              =>  "Entregado",
+                                        "Descripcion"       =>  "Entregado"
+                                    ]
+                                ],
+                                Key             : 'tipo',
                                 Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                SelectedValue   : $estado,
                                 DisplaySearch   : true
-                            ), 
-                        ),  
+                            ),
+                            Events      :   [new FormOnChangeEvent()]
+                        ),
                         new FormRowFieldSelect(
-                            PropertyName: 'IdUsuario',
-                            Label: 'Jefe Directo',
-                            Colspan: 6,
+                            PropertyName    :   'IdEmpresa',
+                            Label           :   'Empresa',
+                            Colspan         :   4,
+                            Required        : true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : $UsuarioJefatura,
-                                Key             : 'IdUsuario',
-                                Description     : 'Nombre',
-                                SelectedValue   : -1,
+                                Values          : $Empresa,
+                                Key             : 'IdEmpresa',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $EmpresaData,
+                                DisplaySearch   : true
+                            ),
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName: 'idMarca',
+                            Label: 'Marca',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Marca,
+                                Key             : 'idMarca',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $MarcaData,
                                 DisplaySearch   : true
                             ), 
-                        ), 
+                        )
                     ]
                 ]
             ) 
@@ -191,13 +271,13 @@ $content = new Container(
 );
 
 $popUp = new PopUpContent(
-    Key                 : 'PopupNuevo', 
+    Key                 : 'PopupEditarStock', 
     Title               : 'Editar Stock',
     DismissButtonText   : 'Cerrar',
     DismissButtonStyle  : ButtonStyleEnum::BUTTON_SOFT_PRIMARY,
     SubTitle            : '',
     Buttons             :   [
-        $display->Widgets()['btnGuardarCambiosUsuario']
+        $display->Widgets()['btnGuardarCambiosStock']
     ],
     Content             : $content
 );
