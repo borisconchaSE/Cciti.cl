@@ -15,12 +15,16 @@ use Application\Resources\AssetManagerFactory;
 use Intouch\Framework\Controllers\BaseController; 
 use Intouch\Framework\Annotation\Attributes\ReturnActionResult;
 use Intouch\Framework\Annotation\Attributes\ReturnActionViewResult;
+use Intouch\Framework\Annotation\Attributes\ReturnCacheTableData;
+use Intouch\Framework\Environment\RedisDataTable;
 use Intouch\Framework\Annotation\Attributes\Route;
 use Intouch\Framework\Dao\BindVariable;
 use Intouch\Framework\Environment\Session;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;
 use Intouch\Framework\View\Display;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 #[Route(Authorization: 'APP_KEY', AppKey: 'dummie')] 
 class StockController extends BaseController
@@ -185,7 +189,86 @@ class StockController extends BaseController
             "tipo"                  =>  $StockDto->tipo,
             "estado_stock"          =>  $StockDto->estado_stock,
         ] ;
-    } 
+    }
+
+    #[Route(Methods: ['GET','POST'], RequireSession:true)]
+    #[ReturnCacheTableData]
+    public function lista(string $guid, string $filename) : void
+    {
+
+        if (!str_contains($guid,"tbListadoStock")){
+            throw new BusinessException(code:ExceptionCodesEnum::ERR_INVALID_PARAMETER,message:'ACCESO DENEGADO');
+        } 
+ 
+        $guid           =   "RPHPDATATABLE_".$guid;
+
+        ## VALIDAMOS SI EL INPUT ES CORRECTO
+        $datos      =   RedisDataTable::Instance()->$guid;
+
+        if (empty($datos)){
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_DATA_READ,message:'INFORMACIÓN NO DISPONIBLE');
+        }
+
+        ## UNA VEZ QUE OBTENEMOS LOS DATOS, PROCEDEMOS A BUSCAR LA INFORMACIÓN DE LA LISTA
+        try{
+            
+            $pk             =   str_replace("RPHPDATATABLE_tbListadoStock_","",$guid);
+            $ListaDto       =   ( new stockSvc(ConnectionEnum::TI) )->Find($pk);
+            $fiename        =   trim(preg_replace("/[^a-zA-Z0-9]+ /", "", $ListaDto->Nombre));
+            $filename       =   str_replace([" ", "@", "!", "#", "`", "'",'"'],"_",$fiename);
+
+        }catch (\Exception $ex) {
+
+        }
+        
+        $filename   =   $filename . ".xlsx"; 
+
+        
+        $ColumnList     =   array_keys($datos->Values[0]);
+
+        $data   =   [
+            $ColumnList
+        ];
+
+        $pure_data    =   array_map(function($x){
+
+            if (in_array("NombreCliente",$x)){
+                $x['NombreCliente'] = ucwords($x['NombreCliente']);
+            }
+
+            return array_values((array)$x);
+
+        },$datos->Values) ;
+
+        unset($datos);
+
+        $data   =   array_merge($data,$pure_data);
+
+ 
+        // Create a new spreadsheet
+        $spreadsheet = new Spreadsheet();
+
+     
+        $spreadsheet->getActiveSheet()->fromArray($data, null, 'A1');
+
+        // Create a writer and save the spreadsheet as an XLSX file
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+     
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'.$filename.'"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+ 
+        $writer->save('php://output');
+        exit();
+
+ 
+  
+
+        
+    }
    
 
 }

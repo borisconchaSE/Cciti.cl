@@ -2,6 +2,8 @@
 
 namespace Application\BLL\BusinessObjects\Core;
 
+use Application\BLL\Services\Core\marcaSvc;
+use Application\BLL\Services\Core\modeloSvc;
 use Application\BLL\Services\Core\ordenCompraSvc;
 use Application\Configuration\ConnectionEnum;
 use Intouch\Framework\BLL\Service\GenericSvc;
@@ -54,12 +56,12 @@ class CompraBO
     public function GuardarProducto($NuevoCompra) : ordenCompraDto|null  {
 
         ## VALIDAMOS LOS PARAMETROS DE LA FECHA
-        if (strlen($NuevoCompra->Fecha_compra) < 11){
+        if (strlen($NuevoCompra->Fecha_compra) < 10){
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message:'Ha ocurrido un error inesperado');
         }
 
         ## VALIDAMOS EL TIPO DE STOCK
-        if ( $NuevoCompra->tipo < 12){
+        if ( $NuevoCompra->tipo > 1){
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message:'Ha ocurrido un error inesperado');
         }
 
@@ -69,6 +71,10 @@ class CompraBO
         $ordenSvc     =   new ordenCompraSvc(ConnectionEnum::TI);
         $StockSvc     =   new stockSvc(ConnectionEnum::TI);
 
+        $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$NuevoCompra->idMarca);
+
+        $Modelo        =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('idModelo',$NuevoCompra->idModelo);
+
         GenericSvc::BeginMultipleOperations(ConnectionEnum::TI);
 
         try{
@@ -77,37 +83,29 @@ class CompraBO
             $ciclo          = 1;
             $limite         = $NuevoCompra->Cantidad;
 
+            if ($NuevoCompra->tipo == 0){
+                $Tipo = "Original";
+            }else{
+                $Tipo = "Alternativo";
+            };
+
 
             ## EN PRIMER LUGAR PROCEDEMOS A CREAR EL DTO DEL PRODUCTO
             $OrdenDto     =   new ordenCompraDto(
                 Fecha_compra                :   $NuevoCompra->Fecha_compra,
                 Descripcion                 :   $NuevoCompra->Descripcion,
-                marca                       :   $NuevoCompra->marca,
-                modelo                      :   $NuevoCompra->modelo,
+                marca                       :   $Marca->Descripcion,
+                modelo                      :   $Modelo->Descripcion,
                 Orden_compra                :   $NuevoCompra->Orden_compra,
                 Factura_compra              :   $NuevoCompra->Factura_compra,
                 Precio_U                    :   $NuevoCompra->Precio_U,
                 Cantidad                    :   $NuevoCompra->Cantidad,
                 Precio_total                :   $NuevoCompra->Precio_total,
                 tipo                        :   $NuevoCompra->tipo,
-                idProveedor                 :   $NuevoCompra->Proveedor_idProveedor,
-                idEstado_oc                 :   $NuevoCompra->id_estadoOC,
-                idEstado_FC                 :   $NuevoCompra->id_estadoFC,
-                IdEmpresa                   :   $NuevoCompra->id_empresa
-            );
-
-            ## PROCEDEMOS A CREAR EL DTO PARA INSERTAR AL STOCK ACTUAL
-            $StockDto     =   new stockDto(
-                Fecha                       :   $NuevoCompra->Fecha_compra,
-                Descripcion                 :   $NuevoCompra->Descripcion,
-                Usuario_asignado            :   $user,
-                Cantidad                    :   $ciclo,
-                Precio_Unitario             :   $NuevoCompra->Precio_U,
-                Precio_total                :   $NuevoCompra->Precio_total,
-                IdEmpresa                   :   $NuevoCompra->id_empresa,
-                idMarca                     :   $NuevoCompra->marca,
-                tipo                        :   $NuevoCompra->tipo,
-                estado_stock                :   $estado_stock
+                idProveedor                 :   $NuevoCompra->idProveedor,
+                idEstado_oc                 :   $NuevoCompra->idEstado_oc,
+                idEstado_FC                 :   $NuevoCompra->idEstado_FC,
+                IdEmpresa                   :   $NuevoCompra->IdEmpresa
             );
 
             
@@ -115,10 +113,42 @@ class CompraBO
             $OrdenDto                   =   $ordenSvc->Insert($OrdenDto);
 
             ## CICLO PARA INSERTAR EN EL STOCK ACTUAL
-            while($ciclo <= $limite){
+            if ($limite == 1){
+                ## PROCEDEMOS A CREAR EL DTO PARA INSERTAR AL STOCK ACTUAL
+                $StockDto     =   new stockDto(
+                    Fecha                       :   $NuevoCompra->Fecha_compra,
+                    Descripcion                 :   $NuevoCompra->Descripcion,
+                    Usuario_asignado            :   $user,
+                    Cantidad                    :   $ciclo,
+                    Precio_Unitario             :   $NuevoCompra->Precio_U,
+                    Precio_total                :   $NuevoCompra->Precio_total,
+                    IdEmpresa                   :   $NuevoCompra->IdEmpresa,
+                    idMarca                     :   $NuevoCompra->idMarca,
+                    tipo                        :   $Tipo,
+                    estado_stock                :   $estado_stock
+                );
+
                 $StockDto                   =   $StockSvc->Insert($StockDto);
-                $ciclo  = $ciclo+1;
-            };
+            }else{
+
+                $StockDto     =   new stockDto(
+                    Fecha                       :   $NuevoCompra->Fecha_compra,
+                    Descripcion                 :   $NuevoCompra->Descripcion,
+                    Usuario_asignado            :   $user,
+                    Cantidad                    :   $ciclo,
+                    Precio_Unitario             :   $NuevoCompra->Precio_U,
+                    Precio_total                :   $NuevoCompra->Precio_U,
+                    IdEmpresa                   :   $NuevoCompra->IdEmpresa,
+                    idMarca                     :   $NuevoCompra->idMarca,
+                    tipo                        :   $Tipo,
+                    estado_stock                :   $estado_stock
+                );
+
+                while($ciclo <= $limite){
+                    $StockDto                   =   $StockSvc->Insert($StockDto);
+                    $ciclo  = $ciclo+1;
+                };
+            }
 
 
             ## EN CASO DE QUE ESTE TODO CORRECTO, PROCEDEMOS A GUARDAR LOS CAMBIOS
@@ -148,20 +178,27 @@ class CompraBO
 
         ## PROCEDEMOS DENTRO DE UN TRY CATCH A PROCESAR LA SOLICITUD
         try{
+            $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$DatosCompra->idMarca);
+            $Modelo         =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('idModelo',$DatosCompra->idModelo);
 
-            $FechaData      =   $DatosCompra->Fecha;
+            $FechaData      =   $DatosCompra->Fecha_compra;
             $FechaData      =   date("Y-m-d", strtotime($FechaData));
             ## 
-            $CompraDto->Fecha                            =   $FechaData;
-            $CompraDto->Descripcion                      =   $DatosCompra->Descripcion;
-            $CompraDto->Cantidad                         =   $DatosCompra->Cantidad;
-            $CompraDto->Precio_Unitario                  =   $DatosCompra->Precio_Unitario;
-            $CompraDto->Precio_total                     =   $DatosCompra->Precio_total;
-            $CompraDto->idMarca                          =   $DatosCompra->idMarca;
-            $CompraDto->IdEmpresa                        =   $DatosCompra->IdEmpresa;
-            $CompraDto->tipo                             =   $DatosCompra->tipo;
-            $CompraDto->estado_stock                     =   $DatosCompra->estado_stock;
-            
+            $CompraDto->Fecha_compra                    =   $FechaData;
+            $CompraDto->Descripcion                     =   $DatosCompra->Descripcion;
+            $CompraDto->Orden_compra                    =   $DatosCompra->Orden_compra;
+            $CompraDto->Factura_compra                  =   $DatosCompra->Factura_compra;
+            $CompraDto->Cantidad                        =   $DatosCompra->Cantidad;
+            $CompraDto->Precio_U                        =   $DatosCompra->Precio_U;
+            $CompraDto->Precio_total                    =   $DatosCompra->Precio_total;
+            $CompraDto->marca                           =   $Marca->Descripcion;
+            $CompraDto->modelo                          =   $Modelo->Descripcion;
+            $CompraDto->IdEmpresa                       =   $DatosCompra->IdEmpresa;
+            $CompraDto->tipo                            =   $DatosCompra->tipo;
+            $CompraDto->idProveedor                     =   $DatosCompra->idProveedor;
+            $CompraDto->idEstado_oc                     =   $DatosCompra->idEstado_oc;
+            $CompraDto->idEstado_FC                     =   $DatosCompra->idEstado_FC;
+
             ## ACTUALIZAMOS LOS VALORES EN LA BBDD
             $CompraSvc->Update($CompraDto);
 

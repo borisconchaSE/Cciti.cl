@@ -71,12 +71,14 @@ class [[TABLE_KEY]]_TemporalJSComponent_{
             searchDelay: 1500,        
             buttons   : btnList, 
             processing: true,
+            ordering: false,
             responsive: true,
             serverSide: true,
             ajax : {
                 url: "/api/table/getdata?guid=[[TABLE_KEY]]",
                 type: "GET",
                 dataSrc: function(d){
+                     
                     const hasButtons = [[HASBUTTON]];
                     window.[[TABLE_KEY]]_process_data = [];
                     window.[[TABLE_KEY]]template__data = [];
@@ -132,18 +134,14 @@ class [[TABLE_KEY]]_TemporalJSComponent_{
                                                
                                                     if(isbuttongrouped == true){
                                                         tempTemplate = 
-                                                        `
+                                                        ` 
                                                         <div class="dropdown">
-                                                            <button class="btn btn-primary" style="position: relative;  cursor: pointer;  white-space: nowrap; " id="" name="" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="fa fa-bars"></i>
-                                                                <div class="hide badge-element" style="position: absolute;  right: 2px;  top: 0px;  cursor: pointer; " id="Badge">
-                                                                <span class="label label-danger sm badge-text-element" style="border: 1px solid #ffffff;  padding: 0px 4px 1px 4px;  font-size: 10px;  cursor: pointer; " id="BadgeContent">
-                                                                </span>
-                                                                </div>
+                                                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <i class="bx bx-menu"></i>
                                                             </button>
-                                                            <ul class="dropdown-menu m-t-xs animated flipInX dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="">
                                                                 ${btntempalte}
-                                                            </ul>
+                                                            </div>
                                                         </div>
                                                         `;
 
@@ -233,6 +231,8 @@ class [[TABLE_KEY]]_TemporalJSComponent_{
 
                         let rowTarget    = $(row);
 
+                         
+
                         if(cellTarget.length > 0){
 
                         
@@ -253,6 +253,8 @@ class [[TABLE_KEY]]_TemporalJSComponent_{
                             
 
                             }
+
+
 
                             var CellProperty = target.cellProperty;
                             cellTarget.addClass(target.Class);  

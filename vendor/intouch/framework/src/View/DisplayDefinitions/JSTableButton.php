@@ -25,7 +25,7 @@ class JSTableButton extends TableButton {
         ?JSTableScriptFilter    $DisplayFunction = null,
         ?JSTableScriptFilter    $EnabledFunction = null,
         ?JSTableScriptFilter    $BadgeFunction   = null,
-        ?JSTableScriptFilter    $TempalteFunction = null,
+        ?JSTableScriptFilter    $TemplateFunction  = null,
     )
     {
         parent::__construct(
@@ -42,7 +42,7 @@ class JSTableButton extends TableButton {
             DisplayFunction:    $DisplayFunction,
             EnabledFunction:    $EnabledFunction,
             BadgeFunction:      $BadgeFunction,
-            TempalteFunction:   $TempalteFunction,
+            TemplateFunction :   $TemplateFunction ,
             OnClickClass    :   $OnClickClass,
         );
     }

@@ -16,7 +16,7 @@ class PopUpContent extends GenericWidget {
         public string           $Title = '',
         public string           $SubTitle = '',
         public ?string          $DismissButtonText = 'Cancelar',
-        public ?string          $DismissButtonStyle = ButtonStyleEnum::BUTTON_PRIMARY,
+        public ?string          $DismissButtonStyle = ButtonStyleEnum::BUTTON_SOFT_SECONDARY,
         public ?GenericWidget   $Content = null,
         public array            $Buttons = [],
     )

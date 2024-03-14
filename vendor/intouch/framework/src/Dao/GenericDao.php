@@ -374,6 +374,27 @@ namespace Intouch\Framework\Dao {
             }
 
             $stmt->execute();
+        } 
+        public function BuscarValoresUnicosColumna($NombreColumna){
+
+            $qry = 
+            '
+            SELECT 
+            '.$this->EntityDefinition->Table.'.[[NOMBRE_COLUMNA]] as Valor
+            FROM '.$this->EntityDefinition->Table.'
+            WHERE '.$this->EntityDefinition->Table.'.[[NOMBRE_COLUMNA]] IS NOT NULL
+            GROUP BY '.$this->EntityDefinition->Table.'.[[NOMBRE_COLUMNA]];
+                ' ;
+
+            ## remplazamos los datos
+            $qry    =   str_replace("[[NOMBRE_COLUMNA]]",$NombreColumna,$qry);
+            
+            $stmt = $this->Connection->Prepare($qry);
+
+            $response = $this->ExecuteStatement($stmt);
+            
+            return $response;
+
         }
     }
 }

@@ -110,6 +110,7 @@ function btnAgregarNuevoStock_OnClick(eventInfo){
                 icon: 'success',
                 title: 'Stock Agregado Correctamente'
             });
+            location.reload(true);
         },
         function(errorCode,errorMessage){ 
             $('#btnAgregarNuevoStock').html(txtbackup); 
@@ -164,6 +165,7 @@ function DibujarNuevoStock(DatosStock = {
     $(rowNode).find('td:eq(5)').attr('data-pk',DatosStock.id_stock)
     $(rowNode).find('td:eq(6)').attr('data-pk',DatosStock.id_stock)
     $(rowNode).find('td:eq(7)').attr('data-pk',DatosStock.id_stock)
+    $(rowNode).find('td:eq(8)').attr('data-pk',DatosStock.id_stock)
 
     /* INCORPORAMOS EL NOMBRE DE LA PROPIEDAD A LA TABLA */
     $(rowNode).find('td:eq(0)').attr('data-property-name','Fecha')
@@ -248,6 +250,7 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
                 icon: 'success',
                 title: 'Cambios guardados correctamente'
             }); 
+            location.reload(true);
         },
         function(errorCode,errorMessage){ 
             $('#btnGuardarCambiosStock').removeClass('disabled')

@@ -50,7 +50,7 @@ $AppName     =   SystemConfig::Instance()->ApplicationName ?: "App";
                             </div>
                             <div class="col-sm-6">
                                 <div class="text-sm-end d-none d-sm-block">
-                                    Gerencia de Transformación Digital y Clientes
+                                    Departamento de Soporte TI
                                 </div>
                             </div>
                         </div>

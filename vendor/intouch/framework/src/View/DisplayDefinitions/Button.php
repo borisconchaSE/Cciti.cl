@@ -25,7 +25,7 @@ class Button {
         public                  $DisplayFunction = null,
         public                  $EnabledFunction = null,
         public                  $BadgeFunction   = null,
-        public                  $TempalteFunction = null
+        public                  $TemplateFunction= null
     )
     {
     }    

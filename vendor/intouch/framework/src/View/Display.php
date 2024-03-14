@@ -2931,6 +2931,8 @@ class Display {
                     $ScriptTemplate = str_replace('[[__function__name__]]'          ,trim($funcCellName)    ,$ScriptTemplate);
                     $ScriptTemplate = str_replace('[[PRIMARY_PROPERTY]]'            ,$cell->PropertyName    ,$ScriptTemplate);
                     $ScriptTemplate = str_replace('[[__PK__]]'                      ,$element->$RowIdFieldName ?: 0 ,$ScriptTemplate);
+                    $ScriptTemplate = str_replace('[[__TABLEPRIMARYKEY__]]'         ,$RowIdFieldName,$ScriptTemplate);
+       
                     
                     
                     // ---- REMPLAZAMOS LAS PROPIEDADES FIJAS PARA CONSTRUIR EL JS
@@ -3168,8 +3170,8 @@ class Display {
                             title=""
                     >
                         '. $child .'
-                        <div class="[[BADGE_VIEW]] badge-element" style="position: absolute;  right: 2px;  top: 0px;  cursor: pointer; " id="'. $btn->Key .'Badge">
-                            <span class="label label-danger sm badge-text-element" style="border: 1px solid #ffffff;  padding: 0px 4px 1px 4px;  font-size: 10px;  cursor: pointer; " id="'. $btn->Key .'BadgeContent">
+                        <div class="[[BADGE_VIEW]] badge-element" style="position: absolute;  right: 2px;  top: -10px;  cursor: pointer; " id="'. $btn->Key .'Badge">
+                            <span class="badge bg-danger badge-text-element" style="border: 1px solid #ffffff;  padding: 0px 4px 1px 4px;  font-size: 10px;  cursor: pointer; " id="'. $btn->Key .'BadgeContent">
                             [[BADGE_CONTENT]]
                             </span>
                         </div>
@@ -3224,13 +3226,13 @@ class Display {
                     }
                      // -- badgeFunction
                      
-                     if($btn->TempalteFunction instanceof JSTableScriptFilter && !empty($btn->TempalteFunction)){
+                     if($btn->TemplateFunction instanceof JSTableScriptFilter && !empty($btn->TemplateFunction)){
                         $TEMPLTEFUNCTION    = 
                         trim('
                       
                             (element,roles,template) => {
                               
-                                '. trim($btn->TempalteFunction->Script[0]) .'
+                                '. trim($btn->TemplateFunction->Script[0]) .'
                             }
 
                         ');

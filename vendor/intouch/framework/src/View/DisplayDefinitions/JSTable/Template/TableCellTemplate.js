@@ -6,8 +6,9 @@
     var cellStyle       = "[[JSON_STYLE]]";
 
     var cellProperty    = "[[PRIMARY_PROPERTY]]";
-
-    var CellPK          = [[__PK__]];
+    var tablePrimaryKey = "[[__TABLEPRIMARYKEY__]]"; 
+    var CellPK          = element[tablePrimaryKey];
+    
  
 
     [[_SCRIPTS_FILTERS_]]

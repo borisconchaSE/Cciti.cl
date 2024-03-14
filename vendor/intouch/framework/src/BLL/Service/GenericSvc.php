@@ -155,4 +155,8 @@ class GenericSvc
             Menor: $menor, Mayor: $mayor
         );
     }
+
+    public function BuscarValoresUnicosColumna($NombrePropiedad){
+        return $this->Dao->BuscarValoresUnicosColumna($NombrePropiedad);
+    }
 }

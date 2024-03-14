@@ -16,17 +16,17 @@ Esta es mi aplicacion, a las: <?php echo (new DateTime())->format('H:i') ?> hrs.
 
     function validar() {
 
-        $.ajax(
-            method: 'post',
-            url: '/core/login',
-            data: {
-                loginname: rrrrrr,
-                password: rrrrr
-            },
-            function(response) {
-                $('#contenido').html(response);
-            }
-        );
+        // $.ajax(
+        //     method: 'post',
+        //     url: '/core/login',
+        //     data: {
+        //         loginname: rrrrrr,
+        //         password: rrrrr
+        //     },
+        //     function(response) {
+        //         $('#contenido').html(response);
+        //     }
+        // );
         
         // validaciones OK
         document.getElementById('formulario').submit();

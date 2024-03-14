@@ -1,10 +1,12 @@
 <?php
 
 use Application\BLL\DataTransferObjects\Core\stockDto;
+use Intouch\Framework\BLL\Filters\CustomExcelSettingsFilterDto;
 use Intouch\Framework\BLL\Filters\DataTableSettingsFilterDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\Configuration\SystemConfig;
 use Intouch\Framework\Environment\Session;
+use Intouch\Framework\OfficeHelper\Excel;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\Button;
 use Intouch\Framework\View\DisplayDefinitions\JSTable\JSTableCell;
@@ -40,15 +42,7 @@ $display        =   new Display();
 <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Stock</h4>
-
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="/"><?= $AppName ?></a></li>
-                        <li class="breadcrumb-item active">Administración de Stock</li>
-                    </ol>
-                </div>
-
+                <h4 class="mb-sm-0 font-size-18">Stock de toners</h4>
             </div>
         </div>
     </div>
@@ -85,7 +79,7 @@ $tableheader =  new Container(
                 new Container(
                     Classes     :   ['mb-3'],
                     Children    :   [
-                        new Html('<h5 class="card-title">Cantidad Total Stock <span class="text-muted fw-normal ms-2">('.$CantidadStock.')</span></h5>')
+                        new Html('<h5 class="card-title">Cantidad Actual de Stock <span class="text-muted fw-normal ms-2">('.$CantidadStock.')</span></h5>')
                     ]
                 )
             ]
@@ -236,8 +230,15 @@ $display->AddTableFromCollection(
     Data: $data['Stock'],
     Buttons: $tableButtons,
     TablaSimple: false,
+    customExcel : new CustomExcelSettingsFilterDto(
+        ShowButton      :   true,
+        Controller      :   "lista",
+        FileName        :   "Lista Stock Toner",
+        Estado          :   null,
+        TableKey        :   'tbListadoStock'
+    ),
     CustomDataTable: new DataTableSettingsFilterDto(
-        HideAllButtons  : true,
+        HideAllButtons  : false,
         CustomPdf       : false,
         TableHasButtons : false,
     )

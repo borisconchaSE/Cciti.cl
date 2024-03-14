@@ -742,8 +742,8 @@ jQuery.fn.TablaEstandar = function(CustomSettings,custombtn = false,customExcel 
             btn.push(
                 {  
                     extend: 'excelHtml5',
-                    title : 'PULSE - Reporte',
-                    filename:'PULSE - Reporte',
+                    title : 'Reporte-Excel-TI',
+                    filename:'Reporte-Excel-TI',
                     exportOptions: {
                     columns: "thead th:not(.btnAccion)"
                 }
@@ -768,8 +768,8 @@ jQuery.fn.TablaEstandar = function(CustomSettings,custombtn = false,customExcel 
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
-                    title : 'PULSE - Reporte',
-                    filename:'PULSE - Reporte',
+                    title : 'Reporte-TI',
+                    filename:'Reporte-TI',
                     exportOptions: {
                         columns: "thead th:not(.btnAccion)"
                     },

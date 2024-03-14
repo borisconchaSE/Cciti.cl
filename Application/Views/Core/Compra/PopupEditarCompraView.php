@@ -41,42 +41,6 @@ $display        =   new Display();
 ## GENERAMOS LOS VALORES POR DEFECTO DE LOS INPUTS
 ## -------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------
-$Marca = [
-    new marcaDto(
-        idMarca         :   -1,
-        Descripcion     :   'Sin Seleccionar'
-    )
-];
-
-if(!empty($data->DatosMarca)){
-
-    $Marca   = array_merge($Marca,$data->DatosMarca->Values);
-
-    $Marca   =   new GenericCollection(
-        DtoName     :   marcaDto::class,
-        Key         :   'idMarca',
-        Values      :   $Marca
-    ) ;
-}
-
-$Modelo = [
-    new modeloDto(
-        idModelo        :   -1,
-        Descripcion     :   'Sin Seleccionar'
-    )
-];
-
-if(!empty($data->DatosModelo)){
-
-    $Modelo   = array_merge($Modelo,$data->DatosModelo->Values);
-
-    $Modelo   =   new GenericCollection(
-        DtoName     :   modeloDto::class,
-        Key         :   'idModelo',
-        Values      :   $Modelo
-    ) ;
-}
-
 $Empresa = [
     new empresaDto(
         IdEmpresa           :   -1,
@@ -92,6 +56,42 @@ if(!empty($data->DatosEmpresa)){
         DtoName     :   empresaDto::class,
         Key         :   'IdEmpresa',
         Values      :   $Empresa
+    ) ;
+}
+
+$Marca = [
+    new marcaDto(
+        idMarca   :   -1,
+        Descripcion     :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosMarca)){
+
+    $Marca   = array_merge($Marca,$data->DatosMarca->Values);
+
+    $Marca   =   new GenericCollection(
+        DtoName     :   marcaDto::class,
+        Key         :   'idMarca',
+        Values      :   $Marca
+    ) ;
+}
+ 
+$Modelo = [
+    new modeloDto(
+        idMarca   :   -1,
+        Descripcion     :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosModelo)){
+
+    $Modelo   = array_merge($Modelo,$data->DatosModelo->Values);
+
+    $Modelo   =   new GenericCollection(
+        DtoName     :   modeloDto::class,
+        Key         :   'idModelo',
+        Values      :   $Modelo
     ) ;
 }
 
@@ -149,6 +149,27 @@ if(!empty($data->DatosFC)){
         Values      :   $EstadoFC
     ) ;
 }
+
+if(!empty($data->Compra->tipo)){
+
+    if(($data->Compra->tipo) == "Original" ){
+        $Tipo   = "Original";
+    }else{
+        $Tipo   = "Alternativo";
+    }
+
+
+}
+
+$EmpresaData    =   $data->Compra->IdEmpresa;
+$ProveedorData  =   $data->Compra->idProveedor;
+$EstadoOCData   =   $data->Compra->idEstado_oc;
+$EstadoFCData   =   $data->Compra->idEstado_FC;
+$MarcaData      =   $data->Marca->idMarca;
+$ModeloData     =   $data->Modelo->idModelo;
+$FechaData      =   $data->Compra->Fecha_compra;
+$FechaData      =   date("d-m-Y", strtotime($FechaData));
+
 ## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
 if($data->Compra != null){
 
@@ -170,15 +191,15 @@ if($data->Compra != null){
     ## IMPRIMIMOS UN ERROR EN PANTALLA 
    $display->AddFormFromObject( 
         formKey         :   'frmEditarCompra',
-        object          :   $data->IdO_C,
-        keyFieldName    :   'IdO_C',
+        object          :   $data->Compra,
+        keyFieldName    :   'idO_C',
         rowGroups       :   [ 
             new FormRowGroup(
                 Key: 'frg-informaciónCompra', 
                 Rows: [
                     [
                         new FormRowFieldHidden(
-                            PropertyName    :   'IdO_C',
+                            PropertyName    :   'idO_C',
                         ),
                         new FormRowFieldDate(
                             PropertyName    :   'Fecha_compra',
@@ -198,22 +219,32 @@ if($data->Compra != null){
                             Required        :   true,
                             Colspan         :   4
                         ),
-                        new FormRowFieldText(
-                            PropertyName    :   'idMarca',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Marca',
-                            Required        :   true,
-                            Colspan         :   4
+                        new FormRowFieldSelect(
+                            PropertyName: 'idMarca',
+                            Label: 'Marca',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Marca,
+                                Key             : 'idMarca',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $MarcaData,
+                                DisplaySearch   : true
+                            ), 
                         ),
-                        new FormRowFieldText(
-                            PropertyName    :   'idModelo',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Modelo',
-                            Required        :   true,
-                            Colspan         :   4
+                        new FormRowFieldSelect(
+                            PropertyName: 'idModelo',
+                            Label: 'Modelo',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Modelo,
+                                Key             : 'idModelo',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $ModeloData,
+                                DisplaySearch   : true
+                            ), 
                         ),
-                    ],
-                    [
                         new FormRowFieldText(
                             PropertyName    :   'Orden_compra',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
@@ -259,17 +290,17 @@ if($data->Compra != null){
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : [
                                     (object)    [
-                                        "tipo"          =>   0,
+                                        "tipo"          =>   "Original",
                                         "Descripcion"   =>   "Original"
                                     ],
                                     (object)    [
-                                        "tipo"           =>   1,
+                                        "tipo"           =>  "Alternativo",
                                         "Descripcion"   =>   "Alternativo"
                                     ]
                                 ],
                                 Key             : 'tipo',
                                 Description     : 'Descripcion',
-                                SelectedValue   : 0,
+                                SelectedValue   : $Tipo,
                                 DisplaySearch   : true
                             ),
                             Events      :   [new FormOnChangeEvent()]
@@ -284,8 +315,8 @@ if($data->Compra != null){
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Proveedor,
                                 Key             : 'idProveedor',
-                                Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                Description     : 'Nombre',
+                                SelectedValue   : $ProveedorData,
                                 DisplaySearch   : true
                             ), 
                         ),
@@ -298,7 +329,7 @@ if($data->Compra != null){
                                 Values          : $EstadoOC,
                                 Key             : 'idEstado_oc',
                                 Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                SelectedValue   : $EstadoOCData,
                                 DisplaySearch   : true
                             ), 
                         ),
@@ -311,23 +342,23 @@ if($data->Compra != null){
                                 Values          : $EstadoFC,
                                 Key             : 'idEstado_FC',
                                 Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                SelectedValue   : $EstadoFCData,
                                 DisplaySearch   : true
                             ), 
                         ),
                         new FormRowFieldSelect(
-                            PropertyName: 'IdEmpresa',
-                            Label: 'Empresa',
-                            Colspan: 4,
-                            Required: true,
+                            PropertyName    :   'IdEmpresa',
+                            Label           :   'Empresa',
+                            Colspan         :   4,
+                            Required        : true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Empresa,
                                 Key             : 'IdEmpresa',
                                 Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                SelectedValue   : $EmpresaData,
                                 DisplaySearch   : true
-                            ), 
-                        )
+                            ),
+                        ),
                     ]
                 ]
             ) 

@@ -23,7 +23,7 @@ class TableButton extends Button {
                         $DisplayFunction = null,
                         $EnabledFunction = null,
                         $BadgeFunction   = null,
-                        $TempalteFunction = null
+                        $TemplateFunction= null
     )
     {
         parent::__construct(
@@ -40,7 +40,7 @@ class TableButton extends Button {
             DisplayFunction:    $DisplayFunction,
             EnabledFunction:    $EnabledFunction,
             BadgeFunction:      $BadgeFunction,
-            TempalteFunction:   $TempalteFunction
+            TemplateFunction:   $TemplateFunction
         );
     }
 

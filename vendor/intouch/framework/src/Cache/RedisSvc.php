@@ -40,7 +40,8 @@ class RedisSvc {
             foreach($allKeys as $key) {
                 $encontrada         = strpos($key, 'PHPREDIS_SESSION');
                 $DataTableCahce     = strpos($key, 'RPHPDATATABLE_');
-                if ($encontrada === false && $DataTableCahce == false) {
+                $GlobalCache        = strpos($key, 'GlobalAppCache_'); 
+                if ($encontrada === false && $DataTableCahce == false && $GlobalCache == false) {
                     $redisSvc->unlink($key);
                 }
             }

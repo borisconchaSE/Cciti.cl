@@ -7,14 +7,14 @@
         "Items" : []
     },
     "Stock": {
-        "Description": "@@{MnuStock, Stock}",
+        "Description": "@@{MnuStock, Stock de Toners}",
         "Icon": "fa-cubes",
         "Uri": "/stock",
         "Decorators": [],
         "Items" : []
     },
     "Compras": {
-        "Description": "@@{MnuCompras, Compras}",
+        "Description": "@@{MnuCompras, Compras de Toners}",
         "Icon": "fa-shopping-basket",
         "Uri": "/compra",
         "Decorators": [],

@@ -18,6 +18,8 @@ use Intouch\Framework\Controllers\CacheTableDataResult;
 use Intouch\Framework\Controllers\ErrorViewResult;
 use Intouch\Framework\Controllers\FileDataResult;
 use Intouch\Framework\Exceptions\BusinessException;
+use Intouch\Framework\View\Display;
+use Intouch\Framework\Widget\Container;
 use stdClass;
 
 abstract class BaseDispatcher implements IDispatchResponse  {
@@ -187,30 +189,51 @@ abstract class BaseDispatcher implements IDispatchResponse  {
         }
         // Excepciones lanzadas por la aplicación por errores de negocio
         catch (BusinessException $ex) {
+
+            if($ex->getCode() == 401){ 
+                    $result = new ErrorViewResult(
+                        UserUniqueID    : $this->GetUserUniqueID(),
+                        IsSessionActive : $this->IsSessionActive(),
+                        Request         : (isset($route)) ? $route->FullPath : $uri->ServerRequestUri,
+                        ErrorCode       : $ex->getCode(),
+                        ErrorMessage    : $ex->getMessage(),
+                        DebugMessage    : base64_encode($ex->getDebugMessage()),
+                        ViewContent     : Display::GetRenderer("Error")->RenderView("Error",$ex)
+                    );                
+                    
+                    $finalResult = $this->ErrorView($result); 
+               
+
+            }else{
+                $result = new ErrorResult(
+                    UserUniqueID: $this->GetUserUniqueID(),
+                    IsSessionActive: $this->IsSessionActive(),
+                    Request: (isset($route)) ? $route->FullPath : $uri->ServerRequestUri,
+                    ErrorCode: $ex->getCode(),
+                    ErrorMessage: $ex->getMessage(),
+                    DebugMessage: $ex->getDebugMessage()
+                );                
+                
+                $finalResult = $this->Error($result);
+            }
             
-            $result = new ErrorResult(
-                UserUniqueID: $this->GetUserUniqueID(),
-                IsSessionActive: $this->IsSessionActive(),
-                Request: (isset($route)) ? $route->FullPath : $uri->ServerRequestUri,
-                ErrorCode: $ex->getCode(),
-                ErrorMessage: $ex->getMessage(),
-                DebugMessage: $ex->getDebugMessage()
-            );                
-            
-            $finalResult = $this->Error($result);
+
         }
         // Excepciones lanzadas por el dispatcher (en general, 400, 401, 402, 403, 500)...
         catch (BaseException $ex) {
 
             if (!isset($route)) {
-                $finalResult = new ErrorResult(
-                    UserUniqueID: $this->GetUserUniqueID(),
-                    IsSessionActive: $this->IsSessionActive(),
-                    Request: $uri->ServerRequestUri,
-                    ErrorCode: ($ex->getCode() != 0) ? $ex->getCode() : 1,
-                    ErrorMessage: $ex->getMessage(),
-                    DebugMessage: $ex->getDebugMessage()
-                );    
+                $result = new ErrorViewResult(
+                    UserUniqueID    : $this->GetUserUniqueID(),
+                    IsSessionActive : $this->IsSessionActive(),
+                    Request         : (isset($route)) ? $route->FullPath : $uri->ServerRequestUri,
+                    ErrorCode       : $ex->getCode(),
+                    ErrorMessage    : $ex->getMessage(),
+                    DebugMessage    : base64_encode($ex->getDebugMessage()),
+                    ViewContent     : Display::GetRenderer("Error")->RenderView("Error",$ex)
+                );                
+                
+                $finalResult = $this->ErrorView($result);   
             }            
             else if ($route->MethodReturnType == ActionResult::class) {
                 $finalResult = new ErrorResult(
@@ -266,17 +289,18 @@ abstract class BaseDispatcher implements IDispatchResponse  {
             
             $finalResult = $this->Error($result);
         }
-        catch (\Throwable $e) {
-            $result = new ErrorResult(
-                UserUniqueID: $this->GetUserUniqueID(),
-                IsSessionActive: $this->IsSessionActive(),
-                Request: (isset($route)) ? $route->FullPath : $uri->ServerRequestUri,
-                ErrorCode: ($e->getCode() != 0) ? $e->getCode() : 1,
-                ErrorMessage: 'Error inesperado',
-                DebugMessage: $e->getMessage()
-            );
+        catch (\Throwable $ex) {
+            $result = new ErrorViewResult(
+                UserUniqueID    : $this->GetUserUniqueID(),
+                IsSessionActive : $this->IsSessionActive(),
+                Request         : (isset($route)) ? $route->FullPath : $uri->ServerRequestUri,
+                ErrorCode       : $ex->getCode(),
+                ErrorMessage    : $ex->getMessage(),
+                DebugMessage    : base64_encode($ex->getMessage()),
+                ViewContent     : Display::GetRenderer("Error")->RenderView("Error",$ex)
+            );                
             
-            $finalResult = $this->Error($result);
+            $finalResult = $this->ErrorView($result);
         }
         
         // Codificar el resultado final según el tipo de salida

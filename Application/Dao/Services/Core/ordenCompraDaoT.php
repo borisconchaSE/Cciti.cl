@@ -16,6 +16,7 @@ trait ordenCompraDaoT
                 ->With(estadoOC::class)
                 ->With(estadoFC::class)
                 ->With(empresa::class)
+                ->Where('idTipoProducto = ?',"1")
                 ->OrderBy('Fecha_compra desc')
                 ->Top(25);
 

@@ -15,6 +15,7 @@ use Application\BLL\Services\Core\estadoOCSvc;
 use Application\BLL\Services\Core\proveedorSvc;
 use Application\Configuration\ConnectionEnum;
 use Application\Dao\Entities\Core\estadoOC;
+use Application\Dao\Entities\Core\modelo;
 use Application\Resources\AssetManagerFactory;
 use Intouch\Framework\Controllers\BaseController; 
 use Intouch\Framework\Annotation\Attributes\ReturnActionResult;
@@ -75,7 +76,11 @@ class CompraController extends BaseController
     { 
 
         ## PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL USUARIO EN EL BO
-        $CompraDto         =   (new CompraBO())->GetCompra($IdO_C);
+        $CompraDto          =   (new CompraBO())->GetCompra($IdO_C);
+
+        $Marca              =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('Descripcion',$CompraDto->marca);
+
+        $Modelo             =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('Descripcion',$CompraDto->modelo);
 
         $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
 
@@ -92,6 +97,8 @@ class CompraController extends BaseController
         ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
             "Compra"                =>  $CompraDto,
+            "Marca"                 =>  $Marca,
+            "Modelo"                =>  $Modelo,
             "DatosMarca"            =>  $DatosMarca,
             "DatosModelo"           =>  $DatosModelo,
             "DatosEmpresa"          =>  $DatosEmpresa,
@@ -101,7 +108,7 @@ class CompraController extends BaseController
         ];
 
         ## RENDERIZAMOS LA VISTA
-        return Display::GetRenderer('Core/Stock')->RenderView('PopupEditarStock',$dataView);
+        return Display::GetRenderer('Core/Compra')->RenderView('PopupEditarCompra',$dataView);
     } 
 
     #[Route(Methods: ['POST'], RequireSession:true)]
@@ -167,7 +174,7 @@ class CompraController extends BaseController
         }
 
         ## validamos el nombre
-        if ( strlen($DatosCompra->Descripcion) < 4   ) {
+        if ( strlen($DatosCompra->Descripcion) < 1   ) {
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Descripcion ingresada invalida");
         }
 
@@ -202,21 +209,12 @@ class CompraController extends BaseController
 
         ## PROCEDEMOS A ACTUALIZAR LA INFORMACIÓN EN LA BBDD
         $status         =   $CompraBO->UpdateCompra($DatosCompra);
-
-        $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
-
-        $DatosModelo        =   (new modeloSvc(ConnectionEnum::TI))->GetAll();
-
-        $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
-
-        $DatosProveedor     =   (new proveedorSvc(ConnectionEnum::TI))->GetAll();
-
-        $DatosOC            =   (new estadoOCSvc(ConnectionEnum::TI))->GetAll();
-
-        $DatosFC            =   (new estadoFCSvc(ConnectionEnum::TI))->GetAll();
         
         $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$DatosCompra->idMarca);
-
+        $Modelo         =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('idModelo',$DatosCompra->idModelo);
+        $Proveedor      =   (new proveedorSvc(ConnectionEnum::TI))->FindByForeign('idProveedor',$DatosCompra->idProveedor);
+        $Estado_oc      =   (new estadoOCSvc(ConnectionEnum::TI))->FindByForeign('idEstado_oc',$DatosCompra->idEstado_oc);
+        $Estado_FC      =   (new estadoFCSvc(ConnectionEnum::TI))->FindByForeign('idEstado_FC',$DatosCompra->idEstado_FC);
         $Empresa        =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosCompra->IdEmpresa);
         
         if ( $status != true ){
@@ -224,15 +222,20 @@ class CompraController extends BaseController
         }
         
         return [
-            "Fecha"                 =>  $DatosCompra->Fecha,
-            "Descripcion"           =>  $DatosCompra->Descripcion,
-            "Cantidad"              =>  $DatosCompra->Cantidad,
-            "Precio_Unitario"       =>  $DatosCompra->Precio_Unitario,
-            "Precio_total"          =>  $DatosCompra->Precio_total,
-            "idMarca"               =>  $Marca->Descripcion,
-            "IdEmpresa"             =>  $Empresa->Descripcion,
-            "tipo"                  =>  $DatosCompra->tipo,
-            "estado_stock"          =>  $DatosCompra->estado_stock
+            "Fecha_compra"                  =>  $DatosCompra->Fecha_compra,
+            "Descripcion"                   =>  $DatosCompra->Descripcion,
+            "marca"                         =>  $Marca->Descripcion,
+            "modelo"                        =>  $Modelo->Descripcion,
+            "Orden_compra"                  =>  $DatosCompra->Orden_compra,
+            "Factura_compra"                =>  $DatosCompra->Factura_compra,
+            "Precio_U"                      =>  $DatosCompra->Precio_U,
+            "Cantidad"                      =>  $DatosCompra->Cantidad,
+            "Precio_total"                  =>  $DatosCompra->Precio_total,
+            "tipo"                          =>  $DatosCompra->tipo,
+            "idProveedor"                   =>  $Proveedor->Descripcion,
+            "idEstado_oc"                   =>  $Estado_oc->Descripcion,
+            "idEstado_FC"                   =>  $Estado_FC->Descripcion,
+            "IdEmpresa"                     =>  $Empresa->Descripcion
         ] ;
 
 

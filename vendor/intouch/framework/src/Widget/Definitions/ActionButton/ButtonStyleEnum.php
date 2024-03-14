@@ -27,5 +27,13 @@ abstract class ButtonStyleEnum {
     public const BUTTON_PRIMARY             = 'btn-primary';
     public const BUTTON_SOFT_PRIMARY        = 'btn-soft-primary';
     public const BUTTON_OUTLINE_PRIMARY     = 'btn-outline-primary';
-    
+
+    public const BUTTON_SECONDARY            = 'btn-secondary';
+    public const BUTTON_SOFT_SECONDARY       = 'btn-soft-secondary';
+    public const BUTTON_OUTLINE_SECONDARY    = 'btn-outline-secondary';
+
+    public const BUTTON_LIGHT               =   "btn-light";
+    public const BUTTON_OUTLINE_LIGHT       =   "btn-outline-light";
+    public const BUTTON_SOFT_LIGHT          =   "btn-soft-light";
+
 }
