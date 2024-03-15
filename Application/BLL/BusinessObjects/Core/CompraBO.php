@@ -7,7 +7,7 @@ use Application\BLL\Services\Core\modeloSvc;
 use Application\BLL\Services\Core\ordenCompraSvc;
 use Application\Configuration\ConnectionEnum;
 use Intouch\Framework\BLL\Service\GenericSvc;
-use Application\BLL\DataTransferObjects\Core\ordenCompraDto;
+use Application\BLL\DataTransferObjects\Core\ordencompraDto;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;
 use Application\BLL\Services\Core\stockSvc;
@@ -27,6 +27,40 @@ class CompraBO
         ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
         ## para esto usamos la propiedad GetAll del ORM interno del framework
         $DatosCompra  =   $CompraSvc->BuscarCompras();
+
+                    
+        ## por ultimo, retornamos la lista de todos los datos de la tabla
+        return $DatosCompra; 
+    }
+
+    public function CargarTablaGeneralCompras() 
+    {
+        ## EL PRIMER PASO, ES OBTENER LA LISTA DE DATOS QUE SE ENCUENTRAN GENERADOS EN LA TABLA DE LA BBDD
+        ## PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
+        ## al generar el service debemos especificar la conexión a usar (solo nombre)
+
+        $CompraSvc      = new ordenCompraSvc(ConnectionEnum::TI);
+
+        ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
+        ## para esto usamos la propiedad GetAll del ORM interno del framework
+        $DatosCompra  =   $CompraSvc->BuscarComprasGenerales();
+
+                    
+        ## por ultimo, retornamos la lista de todos los datos de la tabla
+        return $DatosCompra; 
+    }
+
+    public function CargarTablaGastos() 
+    {
+        ## EL PRIMER PASO, ES OBTENER LA LISTA DE DATOS QUE SE ENCUENTRAN GENERADOS EN LA TABLA DE LA BBDD
+        ## PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
+        ## al generar el service debemos especificar la conexión a usar (solo nombre)
+
+        $CompraSvc      = new ordenCompraSvc(ConnectionEnum::TI);
+
+        ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
+        ## para esto usamos la propiedad GetAll del ORM interno del framework
+        $DatosCompra  =   $CompraSvc->BuscarGastos();
 
                     
         ## por ultimo, retornamos la lista de todos los datos de la tabla
@@ -53,7 +87,7 @@ class CompraBO
 
     }
 
-    public function GuardarProducto($NuevoCompra) : ordenCompraDto|null  {
+    public function GuardarProducto($NuevoCompra) : ordencompraDto|null  {
 
         ## VALIDAMOS LOS PARAMETROS DE LA FECHA
         if (strlen($NuevoCompra->Fecha_compra) < 10){
@@ -78,10 +112,11 @@ class CompraBO
         GenericSvc::BeginMultipleOperations(ConnectionEnum::TI);
 
         try{
-            $user           = "No aplica";
+            $user           = "Sin Asignar";
             $estado_stock   = "En Stock";
             $ciclo          = 1;
             $limite         = $NuevoCompra->Cantidad;
+            $tipoproducto   = 1;
 
             if ($NuevoCompra->tipo == 0){
                 $Tipo = "Original";
@@ -91,7 +126,7 @@ class CompraBO
 
 
             ## EN PRIMER LUGAR PROCEDEMOS A CREAR EL DTO DEL PRODUCTO
-            $OrdenDto     =   new ordenCompraDto(
+            $OrdenDto     =   new ordencompraDto(
                 Fecha_compra                :   $NuevoCompra->Fecha_compra,
                 Descripcion                 :   $NuevoCompra->Descripcion,
                 marca                       :   $Marca->Descripcion,
@@ -105,7 +140,8 @@ class CompraBO
                 idProveedor                 :   $NuevoCompra->idProveedor,
                 idEstado_oc                 :   $NuevoCompra->idEstado_oc,
                 idEstado_FC                 :   $NuevoCompra->idEstado_FC,
-                IdEmpresa                   :   $NuevoCompra->IdEmpresa
+                IdEmpresa                   :   $NuevoCompra->IdEmpresa,
+                idTipoProducto              :   $tipoproducto
             );
 
             
@@ -118,7 +154,9 @@ class CompraBO
                 $StockDto     =   new stockDto(
                     Fecha                       :   $NuevoCompra->Fecha_compra,
                     Descripcion                 :   $NuevoCompra->Descripcion,
-                    Usuario_asignado            :   $user,
+                    Empresa_asignado            :   $user,
+                    Departamento                :   $user,
+                    Ubicacion                   :   $user,
                     Cantidad                    :   $ciclo,
                     Precio_Unitario             :   $NuevoCompra->Precio_U,
                     Precio_total                :   $NuevoCompra->Precio_total,
@@ -134,7 +172,9 @@ class CompraBO
                 $StockDto     =   new stockDto(
                     Fecha                       :   $NuevoCompra->Fecha_compra,
                     Descripcion                 :   $NuevoCompra->Descripcion,
-                    Usuario_asignado            :   $user,
+                    Empresa_asignado            :   $user,
+                    Departamento                :   $user,
+                    Ubicacion                   :   $user,
                     Cantidad                    :   $ciclo,
                     Precio_Unitario             :   $NuevoCompra->Precio_U,
                     Precio_total                :   $NuevoCompra->Precio_U,

@@ -24,4 +24,32 @@ trait ordenCompraDaoT
             query: $qry
         );
     }
+    public function BuscarComprasGenerales() {
+        $qry = (new Queryable())
+                ->From(ordenCompra::class)
+                ->With(proveedor::class)
+                ->With(estadoOC::class)
+                ->With(estadoFC::class)
+                ->With(empresa::class)
+                ->Where('idTipoProducto not in (?,?,?)',"1","4","7")
+                ->OrderBy('Fecha_compra desc');
+
+        return $this->Query(
+            query: $qry
+        );
+    }
+    public function BuscarGastos() {
+        $qry = (new Queryable())
+                ->From(ordenCompra::class)
+                ->With(proveedor::class)
+                ->With(estadoOC::class)
+                ->With(estadoFC::class)
+                ->With(empresa::class)
+                ->Where('idTipoProducto in (?,?)',"4","7")
+                ->OrderBy('Fecha_compra desc');
+
+        return $this->Query(
+            query: $qry
+        );
+    }
 }

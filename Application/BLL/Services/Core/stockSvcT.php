@@ -15,4 +15,8 @@ trait stockSvcT
     public function BuscarStock(){
         return Mapper::ToDtos( $this->Dao->BuscarStock(), $this->DtoName, $this->innerMappings);
     }
+
+    public function BuscarEntregado(){
+        return Mapper::ToDtos( $this->Dao->BuscarEntregado(), $this->DtoName, $this->innerMappings);
+    }
 }

@@ -7,9 +7,11 @@ use Application\BLL\BusinessObjects\Core\StockBO;
 use Application\BLL\Filters\CambiarDatosUsuarioFilterDto;
 use Application\BLL\Filters\EditarUsuarioFilterDto;
 use Application\BLL\Filters\NuevoUsuarioFilterDto;
+use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\stockSvc;
 use Application\BLL\Services\Core\marcaSvc;
 use Application\BLL\Services\Core\empresaSvc;
+use Application\BLL\Services\Core\ubicacionSvc;
 use Application\Configuration\ConnectionEnum;
 use Application\Resources\AssetManagerFactory;
 use Intouch\Framework\Controllers\BaseController; 
@@ -63,14 +65,18 @@ class StockController extends BaseController
         ## PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL USUARIO EN EL BO
         $StockDto           =   (new StockBO())->GetStock($id_stock);
         $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
-
         $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
+        $DatosArea          =   (new departamentoSvc(ConnectionEnum::TI))->GetAll();
+        $DatosUbicacion     =   (new ubicacionSvc(ConnectionEnum::TI))->GetAll();
 
         ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
             "Stock"                     =>  $StockDto,
             "DatosMarca"                =>  $DatosMarca,
-            "DatosEmpresa"              =>  $DatosEmpresa
+            "DatosEmpresa"              =>  $DatosEmpresa,
+            "DatosArea"                 =>  $DatosArea,
+            "DatosUbicacion"            =>  $DatosUbicacion
+
         ];
 
         ## RENDERIZAMOS LA VISTA

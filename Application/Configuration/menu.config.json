@@ -6,18 +6,43 @@
         "Decorators": [],
         "Items" : []
     },
-    "Stock": {
-        "Description": "@@{MnuStock, Stock de Toners}",
-        "Icon": "fa-cubes",
-        "Uri": "/stock",
+    "listasstock":{
+        "Description": "@@{MnuStock, Stocks}",
+        "Icon": "fa-list",
         "Decorators": [],
-        "Items" : []
+        "Items": [ 
+            {
+                "Description": "@@{MnuStock, Actual}",
+                "Icon": "fa-cubes",
+                "Uri": "/stock"               
+            },
+            {
+                "Description": "@@{MnuStock, Entregado}",
+                "Icon": "fa-cubes",
+                "Uri": "/entregado"               
+            }
+        ]
     },
-    "Compras": {
-        "Description": "@@{MnuCompras, Compras de Toners}",
-        "Icon": "fa-shopping-basket",
-        "Uri": "/compra",
+    "listas": {
+        "Description": "@@{MnuCompras, Compras}",
+        "Icon": "fa-list",
         "Decorators": [],
-        "Items" : []
-    }
+        "Items": [ 
+            {
+                "Description": "@@{MnuCompras, Toners}",
+                "Icon": "fa-shopping-basket",
+                "Uri": "/compra"               
+            },
+            {
+                "Description": "@@{MnuCompras, Generales}",
+                "Icon": "fa-shopping-basket",
+                "Uri": "/generales"               
+            }, 
+            {
+                "Description": "@@{MnuCompras, Gastos}",
+                "Icon": "fa-shopping-basket",
+                "Uri": "/gastos"               
+            }  
+        ]
+    } 
 }

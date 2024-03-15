@@ -430,12 +430,42 @@
         ],
         "BundleLocation" : "scripts"
     },
+    "entregadoJS": {
+        "IdBundle": "entregadoJS",
+        "Tipo": "javascript",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "core", "File" : "entregado.js"},
+            { "Folder": "administracion", "File" : "*.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
     "compraJS": {
         "IdBundle": "compraJS",
         "Tipo": "javascript",
         "Versionado": true,
         "Sources": [
             { "Folder": "core", "File" : "compra.js"},
+            { "Folder": "administracion", "File" : "*.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "generalesJS": {
+        "IdBundle": "generalesJS",
+        "Tipo": "javascript",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "core", "File" : "generales.js"},
+            { "Folder": "administracion", "File" : "*.js"}
+        ],
+        "BundleLocation" : "scripts"
+    },
+    "gastosJS": {
+        "IdBundle": "gastosJS",
+        "Tipo": "javascript",
+        "Versionado": true,
+        "Sources": [
+            { "Folder": "core", "File" : "gastos.js"},
             { "Folder": "administracion", "File" : "*.js"}
         ],
         "BundleLocation" : "scripts"

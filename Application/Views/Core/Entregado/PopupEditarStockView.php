@@ -17,7 +17,6 @@ use Intouch\Framework\View\DisplayDefinitions\FormRowFieldTypeEnum;
 use Intouch\Framework\View\DisplayDefinitions\FormRowGroup;
 use Intouch\Framework\View\DisplayEvents\FormButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\FormOnChangeEvent;
-use Intouch\Framework\View\DisplayEventActions\RefreshListAction;
 use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
@@ -244,21 +243,6 @@ if($data->Stock != null){
                             ), 
                         ),
                         new FormRowFieldSelect(
-                            PropertyName    :   'IdEmpresa',
-                            Label           :   'Empresa Producto',
-                            Colspan         :   4,
-                            Required        : true,
-                            SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : $Empresa,
-                                Key             : 'IdEmpresa',
-                                Description     : 'Descripcion',
-                                SelectedValue   : $EmpresaData,
-                                DisplaySearch   : true
-                            ),
-                        ),
-                    ],
-                    [
-                        new FormRowFieldSelect(
                             PropertyName: 'estado_stock',
                             Label: 'Estado Producto',
                             Colspan: 4,
@@ -281,6 +265,21 @@ if($data->Stock != null){
                             ),
                             Events      :   [new FormOnChangeEvent()]
                         ),
+                    ],
+                    [
+                        new FormRowFieldSelect(
+                            PropertyName    :   'IdEmpresa',
+                            Label           :   'Empresa Producto',
+                            Colspan         :   4,
+                            Required        : true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Empresa,
+                                Key             : 'IdEmpresa',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $EmpresaData,
+                                DisplaySearch   : true
+                            ),
+                        ),
                         new FormRowFieldSelect(
                             PropertyName    :   'IdEmpresaU',
                             Label           :   'Empresa Usuario',
@@ -293,49 +292,32 @@ if($data->Stock != null){
                                 SelectedValue   : -1,
                                 DisplaySearch   : true
                             ),
-                            Events      :   [new FormOnChangeEvent(
-                                // Actions: [
-                                //     new RefreshListAction(
-                                //         TargetElementKeys: ['idDepto']
-                                //     )
-                                // ]
-                            )]
                         ),
                         new FormRowFieldSelect(
                             PropertyName    :   'idDepto',
                             Label           :   'Unidad',
                             Colspan         :   4,
-                            Required        : false,
+                            Required        : true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Area,
                                 Key             : 'idDepto',
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
                                 DisplaySearch   : true
-                                // LinkToList: 'IdEmpresaU'
                             ),
-                            Events      :   [new FormOnChangeEvent(
-                                // Actions: [
-                                //     new RefreshListAction(
-                                //         TargetElementKeys: ['idubicacion']
-                                //     )
-                                // ]
-                            )]
                         ),
                         new FormRowFieldSelect(
                             PropertyName    :   'idubicacion',
                             Label           :   'Ubicación',
                             Colspan         :   4,
-                            Required        : false,
+                            Required        : true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Ubicacion,
                                 Key             : 'idubicacion',
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
                                 DisplaySearch   : true
-                                // LinkToList: 'idDepto'
                             ),
-                            Events      :   [new FormOnChangeEvent()]
                         )
                     ]
                 ]
@@ -367,7 +349,7 @@ $content = new Container(
 
 $popUp = new PopUpContent(
     Key                 : 'PopupEditarStock', 
-    Title               : 'Editar Producto',
+    Title               : 'Editar Stock',
     DismissButtonText   : 'Cerrar',
     DismissButtonStyle  : ButtonStyleEnum::BUTTON_SOFT_PRIMARY,
     SubTitle            : '',

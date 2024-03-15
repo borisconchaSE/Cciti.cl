@@ -15,13 +15,21 @@ trait stockDaoT
                 ->Where('estado_stock = ?',"En Stock")
                 ->OrderBy('id_stock desc');
 
-                // $qry = (new Queryable())
-                // ->From(stock::class)
-                // ->With(empresa::class)
-                // ->With(marca::class)
-                // ->Where('estado_stock = ? AND Fecha_asignacion BETWEEN DATE(?) AND DATE(?)',"En Stock","2023-01-01","2024-12-31")
-                // ->OrderBy('Fecha_asignacion desc')
-                // ->Top(100);
+        $result     =    $this->Query(
+            query: $qry
+        );
+
+        return $result;
+    }
+
+    public function BuscarEntregado() {
+        $qry = (new Queryable())
+                ->From(stock::class)
+                ->With(empresa::class)
+                ->With(marca::class)
+                ->Where('estado_stock = ?',"Entregado")
+                ->OrderBy('id_stock desc')
+                ->Top(50);
 
         $result     =    $this->Query(
             query: $qry

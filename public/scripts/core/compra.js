@@ -177,7 +177,7 @@ function DibujarNuevoCompra(DatosCompra = {
     var IdEmpresa           =   DatosCompra.IdEmpresa;   
 
 
-    var rowNode     = table.row.add( [ Fecha, Descripcion, idMarca, idModelo, Orden_compra, Factura_compra, Precio_U, Cantidad, Precio_total, tipo, idProveedor, idEstado_oc, idEstado_FC, IdEmpresa] ).draw().node();
+    var rowNode     = table.row.add( [ idCell, Fecha, Descripcion, idMarca, idModelo, Orden_compra, Factura_compra, Precio_U, Cantidad, Precio_total, tipo, idProveedor, idEstado_oc, idEstado_FC, IdEmpresa] ).draw().node();
     
     /* AGREGAMOS LOS VALORES PK */
     debugger;

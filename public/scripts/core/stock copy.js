@@ -209,9 +209,6 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
     var Cantidad                    =   eventInfo.FormData.Cantidad;
     var Precio_Unitario             =   eventInfo.FormData.Precio_Unitario;
     var Precio_total                =   eventInfo.FormData.Precio_total;
-    var IdEmpresaU                  =   eventInfo.FormData.IdEmpresaU;
-    var idDepto                     =   eventInfo.FormData.idDepto;
-    var idubicacion                 =   eventInfo.FormData.idubicacion;
     var idMarca                     =   eventInfo.FormData.idMarca;
     var IdEmpresa                   =   eventInfo.FormData.IdEmpresa;
     var tipo                        =   eventInfo.FormData.tipo;
@@ -227,9 +224,6 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
             Cantidad                        :   Cantidad,
             Precio_Unitario                 :   Precio_Unitario,
             Precio_total                    :   Precio_total,
-            IdEmpresaU                      :   IdEmpresaU,
-            idDepto                         :   idDepto,
-            idubicacion                     :   idubicacion,
             idMarca                         :   idMarca,
             IdEmpresa                       :   IdEmpresa,
             tipo                            :   tipo,

@@ -16,7 +16,9 @@ class stock
 	#[EntityField(DataType: 'datetime')]
 	public ?string $Fecha_asignacion = null;
 	public string $Descripcion = '';
-	public ?string $Usuario_asignado = null;
+	public ?string $Empresa_asignado = null;
+	public ?string $Departamento = null;
+	public ?string $Ubicacion = null;
 	public int $Cantidad = 0;
 	public ?int $Precio_Unitario = null;
 	public ?int $Precio_total = null;

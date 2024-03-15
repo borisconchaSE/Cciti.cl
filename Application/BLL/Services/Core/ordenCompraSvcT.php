@@ -21,4 +21,14 @@ trait ordenCompraSvcT
         return Mapper::ToDtos( $this->Dao->BuscarCompras(), $this->DtoName, $this->innerMappings);
     }
 
+    public function BuscarComprasGenerales()
+    {
+        return Mapper::ToDtos( $this->Dao->BuscarComprasGenerales(), $this->DtoName, $this->innerMappings);
+    }
+
+    public function BuscarGastos()
+    {
+        return Mapper::ToDtos( $this->Dao->BuscarGastos(), $this->DtoName, $this->innerMappings);
+    }
+
 }

@@ -42,7 +42,7 @@ $display        =   new Display();
 <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Stock de toners</h4>
+                <h4 class="mb-sm-0 font-size-18">Stock de toners entregados</h4>
             </div>
         </div>
     </div>
@@ -79,7 +79,7 @@ $tableheader =  new Container(
                 new Container(
                     Classes     :   ['mb-3'],
                     Children    :   [
-                        new Html('<h5 class="card-title">Cantidad Actual de Stock <span class="text-muted fw-normal ms-2">('.$CantidadStock.')</span></h5>')
+                        new Html('<h5 class="card-title">Cantidad Total<span class="text-muted fw-normal ms-2">('.$CantidadStock.')</span></h5>')
                     ]
                 )
             ]
