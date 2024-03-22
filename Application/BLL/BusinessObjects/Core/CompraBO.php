@@ -4,7 +4,7 @@ namespace Application\BLL\BusinessObjects\Core;
 
 use Application\BLL\Services\Core\marcaSvc;
 use Application\BLL\Services\Core\modeloSvc;
-use Application\BLL\Services\Core\ordenCompraSvc;
+use Application\BLL\Services\Core\ordencompraSvc;
 use Application\Configuration\ConnectionEnum;
 use Intouch\Framework\BLL\Service\GenericSvc;
 use Application\BLL\DataTransferObjects\Core\ordencompraDto;
@@ -22,7 +22,7 @@ class CompraBO
         ## PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
         ## al generar el service debemos especificar la conexión a usar (solo nombre)
 
-        $CompraSvc      = new ordenCompraSvc(ConnectionEnum::TI);
+        $CompraSvc      = new ordencompraSvc(ConnectionEnum::TI);
 
         ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
         ## para esto usamos la propiedad GetAll del ORM interno del framework
@@ -39,7 +39,7 @@ class CompraBO
         ## PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
         ## al generar el service debemos especificar la conexión a usar (solo nombre)
 
-        $CompraSvc      = new ordenCompraSvc(ConnectionEnum::TI);
+        $CompraSvc      = new ordencompraSvc(ConnectionEnum::TI);
 
         ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
         ## para esto usamos la propiedad GetAll del ORM interno del framework
@@ -56,7 +56,7 @@ class CompraBO
         ## PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
         ## al generar el service debemos especificar la conexión a usar (solo nombre)
 
-        $CompraSvc      = new ordenCompraSvc(ConnectionEnum::TI);
+        $CompraSvc      = new ordencompraSvc(ConnectionEnum::TI);
 
         ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
         ## para esto usamos la propiedad GetAll del ORM interno del framework
@@ -71,7 +71,7 @@ class CompraBO
  
 
         ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
-        $CompraService     =   new ordenCompraSvc(ConnectionEnum::TI);
+        $CompraService     =   new ordencompraSvc(ConnectionEnum::TI);
 
         try{
             ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
@@ -102,7 +102,7 @@ class CompraBO
         ## UNA VEZ VALIDADOS LOS DATOS ENVIAMOS A LA FUNCIÓN
         ## PROCEDEMOS A GENERAR EL NUEVO ITEM DEL STOCK
 
-        $ordenSvc     =   new ordenCompraSvc(ConnectionEnum::TI);
+        $ordenSvc     =   new ordencompraSvc(ConnectionEnum::TI);
         $StockSvc     =   new stockSvc(ConnectionEnum::TI);
 
         $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$NuevoCompra->idMarca);
@@ -136,7 +136,7 @@ class CompraBO
                 Precio_U                    :   $NuevoCompra->Precio_U,
                 Cantidad                    :   $NuevoCompra->Cantidad,
                 Precio_total                :   $NuevoCompra->Precio_total,
-                tipo                        :   $NuevoCompra->tipo,
+                tipo                        :   $Tipo,
                 idProveedor                 :   $NuevoCompra->idProveedor,
                 idEstado_oc                 :   $NuevoCompra->idEstado_oc,
                 idEstado_FC                 :   $NuevoCompra->idEstado_FC,
@@ -206,7 +206,7 @@ class CompraBO
     public function UpdateCompra($DatosCompra){
 
         ## INSTANCIAMOS EL SERVICE DEL USUARIO
-        $CompraSvc      = new ordenCompraSvc(ConnectionEnum::TI);
+        $CompraSvc      = new ordencompraSvc(ConnectionEnum::TI);
 
         ## BUSCAMOS EL DTO DEL USUARIO
         $CompraDto         =   $CompraSvc->FindByForeign('idO_C',$DatosCompra->idO_C);

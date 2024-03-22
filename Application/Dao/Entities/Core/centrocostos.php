@@ -13,6 +13,8 @@ class centrocostos
 	public int $idCentro = 0;
 	public string $Descripcion = '';
 	public ?int $idubicacion = null;
+	public ?int $idDepto = null;
+	public ?int $IdEmpresa = null;
 
     function __construct()
     {

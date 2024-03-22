@@ -219,5 +219,27 @@ class StockBO
 
     }
 
+    // public function GetbyEmpresa($DatosEmpresa){ 
+ 
+
+    //     ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+    //     $EmpresaService     =   new empresaSvc(ConnectionEnum::TI);
+
+    //     $IdEmpresaU       =     $DatosEmpresa->IdEmpresaU;
+
+    //     try{
+    //         ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+    //         $datos          =   $EmpresaService->FindByForeign('IdEmpresa',$IdEmpresaU);
+
+    //     } catch (\Exception $ex) {
+
+    //         ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+    //         $datos = null;
+    //     }
+
+    //     return $datos;
+
+    // }
+
 
 }

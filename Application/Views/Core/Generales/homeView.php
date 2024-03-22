@@ -1,7 +1,7 @@
 <?php
 
 use Application\BLL\BusinessEnumerations\RolesEnum;
-use Application\BLL\DataTransferObjects\Core\ordenCompraDto;
+use Application\BLL\DataTransferObjects\Core\ordencompraDto;
 use Intouch\Framework\BLL\Filters\DataTableSettingsFilterDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\Configuration\SystemConfig;
@@ -42,7 +42,7 @@ $display        =   new Display();
 <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Compras Generales</h4>
+                <h4 class="mb-sm-0 font-size-18">Compras de Activos</h4>
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@ $display        =   new Display();
 $display->AddButton(
     new Button(
         Key             :   'btnNuevaCompra',
-        Child           :   new FaIconText('fa-plus-circle','Agregar'),
+        Child           :   new FaIconText('fa-plus-circle','Agregar Activo'),
         Classes         :   ['pull-right'],
         ButtonStyle     :   ButtonStyleEnum::BUTTON_SOFT_INFO,
         Events          :   [
@@ -77,7 +77,7 @@ $tableheader =  new Container(
                 new Container(
                     Classes     :   ['mb-3'],
                     Children    :   [
-                        new Html('<h5 class="card-title">Cantidad Total de Compras<span class="text-muted fw-normal ms-2">('.$CantidadCompras.')</span></h5>')
+                        new Html('<h5 class="card-title">Cantidad Total de Activos<span class="text-muted fw-normal ms-2">('.$CantidadCompras.')</span></h5>')
                     ]
                 )
             ]
@@ -106,19 +106,57 @@ $cellDefinitions    =   [
         Label: 'Fecha Compra'
     ),
     new TableCell(
+        PropertyName: 'IdEmpresa',
+        Colspan: 2,
+        Label: 'Empresa',
+        FormatFunction: function($data,$cell) {
+            
+            $Widget = new Text($data->empresa->Descripcion);
+
+            return new Container(
+                Classes:['center'],
+                Children:[
+                    $Widget
+                ]
+            );
+        }
+    ),
+    new TableCell(
+        PropertyName: 'idProveedor',
+        Colspan: 2,
+        Label: 'Rut Proveedor',
+        FormatFunction: function($data,$cell) {
+            
+            $Widget = new Text($data->proveedor->Rut);
+
+            return new Container(
+                Classes:['center'],
+                Children:[
+                    $Widget
+                ]
+            );
+        }
+    ),
+    new TableCell(
+        PropertyName: 'idProveedor',
+        Colspan: 2,
+        Label: 'Proveedor',
+        FormatFunction: function($data,$cell) {
+            
+            $Widget = new Text($data->proveedor->Nombre);
+
+            return new Container(
+                Classes:['center'],
+                Children:[
+                    $Widget
+                ]
+            );
+        }
+    ),
+    new TableCell(
         PropertyName: 'Descripcion',
         Colspan: 2,
-        Label: 'Nombre Producto'
-    ),
-    new TableCell(
-        PropertyName: 'marca',
-        Colspan: 2,
-        Label: 'Marca'
-    ),
-    new TableCell(
-        PropertyName: 'modelo',
-        Colspan: 2,
-        Label: 'Modelo'
+        Label: 'Descripcion Producto'
     ),
     new TableCell(
         PropertyName: 'Orden_compra',
@@ -131,16 +169,6 @@ $cellDefinitions    =   [
         Label: 'Factura Compra'
     ),
     new TableCell(
-        PropertyName: 'Precio_U',
-        Colspan: 2,
-        Label: 'Precio Unitario'
-    ),
-    new TableCell(
-        PropertyName: 'Cantidad',
-        Colspan: 2,
-        Label: 'Cantidad'
-    ),
-    new TableCell(
         PropertyName: 'Precio_total',
         Colspan: 2,
         Label: 'Precio Total'
@@ -149,22 +177,8 @@ $cellDefinitions    =   [
         PropertyName: 'tipo',
         Colspan: 2,
         Label: 'Tipo',
-        FormatFunction  :   function( ordenCompraDto $data,$cell){
-            $stop = 1;
-            if ($data->tipo == 'Alternativo'){
-                return new Html('<center> <span class="badge badge-soft-warning">Alternativo</span> </center>');
-            }else{
-                return new Html('<center> <span class="badge badge-soft-success">Original</span> </center>');
-            }
-        }
-    ),
-    new TableCell(
-        PropertyName: 'idProveedor',
-        Colspan: 2,
-        Label: 'Proveedor',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->proveedor->Nombre);
+        FormatFunction  :   function($data,$cell){
+            $Widget = new Text($data->tipoproducto->DescripcionProduto);
 
             return new Container(
                 Classes:['center'],
@@ -198,22 +212,6 @@ $cellDefinitions    =   [
         FormatFunction: function($data,$cell) {
             
             $Widget = new Text($data->estadoFC->Descripcion);
-
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
-    ),
-    new TableCell(
-        PropertyName: 'IdEmpresa',
-        Colspan: 2,
-        Label: 'Empresa',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->empresa->Descripcion);
 
             return new Container(
                 Classes:['center'],

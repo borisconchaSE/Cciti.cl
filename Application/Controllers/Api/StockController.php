@@ -7,6 +7,7 @@ use Application\BLL\BusinessObjects\Core\StockBO;
 use Application\BLL\Filters\CambiarDatosUsuarioFilterDto;
 use Application\BLL\Filters\EditarUsuarioFilterDto;
 use Application\BLL\Filters\NuevoUsuarioFilterDto;
+use Application\BLL\Services\Core\centrocostosSvc;
 use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\stockSvc;
 use Application\BLL\Services\Core\marcaSvc;
@@ -68,6 +69,7 @@ class StockController extends BaseController
         $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
         $DatosArea          =   (new departamentoSvc(ConnectionEnum::TI))->GetAll();
         $DatosUbicacion     =   (new ubicacionSvc(ConnectionEnum::TI))->GetAll();
+        $DatosCentro        =   (new centrocostosSvc(ConnectionEnum::TI))->GetAll();
 
         ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
@@ -75,12 +77,44 @@ class StockController extends BaseController
             "DatosMarca"                =>  $DatosMarca,
             "DatosEmpresa"              =>  $DatosEmpresa,
             "DatosArea"                 =>  $DatosArea,
-            "DatosUbicacion"            =>  $DatosUbicacion
+            "DatosUbicacion"            =>  $DatosUbicacion,
+            "DatosCentro"               =>  $DatosCentro
 
         ];
 
-        ## RENDERIZAMOS LA VISTA
-        return Display::GetRenderer('Core/Stock')->RenderView('PopupEditarStock',$dataView);
+        if($StockDto->estado_stock == 'Entregado'){
+
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Entregado')->RenderView('PopupEditarEntregado',$dataView);
+        }else{
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Stock')->RenderView('PopupEditarStock',$dataView);
+        }
+
+    }
+
+    #[Route(Methods: ['POST'], RequireSession:true)]
+    #[ReturnActionViewResult]
+    public function GetbyEmpresa($DatosEmpresa) 
+    { 
+
+        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        $DepartamentoService     =   new departamentoSvc(ConnectionEnum::TI);
+
+        $IdEmpresaU       =     $DatosEmpresa->IdEmpresaU;
+
+        try{
+            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            $datos          =   $DepartamentoService->GetByForeign('IdEmpresa',$IdEmpresaU);
+
+        } catch (\Exception $ex) {
+
+            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            $datos = null;
+        }
+
+        return $datos;
+
     }
 
     #[Route(Methods: ['POST'], RequireSession:true)]

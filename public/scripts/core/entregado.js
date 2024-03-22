@@ -24,10 +24,10 @@ function btnAgregarStock_OnClick(){
 }
 
 
-function btnEditarStock_OnClick(eventInfo){ 
+function btnEditarEntregado_OnClick(eventInfo){ 
 
     debugger;
-    const PopupEditarStock = NewPopUp({
+    const PopupEditarEntregado = NewPopUp({
         dismissOnOutsideClick : true
     });
  
@@ -43,7 +43,7 @@ function btnEditarStock_OnClick(eventInfo){
     service.PopupEditarStock(
         entity,
         function(result){
-            $(PopupEditarStock).RefreshPopUp(result);
+            $(PopupEditarEntregado).RefreshPopUp(result);
         },
         function(errorCode,errorMessage){ 
             $('.modal').modal('hide'); 

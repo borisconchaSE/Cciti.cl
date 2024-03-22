@@ -103,15 +103,10 @@ $cellDefinitions    =   [
         Colspan: 2,
         Label: 'Fecha Llegada'
     ),
-    // new TableCell(
-    //     PropertyName: 'Fecha_asignacion',
-    //     Colspan: 2,
-    //     Label: 'Fecha Asignacion'
-    // ),
     new TableCell(
         PropertyName: 'Descripcion',
         Colspan: 2,
-        Label: 'Descripcion'
+        Label: 'Nombre Producto'
     ),
     new TableCell(
         PropertyName: 'Cantidad',
@@ -122,11 +117,6 @@ $cellDefinitions    =   [
         PropertyName: 'Precio_Unitario',
         Colspan: 2,
         Label: 'Precio Unitario'
-    ),
-    new TableCell(
-        PropertyName: 'Precio_total',
-        Colspan: 2,
-        Label: 'Precio Total'
     ),
     new TableCell(
         PropertyName: 'idMarca',
@@ -147,7 +137,7 @@ $cellDefinitions    =   [
     new TableCell(
         PropertyName: 'IdEmpresa',
         Colspan: 2,
-        Label: 'Empresa',
+        Label: 'Empresa producto',
         FormatFunction: function($data,$cell) {
             
             $Widget = new Text($data->empresa->Descripcion);
@@ -163,7 +153,7 @@ $cellDefinitions    =   [
     new TableCell(
         PropertyName: 'tipo',
         Colspan: 2,
-        Label: 'Tipo',
+        Label: 'Tipo toner',
         FormatFunction  :   function( stockDto $data,$cell){
             $stop = 1;
             if ($data->tipo == 'Alternativo'){

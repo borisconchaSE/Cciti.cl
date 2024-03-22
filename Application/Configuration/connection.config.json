@@ -11,10 +11,10 @@
     },
     "core": {
         "Description": "LOCAL",
-        "Host": "proyectobuc2.cpl0rcr8wloc.us-east-1.rds.amazonaws.com",
-        "Database": "Autogestores_Core",
-        "User": "usr_autogestores_webapp",
-        "Password": "usr_at123312!!SDFSDFSDDGBKQWQWQWETGFD!!",
+        "Host": "localhost:3306",
+        "Database": "autogestores_core",
+        "User": "root",
+        "Password": "",
         "Port": "3306",
         "Type": "mysql"
     },

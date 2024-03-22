@@ -54,19 +54,6 @@ $display        =   new Display();
 ## UNA VEZ DEFINIDO, PROCEDEMOS A GENERAR LA VISUALIZACIÓN DE LOS COMPONENTES DE LA TABLA
 ## ----------------------------------------------------------------------------------------------
 
-$display->AddButton(
-    new Button(
-        Key             :   'btnAgregarStock',
-        Child           :   new FaIconText('fa-plus-circle','Agregar Stock'),
-        Classes         :   ['pull-right'],
-        ButtonStyle     :   ButtonStyleEnum::BUTTON_SOFT_INFO,
-        Events          :   [
-            new ButtonOnClickEvent()
-        ]
-    )
-) ;
-
-
 
 $CantidadStock    =   !empty($data['Stock']) ? $data['Stock']->count() : 0;
 
@@ -99,19 +86,14 @@ $tableheader =  new Container(
 
 $cellDefinitions    =   [
     new TableCell(
-        PropertyName: 'Fecha',
+        PropertyName: 'Fecha_asignacion',
         Colspan: 2,
-        Label: 'Fecha Llegada'
+        Label: 'Fecha Entrega'
     ),
-    // new TableCell(
-    //     PropertyName: 'Fecha_asignacion',
-    //     Colspan: 2,
-    //     Label: 'Fecha Asignacion'
-    // ),
     new TableCell(
         PropertyName: 'Descripcion',
         Colspan: 2,
-        Label: 'Descripcion'
+        Label: 'Nombre Producto'
     ),
     new TableCell(
         PropertyName: 'Cantidad',
@@ -121,12 +103,7 @@ $cellDefinitions    =   [
     new TableCell(
         PropertyName: 'Precio_Unitario',
         Colspan: 2,
-        Label: 'Precio Unitario'
-    ),
-    new TableCell(
-        PropertyName: 'Precio_total',
-        Colspan: 2,
-        Label: 'Precio Total'
+        Label: 'Precio Producto'
     ),
     new TableCell(
         PropertyName: 'idMarca',
@@ -147,7 +124,7 @@ $cellDefinitions    =   [
     new TableCell(
         PropertyName: 'IdEmpresa',
         Colspan: 2,
-        Label: 'Empresa',
+        Label: 'Empresa Stock',
         FormatFunction: function($data,$cell) {
             
             $Widget = new Text($data->empresa->Descripcion);
@@ -161,9 +138,24 @@ $cellDefinitions    =   [
         }
     ),
     new TableCell(
+        PropertyName: 'Empresa_asignado',
+        Colspan: 2,
+        Label: 'Empresa asignado'
+    ),
+    new TableCell(
+        PropertyName: 'Departamento',
+        Colspan: 2,
+        Label: 'Departamento'
+    ),
+    new TableCell(
+        PropertyName: 'Ubicacion',
+        Colspan: 2,
+        Label: 'Ubicacion'
+    ),
+    new TableCell(
         PropertyName: 'tipo',
         Colspan: 2,
-        Label: 'Tipo',
+        Label: 'Tipo Toner',
         FormatFunction  :   function( stockDto $data,$cell){
             $stop = 1;
             if ($data->tipo == 'Alternativo'){
@@ -192,12 +184,7 @@ $cellDefinitions    =   [
         //                 JSFilterName: 'EstadoTipo'
         //             );
         //         },
-    ),
-    new TableCell(
-        PropertyName: 'estado_stock',
-        Colspan: 2,
-        Label: 'Estado producto'
-    ),
+    )
 ] ;
 
 
@@ -210,10 +197,10 @@ $tableButtons    =   [];
 ## VALIDAMOS SI EL USUARIO TIENE PERMISOS PARA EDITAR EL STOCK
  
 array_push($tableButtons,new TableButton(
-    Key             :   'btnEditarStock',
+    Key             :   'btnEditarEntregado',
     Child           :   new FaIcon('fa-edit'),
     Classes         :   ['btn-sm'],
-    OnClickClass    :   'btnEditarStock',
+    OnClickClass    :   'btnEditarEntregado',
     TogglePopUp     :   true,
     ToggleText      :   'Editar',
     ButtonStyle     :   ButtonStyleEnum::BUTTON_SUCCESS,
@@ -273,5 +260,5 @@ $display->DrawScripts(addLoadEvent:true);
 
 ?>
 
-@@RenderBundle(stockJS)
+@@RenderBundle(entregadoJS)
 

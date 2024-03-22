@@ -407,7 +407,8 @@
             { "Folder" : "administracion", "File": "*.js"},
             { "Folder" : "core", "File": "*.js"},
             { "Folder": "", "File" : "BotonesStockSvc.js"},
-            { "Folder": "", "File" : "BotonesCompraSvc.js"}
+            { "Folder": "", "File" : "BotonesCompraSvc.js"},
+            { "Folder": "", "File" : "OpcionesStockSvc.js"}
         ],
         "BundleLocation" : "services"
     },

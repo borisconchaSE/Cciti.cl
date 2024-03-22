@@ -1,16 +1,21 @@
-function btnNuevaCompra_OnClick(){
+function btnNuevaCompra_OnClick(eventInfo){
 
     debugger;
+
+    var identificador   =   eventInfo.Element.innerText;
 
     const PopupAgregarProducto = NewPopUp({
         dismissOnOutsideClick : true
     }); 
  
+    var entity      =   {
+        "identificador" :   identificador
+    } 
 
     const service = new BotonesCompraSvc(); 
  
     service.PopupAgregarProducto(
-        null,
+        entity,
         function(result){
             $(PopupAgregarProducto).RefreshPopUp(result);
         },

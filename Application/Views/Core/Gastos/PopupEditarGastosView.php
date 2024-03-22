@@ -170,6 +170,14 @@ $ModeloData     =   $data->Modelo->idModelo;
 $FechaData      =   $data->Compra->Fecha_compra;
 $FechaData      =   date("d-m-Y", strtotime($FechaData));
 
+if($MarcaData == null){
+    $MarcaData = -1;
+}
+
+if($ModeloData == null){
+    $ModeloData = -1;
+}
+
 ## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
 if($data->Compra != null){
 

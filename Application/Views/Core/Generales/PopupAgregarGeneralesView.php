@@ -6,6 +6,7 @@ use Application\BLL\DataTransferObjects\Core\estadoOCDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Application\BLL\DataTransferObjects\Core\proveedorDto;
+use Application\BLL\DataTransferObjects\Core\tipoproductoDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\FormButton;
@@ -162,6 +163,24 @@ if(!empty($data->DatosFC)){
     ) ;
 }
 
+$TipoProducto = [
+    new tipoproductoDto(
+        idTipoProducto              :   -1,
+        DescripcionProduto          :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosTipo)){
+
+    $TipoProducto   = array_merge($TipoProducto,$data->DatosTipo->Values);
+
+    $TipoProducto   =   new GenericCollection(
+        DtoName     :   tipoproductoDto::class,
+        Key         :   'idTipoProducto',
+        Values      :   $TipoProducto
+    ) ;
+}
+
 ## EN CASO DE QUE LOS DATOS VENGA VACIO
 ## IMPRIMIMOS UN ERROR EN PANTALLA 
 $display->AddFormFromObject( 
@@ -261,22 +280,12 @@ $display->AddFormFromObject(
                         Colspan: 4,
                         Required: true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
-                            Values          : [
-                                (object)    [
-                                    "tipo"          =>   0,
-                                    "Descripcion"   =>   "Original"
-                                ],
-                                (object)    [
-                                    "tipo"           =>   1,
-                                    "Descripcion"   =>   "Alternativo"
-                                ]
-                            ],
-                            Key             : 'tipo',
-                            Description     : 'Descripcion',
-                            SelectedValue   : 0,
+                            Values          : $TipoProducto,
+                            Key             : 'idTipoProducto',
+                            Description     : 'DescripcionProduto',
+                            SelectedValue   : -1,
                             DisplaySearch   : true
                         ),
-                        Events      :   [new FormOnChangeEvent()]
                     ),
                     new FormRowFieldSelect(
                         PropertyName: 'idProveedor',
@@ -357,7 +366,7 @@ $content = new Container(
 
 $popUp = new PopUpContent(
     Key                 : 'PopupCompraNuevo', 
-    Title               : 'Nuevo Producto',
+    Title               : 'Nuevo Activo',
     DismissButtonText   : 'Cerrar',
     DismissButtonStyle  : ButtonStyleEnum::BUTTON_SOFT_PRIMARY,
     SubTitle            : '',

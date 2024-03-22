@@ -1,5 +1,6 @@
 <?php
 
+use Application\BLL\DataTransferObjects\Core\centrocostosDto;
 use Application\BLL\DataTransferObjects\Core\departamentoDto;
 use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
@@ -73,6 +74,24 @@ if(!empty($data->DatosEmpresa)){
         DtoName     :   empresaDto::class,
         Key         :   'IdEmpresa',
         Values      :   $Empresa
+    ) ;
+}
+
+$Centro = [
+    new centrocostosDto(
+        IdEmpresa           :   -1,
+        Descripcion         :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosCentro)){
+
+    $Centro   = array_merge($Centro,$data->DatosCentro->Values);
+
+    $Centro   =   new GenericCollection(
+        DtoName     :   centrocostosDto::class,
+        Key         :   'idCentro',
+        Values      :   $Centro
     ) ;
 }
 
@@ -294,11 +313,11 @@ if($data->Stock != null){
                                 DisplaySearch   : true
                             ),
                             Events      :   [new FormOnChangeEvent(
-                                // Actions: [
-                                //     new RefreshListAction(
-                                //         TargetElementKeys: ['idDepto']
-                                //     )
-                                // ]
+                                Actions: [
+                                    new RefreshListAction(
+                                        TargetElementKeys: ['idDepto']
+                                    )
+                                ]
                             )]
                         ),
                         new FormRowFieldSelect(
@@ -311,8 +330,9 @@ if($data->Stock != null){
                                 Key             : 'idDepto',
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
-                                DisplaySearch   : true
-                                // LinkToList: 'IdEmpresaU'
+                                DisplaySearch   : true,
+                                LinkToList: 'IdEmpresaU',
+                                JSRefreshService: ['OpcionesSvc', 'GetByEmpresa']
                             ),
                             Events      :   [new FormOnChangeEvent(
                                 // Actions: [
@@ -333,7 +353,24 @@ if($data->Stock != null){
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
                                 DisplaySearch   : true
-                                // LinkToList: 'idDepto'
+                                // LinkToList: 'idDepto',
+                                // JSRefreshService: ['OpcionesSvc', 'GetByDepto']
+                            ),
+                            Events      :   [new FormOnChangeEvent()]
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName    :   'idCentro',
+                            Label           :   'Centro de Costos',
+                            Colspan         :   4,
+                            Required        : false,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Centro,
+                                Key             : 'idCentro',
+                                Description     : 'Descripcion',
+                                SelectedValue   : -1,
+                                DisplaySearch   : true
+                                // LinkToList: 'idDepto',
+                                // JSRefreshService: ['OpcionesSvc', 'GetByDepto']
                             ),
                             Events      :   [new FormOnChangeEvent()]
                         )

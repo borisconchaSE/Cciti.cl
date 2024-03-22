@@ -1,7 +1,7 @@
 <?php
 
 use Application\BLL\BusinessEnumerations\RolesEnum;
-use Application\BLL\DataTransferObjects\Core\ordenCompraDto;
+use Application\BLL\DataTransferObjects\Core\ordencompraDto;
 use Intouch\Framework\BLL\Filters\DataTableSettingsFilterDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\Configuration\SystemConfig;
@@ -56,7 +56,7 @@ $display        =   new Display();
 $display->AddButton(
     new Button(
         Key             :   'btnNuevaCompra',
-        Child           :   new FaIconText('fa-plus-circle','Agregar'),
+        Child           :   new FaIconText('fa-plus-circle','Agregar Producto'),
         Classes         :   ['pull-right'],
         ButtonStyle     :   ButtonStyleEnum::BUTTON_SOFT_INFO,
         Events          :   [
@@ -77,7 +77,7 @@ $tableheader =  new Container(
                 new Container(
                     Classes     :   ['mb-3'],
                     Children    :   [
-                        new Html('<h5 class="card-title">Cantidad Total de Compras<span class="text-muted fw-normal ms-2">('.$CantidadCompras.')</span></h5>')
+                        new Html('<h5 class="card-title">Cantidad Total<span class="text-muted fw-normal ms-2">('.$CantidadCompras.')</span></h5>')
                     ]
                 )
             ]
@@ -149,13 +149,15 @@ $cellDefinitions    =   [
         PropertyName: 'tipo',
         Colspan: 2,
         Label: 'Tipo',
-        FormatFunction  :   function( ordenCompraDto $data,$cell){
-            $stop = 1;
-            if ($data->tipo == 'Alternativo'){
-                return new Html('<center> <span class="badge badge-soft-warning">Alternativo</span> </center>');
-            }else{
-                return new Html('<center> <span class="badge badge-soft-success">Original</span> </center>');
-            }
+        FormatFunction  :   function($data,$cell){
+            $Widget = new Text($data->tipoproducto->DescripcionProduto);
+
+            return new Container(
+                Classes:['center'],
+                Children:[
+                    $Widget
+                ]
+            );
         }
     ),
     new TableCell(

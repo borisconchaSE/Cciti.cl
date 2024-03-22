@@ -430,6 +430,88 @@ function validarInputsStock(frmkey){
     }
 }
 
+function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
+
+    debugger;
+    var IdEmpresaU = eventInfo.FormData.IdEmpresaU;
+
+    var entity      =   {
+        "DatosEmpresa"  :   JSON.stringify({
+
+            IdEmpresaU                      :   IdEmpresaU
+        })
+    }
+    
+    const service = new OpcionesStockSvc(); 
+ 
+    service.GetbyEmpresa(
+        entity,
+        function(result){
+            debugger;
+            console.log(result);
+            $('#frmEditarStock-idDepto').val(result.idDepto);
+            $('#frmEditarStock-idDepto-content').html(result.Descripcion);
+        },
+        function(errorCode,errorMessage){ 
+            Toast.fire({
+                icon: 'error',
+                title: errorMessage
+            });
+        }
+    )
+
+    // if (idAreaPreEntrega >= 0) {
+    //     // llamar al servicio y obtener la siguiente fecha
+    //     const preEntregaSvc = new PreEntregaSvc();
+
+    //     preEntregaSvc.ObtenerSiguienteHoraAgendamiento(
+    //         idAreaPreEntrega,
+    //         function(result){
+
+    //             // Ver si obtubimos fecha
+    //             var labelStyle = 'label-default';
+
+    //             if (result.IdAreaPreEntregaHorario < 0) {
+    //                 labelStyle = 'label-danger';
+    //             }
+    //             else {
+    //                 labelStyle = 'label-success-alt';
+    //             }
+
+    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-default');
+    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-danger');
+    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-success-alt');
+
+    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').addClass(labelStyle);
+
+    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').html(result.Fecha);
+    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario').val(result.IdAreaPreEntregaHorario);
+    //             $('#FechaAgenda').val(result.FechaAgenda);
+    //         },
+    //         function(ErrorCode,ErrorMessage){
+
+    //             Toast.fire({
+    //                 icon: 'error',
+    //                 title: ErrorMessage
+    //             });
+    //         }
+    //     );        
+    // }
+    // else {
+        
+    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-default');
+    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-danger');
+    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-success-alt');
+        
+    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').addClass('label-default');
+
+    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario').val(-1);
+    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').html("<< Seleccione Area");
+    //     $('#FechaAgenda').val('');
+    // }
+
+}
+
 function __tceu(btn){
 
     var me = $(btn)[0];

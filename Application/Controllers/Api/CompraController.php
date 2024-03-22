@@ -13,6 +13,7 @@ use Application\BLL\Services\Core\empresaSvc;
 use Application\BLL\Services\Core\estadoFCSvc;
 use Application\BLL\Services\Core\estadoOCSvc;
 use Application\BLL\Services\Core\proveedorSvc;
+use Application\BLL\Services\Core\tipoproductoSvc;
 use Application\Configuration\ConnectionEnum;
 use Application\Dao\Entities\Core\estadoOC;
 use Application\Dao\Entities\Core\modelo;
@@ -36,7 +37,7 @@ class CompraController extends BaseController
 
     #[Route(Methods: ['POST'], RequireSession:true)]
     #[ReturnActionViewResult]
-    public function PopupAgregarProducto() 
+    public function PopupAgregarProducto($identificador) 
     {
 
         ## PROCEDEMOS A BUSCAR LA INFORMACIÓN
@@ -53,6 +54,8 @@ class CompraController extends BaseController
 
         $DatosFC            =   (new estadoFCSvc(ConnectionEnum::TI))->GetAll();
 
+        $DatosTipo          =   (new tipoproductoSvc(ConnectionEnum::TI))->GetAll();
+
         ## GENERAMOS UN ARRAY CON LOS DATOS PARA LA VISTA
 
         $data   =  (object) [
@@ -61,19 +64,33 @@ class CompraController extends BaseController
             "DatosEmpresa"          =>  $DatosEmpresa,
             "DatosProveedor"        =>  $DatosProveedor,
             "DatosOC"               =>  $DatosOC,
-            "DatosFC"               =>  $DatosFC
+            "DatosFC"               =>  $DatosFC,
+            "DatosTipo"             =>  $DatosTipo
 
         ]; 
 
+        if($identificador == 'Agregar Tonner'){
 
-        ## RENDERIZAMOS LA VISTA
-        return Display::GetRenderer('Core/Compra')->RenderView('PopupAgregarProducto',$data);
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Compra')->RenderView('PopupAgregarProducto',$data);
+
+        }elseif($identificador == 'Agregar Activo'){
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Generales')->RenderView('PopupAgregarGenerales',$data);
+
+        }else{
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Gastos')->RenderView('PopupAgregarGastos',$data);
+
+        }     
     }
 
     #[Route(Methods: ['POST'], RequireSession:true)]
     #[ReturnActionViewResult]
     public function PopupEditarCompra(int $IdO_C) 
     { 
+
+        $ListasGastos = [4,7];
 
         ## PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL USUARIO EN EL BO
         $CompraDto          =   (new CompraBO())->GetCompra($IdO_C);
@@ -94,6 +111,11 @@ class CompraController extends BaseController
 
         $DatosFC            =   (new estadoFCSvc(ConnectionEnum::TI))->GetAll();
 
+        $DatosTipo          =   (new tipoproductoSvc(ConnectionEnum::TI))->GetAll();
+
+
+
+
         ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
             "Compra"                =>  $CompraDto,
@@ -104,11 +126,20 @@ class CompraController extends BaseController
             "DatosEmpresa"          =>  $DatosEmpresa,
             "DatosProveedor"        =>  $DatosProveedor,
             "DatosOC"               =>  $DatosOC,
-            "DatosFC"               =>  $DatosFC
+            "DatosFC"               =>  $DatosFC,
+            "DatosTipo"             =>  $DatosTipo
         ];
 
-        ## RENDERIZAMOS LA VISTA
-        return Display::GetRenderer('Core/Compra')->RenderView('PopupEditarCompra',$dataView);
+        if(in_array($CompraDto->idTipoProducto,$ListasGastos)){
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Gastos')->RenderView('PopupEditarGastos',$dataView);
+        }elseif($CompraDto->idTipoProducto == 1){
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Compra')->RenderView('PopupEditarCompra',$dataView);
+        }else{   
+            ## RENDERIZAMOS LA VISTA
+            return Display::GetRenderer('Core/Generales')->RenderView('PopupEditarGenerales',$dataView);
+        }
     } 
 
     #[Route(Methods: ['POST'], RequireSession:true)]

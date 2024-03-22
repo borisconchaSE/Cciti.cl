@@ -357,7 +357,7 @@ $content = new Container(
 
 $popUp = new PopUpContent(
     Key                 : 'PopupCompraNuevo', 
-    Title               : 'Nuevo Producto',
+    Title               : 'Nueva Compra',
     DismissButtonText   : 'Cerrar',
     DismissButtonStyle  : ButtonStyleEnum::BUTTON_SOFT_PRIMARY,
     SubTitle            : '',

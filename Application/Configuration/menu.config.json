@@ -34,7 +34,7 @@
                 "Uri": "/compra"               
             },
             {
-                "Description": "@@{MnuCompras, Generales}",
+                "Description": "@@{MnuCompras, Activos TI}",
                 "Icon": "fa-shopping-basket",
                 "Uri": "/generales"               
             }, 

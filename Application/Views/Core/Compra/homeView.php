@@ -1,13 +1,14 @@
 <?php
 
 use Application\BLL\BusinessEnumerations\RolesEnum;
-use Application\BLL\DataTransferObjects\Core\ordenCompraDto;
+use Application\BLL\DataTransferObjects\Core\ordencompraDto;
 use Intouch\Framework\BLL\Filters\DataTableSettingsFilterDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\Configuration\SystemConfig;
 use Intouch\Framework\Environment\Session;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\Button;
+use Intouch\Framework\View\DisplayDefinitions\FormRowFieldHidden;
 use Intouch\Framework\View\DisplayDefinitions\JSTable\JSTableCell;
 use Intouch\Framework\View\DisplayDefinitions\TableButton;
 use Intouch\Framework\View\DisplayDefinitions\TableCell;
@@ -24,6 +25,8 @@ use Intouch\Framework\Widget\Html;
 use Intouch\Framework\Widget\Label;
 use Intouch\Framework\Widget\PageHeader;
 use Intouch\Framework\Widget\Text;
+use Karriere\JsonDecoder\Property;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trunc;
 
 use function PHPSTORM_META\map;
@@ -56,7 +59,7 @@ $display        =   new Display();
 $display->AddButton(
     new Button(
         Key             :   'btnNuevaCompra',
-        Child           :   new FaIconText('fa-plus-circle','Agregar'),
+        Child           :   new FaIconText('fa-plus-circle','Agregar Tonner'),
         Classes         :   ['pull-right'],
         ButtonStyle     :   ButtonStyleEnum::BUTTON_SOFT_INFO,
         Events          :   [
@@ -91,7 +94,7 @@ $tableheader =  new Container(
           
     ]
 ); 
- 
+
 
 
 
@@ -149,7 +152,7 @@ $cellDefinitions    =   [
         PropertyName: 'tipo',
         Colspan: 2,
         Label: 'Tipo',
-        FormatFunction  :   function( ordenCompraDto $data,$cell){
+        FormatFunction  :   function( ordencompraDto $data,$cell){
             $stop = 1;
             if ($data->tipo == 'Alternativo'){
                 return new Html('<center> <span class="badge badge-soft-warning">Alternativo</span> </center>');
