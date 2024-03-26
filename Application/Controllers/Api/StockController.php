@@ -117,7 +117,6 @@ class StockController extends BaseController
     #[ReturnActionViewResult]
     public function GetbyEmpresa($DatosEmpresa) 
     { 
-
         ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
         $DepartamentoService     =   new departamentoSvc(ConnectionEnum::TI);
 
@@ -126,6 +125,60 @@ class StockController extends BaseController
         try{
             ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
             $datos          =   $DepartamentoService->GetByForeign('IdEmpresa',$IdEmpresaU);
+
+        } catch (\Exception $ex) {
+
+            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            $datos = null;
+        }
+
+        return $datos;
+
+    }
+
+    #[Route(Methods: ['POST'], RequireSession:true)]
+    #[ReturnActionViewResult]
+    public function GetByDepto($DatosDepto) 
+    { 
+
+        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        $UbicacionService     =   new ubicacionSvc(ConnectionEnum::TI);
+        $DepartamentoService  =   new departamentoSvc(ConnectionEnum::TI);
+
+        $idDepto        =     $DatosDepto->idDepto;
+
+        $datosDept      =   $DepartamentoService->GetByForeign('idDepto',$idDepto);
+
+        $idubi          =   $datosDept->Values[0]->idubicacion;
+
+
+        try{
+            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            $datos          =   $UbicacionService->GetByForeign('idubicacion',$idubi);
+
+        } catch (\Exception $ex) {
+
+            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            $datos = null;
+        }
+
+        return $datos;
+
+    }
+
+    #[Route(Methods: ['POST'], RequireSession:true)]
+    #[ReturnActionViewResult]
+    public function GetByUbi($DatosUbi) 
+    { 
+
+        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        $CentroService     =   new centrocostosSvc(ConnectionEnum::TI);
+
+        $idubicacion       =     $DatosUbi->idubicacion;
+
+        try{
+            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            $datos          =   $CentroService->GetByForeign('idCentro',$idubicacion);
 
         } catch (\Exception $ex) {
 

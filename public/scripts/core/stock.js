@@ -441,87 +441,113 @@ function validarInputsStock(frmkey){
     }
 }
 
-// function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
+function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
 
-//     debugger;
-//     var IdEmpresaU = eventInfo.FormData.IdEmpresaU;
+    debugger;
+    var IdEmpresaU = eventInfo.FormData.IdEmpresaU;
 
-//     var entity      =   {
-//         "DatosEmpresa"  :   JSON.stringify({
+    var entity      =   {
+        "DatosEmpresa"  :   JSON.stringify({
 
-//             IdEmpresaU                      :   IdEmpresaU
-//         })
-//     }
+            IdEmpresaU                      :   IdEmpresaU
+        })
+    }
     
-//     const service = new OpcionesStockSvc(); 
+    const service = new OpcionesStockSvc();
+
+    console.log(entity)
  
-//     service.GetbyEmpresa(
-//         entity,
-//         function(result){
-//             debugger;
-//             console.log(result);
-//             $('#frmEditarStock-idDepto').val(result.idDepto);
-//             $('#frmEditarStock-idDepto-content').html(result.Descripcion);
-//         },
-//         function(errorCode,errorMessage){ 
-//             Toast.fire({
-//                 icon: 'error',
-//                 title: errorMessage
-//             });
-//         }
-//     )
+    service.GetbyEmpresa(
+        entity,
+        function(result){
+            debugger;
+            console.log(result);
+            $('#frmEditarStock-idDepto').html("")
+            var optios = ""
+            $.each( result, function( key, value ) {
+                optios += `<option value="${value.idDepto}">${value.Descripcion}</option>`
+            })
+            //$('#frmEditarStock-idDepto').val(result.idDepto);
+            $('#frmEditarStock-idDepto').html(optios);
+        },
+        function(errorCode,errorMessage){ 
+            Toast.fire({
+                icon: 'error',
+                title: errorMessage
+            });
+        }
+    )
+}
 
-    // if (idAreaPreEntrega >= 0) {
-    //     // llamar al servicio y obtener la siguiente fecha
-    //     const preEntregaSvc = new PreEntregaSvc();
+function frmEditarStock_idDepto_OnChange(eventInfo) {
 
-    //     preEntregaSvc.ObtenerSiguienteHoraAgendamiento(
-    //         idAreaPreEntrega,
-    //         function(result){
+    debugger;
+    var idDepto = eventInfo.FormData.idDepto;
 
-    //             // Ver si obtubimos fecha
-    //             var labelStyle = 'label-default';
+    var entity      =   {
+        "DatosDepto"  :   JSON.stringify({
 
-    //             if (result.IdAreaPreEntregaHorario < 0) {
-    //                 labelStyle = 'label-danger';
-    //             }
-    //             else {
-    //                 labelStyle = 'label-success-alt';
-    //             }
+            idDepto                      :   idDepto
+        })
+    }
+    
+    const service = new OpcionesStockSvc(); 
+ 
+    service.GetByDepto(
+        entity,
+        function(result){
+            debugger;
+            console.log(result);
+            $('#frmEditarStock-idubicacion').html("")
+            var optios = ""
+            $.each( result, function( key, value ) {
+                optios += `<option value="${value.idubicacion}">${value.Descripcion}</option>`
+            })
+            $('#frmEditarStock-idubicacion').html(optios);
+        },
+        function(errorCode,errorMessage){ 
+            Toast.fire({
+                icon: 'error',
+                title: errorMessage
+            });
+        }
+    )
+}
 
-    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-default');
-    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-danger');
-    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-success-alt');
+function frmEditarStock_idubicacion_OnChange(eventInfo) {
 
-    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').addClass(labelStyle);
+    debugger;
+    var idubicacion = eventInfo.FormData.idubicacion;
 
-    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').html(result.Fecha);
-    //             $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario').val(result.IdAreaPreEntregaHorario);
-    //             $('#FechaAgenda').val(result.FechaAgenda);
-    //         },
-    //         function(ErrorCode,ErrorMessage){
+    var entity      =   {
+        "DatosUbi"  :   JSON.stringify({
 
-    //             Toast.fire({
-    //                 icon: 'error',
-    //                 title: ErrorMessage
-    //             });
-    //         }
-    //     );        
-    // }
-    // else {
-        
-    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-default');
-    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-danger');
-    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').removeClass('label-success-alt');
-        
-    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').addClass('label-default');
-
-    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario').val(-1);
-    //     $('#frmNuevaSolicituPreEntrega-IdAreaPreEntregaHorario-content').html("<< Seleccione Area");
-    //     $('#FechaAgenda').val('');
-    // }
-
-// }
+            idubicacion                      :   idubicacion
+        })
+    }
+    
+    const service = new OpcionesStockSvc(); 
+ 
+    service.GetByUbi(
+        entity,
+        function(result){
+            debugger;
+            console.log(result);
+            $('#frmEditarStock-idCentro').html("")
+            var optios = ""
+            $.each( result, function( key, value ) {
+                optios += `<option value="${value.idCentro}">${value.Descripcion}</option>`
+            })
+            $('#frmEditarStock-idCentro').html(optios);
+        },
+        function(errorCode,errorMessage){ 
+            Toast.fire({
+                icon: 'error',
+                title: errorMessage
+            });
+        }
+    )
+}
 
 function __tceu(btn){
 

@@ -8,6 +8,14 @@ class OpcionesStockSvc extends Service {
         this.Call('GetbyEmpresa', 'post', entity, onSuccessCallback, onErrorCallback);
     }
 
+    GetByDepto(entity = {}, onSuccessCallback = null, onErrorCallback = null) {
+        this.Call('GetByDepto', 'post', entity, onSuccessCallback, onErrorCallback);
+    }
+
+    GetByUbi(entity = {}, onSuccessCallback = null, onErrorCallback = null) {
+        this.Call('GetByUbi', 'post', entity, onSuccessCallback, onErrorCallback);
+    }
+
 }
 
 function OpcionesStockSvc_invoke() {

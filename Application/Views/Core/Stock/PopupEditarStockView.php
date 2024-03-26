@@ -388,15 +388,15 @@ if($data->Stock != null){
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
                                 DisplaySearch   : true,
-                                LinkToList: 'IdEmpresaU',
-                                JSRefreshService: ['OpcionesSvc', 'GetByEmpresa']
+                                LinkToList      : 'IdEmpresaU'
+                                // JSRefreshService: ['OpcionesStockSvc', 'GetByEmpresa']
                             ),
                             Events      :   [new FormOnChangeEvent(
-                                // Actions: [
-                                //     new RefreshListAction(
-                                //         TargetElementKeys: ['idubicacion']
-                                //     )
-                                // ]
+                                Actions: [
+                                    new RefreshListAction(
+                                        TargetElementKeys: ['idubicacion']
+                                    )
+                                ]
                             )]
                         ),
                         new FormRowFieldSelect(
@@ -409,11 +409,17 @@ if($data->Stock != null){
                                 Key             : 'idubicacion',
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
-                                DisplaySearch   : true
-                                // LinkToList: 'idDepto',
-                                // JSRefreshService: ['OpcionesSvc', 'GetByDepto']
+                                DisplaySearch   : true,
+                                LinkToList: 'idDepto'
+                                // JSRefreshService: ['OpcionesStockSvc', 'GetByDepto']
                             ),
-                            Events      :   [new FormOnChangeEvent()]
+                            Events      :   [new FormOnChangeEvent(
+                                Actions: [
+                                    new RefreshListAction(
+                                        TargetElementKeys: ['idCentro']
+                                    )
+                                ]
+                            )]
                         ),
                         new FormRowFieldSelect(
                             PropertyName    :   'idCentro',
@@ -425,9 +431,9 @@ if($data->Stock != null){
                                 Key             : 'idCentro',
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
-                                DisplaySearch   : true
-                                // LinkToList: 'idDepto',
-                                // JSRefreshService: ['OpcionesSvc', 'GetByDepto']
+                                DisplaySearch   : true,
+                                LinkToList: 'idubicacion'
+                                // JSRefreshService: ['OpcionesStockSvc', 'GetByUbi']
                             ),
                             Events      :   [new FormOnChangeEvent()]
                         )
