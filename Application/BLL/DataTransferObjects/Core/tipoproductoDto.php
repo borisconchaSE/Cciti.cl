@@ -7,7 +7,7 @@ class tipoproductoDto
 
     public function __construct(
 		public int $idTipoProducto = 0,
-		public string $DescripcionProduto = ''
+		public string $DescripcionProducto = ''
     ) {
 
     }

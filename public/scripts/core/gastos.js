@@ -99,12 +99,8 @@ function btnCrearNuevaCompra_OnClick(eventInfo){
         "NuevoCompra"  :  JSON.stringify({
             "Fecha_compra"          :   eventInfo.FormData.Fecha_compra,
             "Descripcion"           :   eventInfo.FormData.Descripcion,
-            "idMarca"               :   eventInfo.FormData.idMarca,
-            "idModelo"              :   eventInfo.FormData.idModelo,
             "Orden_compra"          :   eventInfo.FormData.Orden_compra,
             "Factura_compra"        :   eventInfo.FormData.Factura_compra,
-            "Precio_U"              :   eventInfo.FormData.Precio_U,
-            "Cantidad"              :   eventInfo.FormData.Cantidad,
             "Precio_total"          :   eventInfo.FormData.Precio_total,
             "tipo"                  :   eventInfo.FormData.tipo,
             "idProveedor"           :   eventInfo.FormData.idProveedor,
@@ -149,12 +145,8 @@ function btnCrearNuevaCompra_OnClick(eventInfo){
 function DibujarNuevoCompra(DatosCompra = {
     'Fecha_compra'              :   '2000-01-01',
     'Descripcion'               :   'HP30A',
-    'idMarca'                   :   'HP',
-    'idModelo'                  :   '30A',
     'Orden_compra'              :   '16513',
     'Factura_compra'            :   '185202',
-    'Precio_U'                  :   '58632',
-    'Cantidad'                  :   '1',
     'Precio_total'              :   '58632',
     'tipo'                      :   'Original',
     'idProveedor'               :   'Comercial Rann LTDA',
@@ -168,12 +160,8 @@ function DibujarNuevoCompra(DatosCompra = {
     var idCell              =   DatosCompra.idO_C;
     var Fecha               =   DatosCompra.Fecha_compra;
     var Descripcion         =   DatosCompra.Descripcion;
-    var idMarca             =   DatosCompra.idMarca;
-    var idModelo            =   DatosCompra.idModelo;
     var Orden_compra        =   DatosCompra.Orden_compra;
     var Factura_compra      =   DatosCompra.Factura_compra;
-    var Precio_U            =   DatosCompra.Precio_U;
-    var Cantidad            =   DatosCompra.Cantidad;
     var Precio_total        =   DatosCompra.Precio_total;
     var tipo                =   DatosCompra.tipo;
     var idProveedor         =   DatosCompra.idProveedor;
@@ -182,7 +170,7 @@ function DibujarNuevoCompra(DatosCompra = {
     var IdEmpresa           =   DatosCompra.IdEmpresa;   
 
 
-    var rowNode     = table.row.add( [ Fecha, Descripcion, idMarca, idModelo, Orden_compra, Factura_compra, Precio_U, Cantidad, Precio_total, tipo, idProveedor, idEstado_oc, idEstado_FC, IdEmpresa] ).draw().node();
+    var rowNode     = table.row.add( [ Fecha, Descripcion, Orden_compra, Factura_compra, Precio_total, tipo, idProveedor, idEstado_oc, idEstado_FC, IdEmpresa] ).draw().node();
     
     /* AGREGAMOS LOS VALORES PK */
     debugger;
@@ -200,26 +188,18 @@ function DibujarNuevoCompra(DatosCompra = {
     $(rowNode).find('td:eq(7)').attr('data-pk',DatosCompra.idO_C)
     $(rowNode).find('td:eq(8)').attr('data-pk',DatosCompra.idO_C)
     $(rowNode).find('td:eq(9)').attr('data-pk',DatosCompra.idO_C)
-    $(rowNode).find('td:eq(10)').attr('data-pk',DatosCompra.idO_C)
-    $(rowNode).find('td:eq(11)').attr('data-pk',DatosCompra.idO_C)
-    $(rowNode).find('td:eq(12)').attr('data-pk',DatosCompra.idO_C)
-    $(rowNode).find('td:eq(13)').attr('data-pk',DatosCompra.idO_C)
 
     /* INCORPORAMOS EL NOMBRE DE LA PROPIEDAD A LA TABLA */
     $(rowNode).find('td:eq(0)').attr('data-property-name','Fecha_compra')
     $(rowNode).find('td:eq(1)').attr('data-property-name','Descripcion')
-    $(rowNode).find('td:eq(2)').attr('data-property-name','idMarca')
-    $(rowNode).find('td:eq(3)').attr('data-property-name','idModelo')
-    $(rowNode).find('td:eq(4)').attr('data-property-name','Orden_compra')
-    $(rowNode).find('td:eq(5)').attr('data-property-name','Factura_compra')
-    $(rowNode).find('td:eq(6)').attr('data-property-name','Precio_U')
-    $(rowNode).find('td:eq(7)').attr('data-property-name','Cantidad')
-    $(rowNode).find('td:eq(8)').attr('data-property-name','Precio_total')
-    $(rowNode).find('td:eq(9)').attr('data-property-name','tipo')
-    $(rowNode).find('td:eq(10)').attr('data-property-name','idProveedor')
-    $(rowNode).find('td:eq(11)').attr('data-property-name','idEstado_oc')
-    $(rowNode).find('td:eq(12)').attr('data-property-name','idEstado_FC')
-    $(rowNode).find('td:eq(13)').attr('data-property-name','IdEmpresa')
+    $(rowNode).find('td:eq(2)').attr('data-property-name','Orden_compra')
+    $(rowNode).find('td:eq(3)').attr('data-property-name','Factura_compra')
+    $(rowNode).find('td:eq(4)').attr('data-property-name','Precio_total')
+    $(rowNode).find('td:eq(5)').attr('data-property-name','tipo')
+    $(rowNode).find('td:eq(6)').attr('data-property-name','idProveedor')
+    $(rowNode).find('td:eq(7)').attr('data-property-name','idEstado_oc')
+    $(rowNode).find('td:eq(8)').attr('data-property-name','idEstado_FC')
+    $(rowNode).find('td:eq(9)').attr('data-property-name','IdEmpresa')
 
 }
 
@@ -249,12 +229,8 @@ function btnGuardarCambiosCompra_OnClick(eventInfo){
     var idO_C                       =   eventInfo.FormData.idO_C;
     var Fecha_compra                =   eventInfo.FormData.Fecha_compra;
     var Descripcion                 =   eventInfo.FormData.Descripcion;
-    var idMarca                     =   eventInfo.FormData.idMarca;
-    var idModelo                    =   eventInfo.FormData.idModelo;
     var Orden_compra                =   eventInfo.FormData.Orden_compra;
     var Factura_compra              =   eventInfo.FormData.Factura_compra;
-    var Precio_U                    =   eventInfo.FormData.Precio_U;
-    var Cantidad                    =   eventInfo.FormData.Cantidad;
     var Precio_total                =   eventInfo.FormData.Precio_total;
     var tipo                        =   eventInfo.FormData.tipo;
     var idProveedor                 =   eventInfo.FormData.idProveedor;
@@ -270,12 +246,8 @@ function btnGuardarCambiosCompra_OnClick(eventInfo){
             idO_C                           :   idO_C,
             Fecha_compra                    :   Fecha_compra,
             Descripcion                     :   Descripcion,
-            idMarca                         :   idMarca,
-            idModelo                        :   idModelo,
             Orden_compra                    :   Orden_compra,
             Factura_compra                  :   Factura_compra,
-            Precio_U                        :   Precio_U,
-            Cantidad                        :   Cantidad,
             Precio_total                    :   Precio_total,
             tipo                            :   tipo,
             idProveedor                     :   idProveedor,
@@ -293,12 +265,8 @@ function btnGuardarCambiosCompra_OnClick(eventInfo){
             $('.modal').modal('hide');  
             $(`td[data-pk="${idO_C}"][data-property-name="Fecha_compra"]`).html(Fecha_compra)
             $(`td[data-pk="${idO_C}"][data-property-name="Descripcion"]`).html(Descripcion)
-            $(`td[data-pk="${idO_C}"][data-property-name="marca"]`).html(idMarca)
-            $(`td[data-pk="${idO_C}"][data-property-name="modelo"]`).html(idModelo)
             $(`td[data-pk="${idO_C}"][data-property-name="Orden_compra"]`).html(Orden_compra)
             $(`td[data-pk="${idO_C}"][data-property-name="Factura_compra"]`).html(Factura_compra)
-            $(`td[data-pk="${idO_C}"][data-property-name="Precio_U"]`).html(Precio_U)
-            $(`td[data-pk="${idO_C}"][data-property-name="Cantidad"]`).html(Cantidad)
             $(`td[data-pk="${idO_C}"][data-property-name="Precio_total"]`).html(Precio_total)
             $(`td[data-pk="${idO_C}"][data-property-name="tipo"]`).html(tipo)
             $(`td[data-pk="${idO_C}"][data-property-name="idProveedor"]`).html(idProveedor)
@@ -324,6 +292,7 @@ function btnGuardarCambiosCompra_OnClick(eventInfo){
 
 
 function validarInputsCompra(frmkey){
+
     
     var statusInputProducto = ValidarInput( /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Descripcion`, /* facilitamos el ID del input que debemos validar */
@@ -371,52 +340,6 @@ function validarInputsCompra(frmkey){
         '',
         'La fecha no tiene el formato correcto.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     )
-
-  
- 
-
-
-    /* ------------------------------------------------------------------------------------------------ */
-    /* VALIDAMOS EL INPUT QUE CORRESPONDE AL NOMBRE DEL CARGO DEL NUEVO USUARIO                                   */
-    /* ------------------------------------------------------------------------------------------------ */
- 
-    var statusInputCantidad = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-Cantidad`, /* facilitamos el ID del input que debemos validar */
-        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
-            
-            x = validarTextoInput(x);
-
-
-            if (x != undefined && x != null && x != "") {
-                return true;
-            }else{
-                return false;
-            }
-        }, /*  --- */
-        '',
-        'Ingresar cuantos productos va a agregar.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
-    ) 
-    /* ------------------------------------------------------------------------------------------------ */
-
-
-    var statusInputPrecioU = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-Precio_U`, /* facilitamos el ID del input que debemos validar */
-        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
-
-            x = validarTextoInput(x);
-
-            if(x == 1){
-                return true;
-            }
-            else if (x != undefined && x != null && x.length >= 3) {
-                return true;
-            }else{
-                return false;
-            }
-        }, /*  --- */
-        '',
-        'Ingresar el precio unitario.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
-    )
     
     var statusInputPrecioT = ValidarInput( /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Precio_total`, /* facilitamos el ID del input que debemos validar */
@@ -451,8 +374,8 @@ function validarInputsCompra(frmkey){
         'Ingresar una empresa disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     ) 
 
-    var statusInputMarca = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-idMarca`, /* facilitamos el ID del input que debemos validar */
+    var statusInputOC = ValidarInput( /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-idEstado_oc`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
             x = validarTextoInput(x);
@@ -467,8 +390,8 @@ function validarInputsCompra(frmkey){
         'Ingresar una marca disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     )
 
-    var statusInputModelo = ValidarInput( /* Invocamos la función que permite validar los inputs */
-    `${frmkey}-idModelo`, /* facilitamos el ID del input que debemos validar */
+    var statusInputFC = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    `${frmkey}-idEstado_FC`, /* facilitamos el ID del input que debemos validar */
     function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
         x = validarTextoInput(x);
@@ -504,13 +427,11 @@ function validarInputsCompra(frmkey){
     if  (
         statusInputProducto         != true ||
         statusInputFecha            != true ||
-        statusInputCantidad         != true ||
-        statusInputPrecioU          != true ||
         statusInputPrecioT          != true ||
         statusInputEmpresa          != true ||
-        statusInputModelo           != true ||
+        statusInputFC               != true ||
         statusInputProveedor        != true ||
-        statusInputMarca            != true 
+        statusInputOC               != true 
     ){
         return false;
     }else{

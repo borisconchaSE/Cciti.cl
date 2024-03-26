@@ -2,6 +2,7 @@
 
 use Application\BLL\DataTransferObjects\Core\empresaDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
+use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\FormButton;
@@ -68,6 +69,25 @@ if(!empty($data->DatosMarca)){
     ) ;
 }
 
+$Modelo = [
+    new modeloDto(
+        idModelo         :  -1,
+        Descripcion      :  'Sin Seleccionar',
+        idMarca          :  100
+    )
+];
+
+if(!empty($data->DatosModelo)){
+
+    $Modelo   = array_merge($Modelo,$data->DatosModelo->Values);
+
+    $Modelo   =   new GenericCollection(
+        DtoName     :   modeloDto::class,
+        Key         :   'idModelo',
+        Values      :   $Modelo
+    ) ;
+}
+
 $Empresa = [
     new empresaDto(
         IdEmpresa       :   -1,
@@ -110,16 +130,6 @@ $display->AddFormFromObject(
                         PropertyName    :   'Fecha',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
                         Label           :   'Fecha Llegada',
-                        Required        :   true,
-                        Colspan         :   4, 
-                        Events          :   [
-                            new FormOnChangeEvent()
-                        ]
-                    ),
-                    new FormRowFieldDate(
-                        PropertyName    :   'Fecha_Asignacion',
-                        FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
-                        Label           :   'Fecha Entrega',
                         Required        :   true,
                         Colspan         :   4, 
                         Events          :   [
@@ -172,35 +182,35 @@ $display->AddFormFromObject(
                         Required        :   true,
                         Colspan         :   4,
                     ),
-                    new FormRowFieldSelect(
-                        PropertyName: 'estado_stock',
-                        Label: 'Estado Producto',
-                        Colspan: 4,
-                        Required: true,
-                        SelectDefinition: new FormRowFieldSelectDefinition(
-                            Values          : [
-                                (object)    [
-                                    "tipo"          =>   0,
-                                    "Descripcion"   =>   "En Stock"
-                                ],
-                                (object)    [
-                                    "tipo"           =>   1,
-                                    "Descripcion"   =>   "Entregado"
-                                ]
-                            ],
-                            Key             : 'tipo',
-                            Description     : 'Descripcion',
-                            SelectedValue   : 0,
-                            DisplaySearch   : true
-                        ),
-                        Events      :   [new FormOnChangeEvent()]
-                    )
                     ],
                     [
                         new FormRowFieldSelect(
+                            PropertyName: 'estado_stock',
+                            Label: 'Estado Producto',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : [
+                                    (object)    [
+                                        "tipo"          =>   0,
+                                        "Descripcion"   =>   "En Stock"
+                                    ],
+                                    (object)    [
+                                        "tipo"           =>   1,
+                                        "Descripcion"   =>   "Entregado"
+                                    ]
+                                ],
+                                Key             : 'tipo',
+                                Description     : 'Descripcion',
+                                SelectedValue   : 0,
+                                DisplaySearch   : true
+                            ),
+                            Events      :   [new FormOnChangeEvent()]
+                        ),
+                        new FormRowFieldSelect(
                             PropertyName    :   'IdEmpresa',
                             Label           :   'Empresa',
-                            Colspan         :   6,
+                            Colspan         :   4,
                             Required        : true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Empresa,
@@ -213,11 +223,24 @@ $display->AddFormFromObject(
                         new FormRowFieldSelect(
                             PropertyName: 'idMarca',
                             Label: 'Marca',
-                            Colspan: 6,
+                            Colspan: 4,
                             Required: true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Marca,
                                 Key             : 'idMarca',
+                                Description     : 'Descripcion',
+                                SelectedValue   : -1,
+                                DisplaySearch   : true
+                            ), 
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName: 'idModelo',
+                            Label: 'Modelo',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Modelo,
+                                Key             : 'idModelo',
                                 Description     : 'Descripcion',
                                 SelectedValue   : -1,
                                 DisplaySearch   : true

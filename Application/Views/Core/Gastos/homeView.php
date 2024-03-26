@@ -108,17 +108,7 @@ $cellDefinitions    =   [
     new TableCell(
         PropertyName: 'Descripcion',
         Colspan: 2,
-        Label: 'Nombre Producto'
-    ),
-    new TableCell(
-        PropertyName: 'marca',
-        Colspan: 2,
-        Label: 'Marca'
-    ),
-    new TableCell(
-        PropertyName: 'modelo',
-        Colspan: 2,
-        Label: 'Modelo'
+        Label: 'Descripcion'
     ),
     new TableCell(
         PropertyName: 'Orden_compra',
@@ -131,16 +121,6 @@ $cellDefinitions    =   [
         Label: 'Factura Compra'
     ),
     new TableCell(
-        PropertyName: 'Precio_U',
-        Colspan: 2,
-        Label: 'Precio Unitario'
-    ),
-    new TableCell(
-        PropertyName: 'Cantidad',
-        Colspan: 2,
-        Label: 'Cantidad'
-    ),
-    new TableCell(
         PropertyName: 'Precio_total',
         Colspan: 2,
         Label: 'Precio Total'
@@ -150,7 +130,7 @@ $cellDefinitions    =   [
         Colspan: 2,
         Label: 'Tipo',
         FormatFunction  :   function($data,$cell){
-            $Widget = new Text($data->tipoproducto->DescripcionProduto);
+            $Widget = new Text($data->tipoproducto->DescripcionProducto);
 
             return new Container(
                 Classes:['center'],

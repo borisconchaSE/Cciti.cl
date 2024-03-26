@@ -5,6 +5,7 @@ use Application\BLL\DataTransferObjects\Core\departamentoDto;
 use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\empresaDto;
+use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Application\BLL\DataTransferObjects\Core\ubicacionDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
@@ -149,10 +150,31 @@ if(!empty($data->DatosMarca)){
     ) ;
 }
 
-$EmpresaData    =   $data->Stock->IdEmpresa;
-$MarcaData      =   $data->Stock->idMarca;
-$FechaData      =   $data->Stock->Fecha;
-$FechaData      =   date("d-m-Y", strtotime($FechaData));
+$Modelo = [
+    new modeloDto(
+        idModelo        :   -1,
+        Descripcion     :   'Sin Seleccionar',
+        idMarca         :   100
+    )
+];
+
+if(!empty($data->DatosModelo)){
+
+    $Modelo   = array_merge($Modelo,$data->DatosModelo->Values);
+
+    $Modelo   =   new GenericCollection(
+        DtoName     :   modeloDto::class,
+        Key         :   'idModelo',
+        Values      :   $Modelo
+    ) ;
+}
+
+$EmpresaData        =   $data->Stock->IdEmpresa;
+$MarcaData          =   $data->Stock->idMarca;
+$ModeloData         =   $data->Stock->idModelo;
+$FechaData          =   $data->Stock->Fecha;
+$FechaData          =   date("d-m-Y", strtotime($FechaData));
+
 
 ## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
 if($data->Stock != null){
@@ -175,7 +197,19 @@ if($data->Stock != null){
     ## IMPRIMIMOS UN ERROR EN PANTALLA 
    $display->AddFormFromObject( 
         formKey         :   'frmEditarStock',
-        object          :   $data->Stock,
+        object          :   (object)[ 
+            "id_stock"          =>  $data->Stock->id_stock,
+            "Descripcion"       =>  $data->Stock->Descripcion,
+            "Fecha"             =>  $FechaData,
+            "tipo"              =>  $Tipo,
+            "Cantidad"          =>  $data->Stock->Cantidad,
+            "Precio_Unitario"   =>  $data->Stock->Precio_Unitario,
+            "Precio_total"      =>  $data->Stock->Precio_total,
+            "idMarca"           =>  $MarcaData,
+            "idModelo"          =>  $ModeloData,
+            "IdEmpresa"         =>  $EmpresaData,
+            "estado_stock"      =>  $estado
+         ],
         keyFieldName    :   'id_stock',
         rowGroups       :   [ 
             new FormRowGroup(
@@ -197,6 +231,16 @@ if($data->Stock != null){
                             FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
                             Label           :   'Fecha Llegada',
                             Placeholder     :   $FechaData,    
+                            Required        :   true,
+                            Colspan         :   4, 
+                            Events          :   [
+                                new FormOnChangeEvent()
+                            ]
+                        ),
+                        new FormRowFieldDate(
+                            PropertyName    :   'Fecha_Asignacion',
+                            FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
+                            Label           :   'Fecha Asignacion',
                             Required        :   true,
                             Colspan         :   4, 
                             Events          :   [
@@ -259,6 +303,19 @@ if($data->Stock != null){
                                 Key             : 'idMarca',
                                 Description     : 'Descripcion',
                                 SelectedValue   : $MarcaData,
+                                DisplaySearch   : true
+                            ), 
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName: 'idModelo',
+                            Label: 'Modelo',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Modelo,
+                                Key             : 'idModelo',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $ModeloData,
                                 DisplaySearch   : true
                             ), 
                         ),

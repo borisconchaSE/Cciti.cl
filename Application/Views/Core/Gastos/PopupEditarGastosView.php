@@ -6,6 +6,7 @@ use Application\BLL\DataTransferObjects\Core\estadoOCDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Application\BLL\DataTransferObjects\Core\proveedorDto;
+use Application\BLL\DataTransferObjects\Core\tipoproductoDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\FormButton;
@@ -59,41 +60,6 @@ if(!empty($data->DatosEmpresa)){
     ) ;
 }
 
-$Marca = [
-    new marcaDto(
-        idMarca   :   -1,
-        Descripcion     :   'Sin Seleccionar'
-    )
-];
-
-if(!empty($data->DatosMarca)){
-
-    $Marca   = array_merge($Marca,$data->DatosMarca->Values);
-
-    $Marca   =   new GenericCollection(
-        DtoName     :   marcaDto::class,
-        Key         :   'idMarca',
-        Values      :   $Marca
-    ) ;
-}
- 
-$Modelo = [
-    new modeloDto(
-        idMarca   :   -1,
-        Descripcion     :   'Sin Seleccionar'
-    )
-];
-
-if(!empty($data->DatosModelo)){
-
-    $Modelo   = array_merge($Modelo,$data->DatosModelo->Values);
-
-    $Modelo   =   new GenericCollection(
-        DtoName     :   modeloDto::class,
-        Key         :   'idModelo',
-        Values      :   $Modelo
-    ) ;
-}
 
 $Proveedor = [
     new proveedorDto(
@@ -161,22 +127,32 @@ if(!empty($data->Compra->tipo)){
 
 }
 
+$TipoProducto = [
+    new tipoproductoDto(
+        idTipoProducto              :   -1,
+        DescripcionProducto          :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosTipo)){
+
+    $TipoProducto   = array_merge($TipoProducto,$data->DatosTipo->Values);
+
+    $TipoProducto   =   new GenericCollection(
+        DtoName     :   tipoproductoDto::class,
+        Key         :   'idTipoProducto',
+        Values      :   $TipoProducto
+    ) ;
+}
+
 $EmpresaData    =   $data->Compra->IdEmpresa;
 $ProveedorData  =   $data->Compra->idProveedor;
 $EstadoOCData   =   $data->Compra->idEstado_oc;
 $EstadoFCData   =   $data->Compra->idEstado_FC;
-$MarcaData      =   $data->Marca->idMarca;
-$ModeloData     =   $data->Modelo->idModelo;
+$TipoProductoData   =   $data->Compra->idTipoProducto;
 $FechaData      =   $data->Compra->Fecha_compra;
 $FechaData      =   date("d-m-Y", strtotime($FechaData));
 
-if($MarcaData == null){
-    $MarcaData = -1;
-}
-
-if($ModeloData == null){
-    $ModeloData = -1;
-}
 
 ## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
 if($data->Compra != null){
@@ -199,7 +175,20 @@ if($data->Compra != null){
     ## IMPRIMIMOS UN ERROR EN PANTALLA 
    $display->AddFormFromObject( 
         formKey         :   'frmEditarCompra',
-        object          :   $data->Compra,
+        object          :   (object)[ 
+            "idO_C"             =>  $data->Compra->idO_C,
+            "Fecha_compra"      =>  $FechaData,
+            "Descripcion"       =>  $data->Compra->Descripcion,
+            "Orden_compra"      =>  $data->Compra->Orden_compra,
+            "Factura_compra"    =>  $data->Compra->Factura_compra,
+            "Precio_total"      =>  $data->Compra->Precio_total,
+            "tipo"              =>  $TipoProductoData,
+            "idProveedor"       =>  $ProveedorData,
+            "idEstado_oc"       =>  $EstadoOCData,
+            "idEstado_FC"       =>  $EstadoFCData,
+            "IdEmpresa"         =>  $EmpresaData
+
+         ],
         keyFieldName    :   'idO_C',
         rowGroups       :   [ 
             new FormRowGroup(
@@ -223,35 +212,9 @@ if($data->Compra != null){
                         new FormRowFieldText(
                             PropertyName    :   'Descripcion',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Nombre Producto',
+                            Label           :   'Descripcion',
                             Required        :   true,
                             Colspan         :   4
-                        ),
-                        new FormRowFieldSelect(
-                            PropertyName: 'idMarca',
-                            Label: 'Marca',
-                            Colspan: 4,
-                            Required: true,
-                            SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : $Marca,
-                                Key             : 'idMarca',
-                                Description     : 'Descripcion',
-                                SelectedValue   : $MarcaData,
-                                DisplaySearch   : true
-                            ), 
-                        ),
-                        new FormRowFieldSelect(
-                            PropertyName: 'idModelo',
-                            Label: 'Modelo',
-                            Colspan: 4,
-                            Required: true,
-                            SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : $Modelo,
-                                Key             : 'idModelo',
-                                Description     : 'Descripcion',
-                                SelectedValue   : $ModeloData,
-                                DisplaySearch   : true
-                            ), 
                         ),
                         new FormRowFieldText(
                             PropertyName    :   'Orden_compra',
@@ -270,20 +233,6 @@ if($data->Compra != null){
                     ],
                     [
                         new FormRowFieldText(
-                            PropertyName    :   'Precio_U',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Precio Unitario',
-                            Required        :   true,
-                            Colspan         :   4
-                        ),
-                        new FormRowFieldText(
-                            PropertyName    :   'Cantidad',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Cantidad',
-                            Required        :   true,
-                            Colspan         :   4,
-                        ),
-                        new FormRowFieldText(
                             PropertyName    :   'Precio_total',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Precio Total',
@@ -292,29 +241,17 @@ if($data->Compra != null){
                         ),
                         new FormRowFieldSelect(
                             PropertyName: 'tipo',
-                            Label: 'Tipo',
+                            Label: 'Tipo de activo',
                             Colspan: 4,
                             Required: true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : [
-                                    (object)    [
-                                        "tipo"          =>   "Original",
-                                        "Descripcion"   =>   "Original"
-                                    ],
-                                    (object)    [
-                                        "tipo"           =>  "Alternativo",
-                                        "Descripcion"   =>   "Alternativo"
-                                    ]
-                                ],
-                                Key             : 'tipo',
-                                Description     : 'Descripcion',
-                                SelectedValue   : $Tipo,
+                                Values          : $TipoProducto,
+                                Key             : 'idTipoProducto',
+                                Description     : 'DescripcionProducto',
+                                SelectedValue   : $TipoProductoData,
                                 DisplaySearch   : true
                             ),
-                            Events      :   [new FormOnChangeEvent()]
                         ),
-                    ],
-                    [
                         new FormRowFieldSelect(
                             PropertyName: 'idProveedor',
                             Label: 'Proveedor',
@@ -328,6 +265,8 @@ if($data->Compra != null){
                                 DisplaySearch   : true
                             ), 
                         ),
+                    ],
+                    [
                         new FormRowFieldSelect(
                             PropertyName: 'idEstado_oc',
                             Label: 'Estado OC',
@@ -397,7 +336,7 @@ $content = new Container(
 
 $popUp = new PopUpContent(
     Key                 : 'PopupNuevo', 
-    Title               : 'Editar Compra',
+    Title               : 'Editar',
     DismissButtonText   : 'Cerrar',
     DismissButtonStyle  : ButtonStyleEnum::BUTTON_SOFT_PRIMARY,
     SubTitle            : '',

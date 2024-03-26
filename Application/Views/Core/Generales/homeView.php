@@ -122,7 +122,7 @@ $cellDefinitions    =   [
         }
     ),
     new TableCell(
-        PropertyName: 'idProveedor',
+        PropertyName: 'Proveedor',
         Colspan: 2,
         Label: 'Rut Proveedor',
         FormatFunction: function($data,$cell) {
@@ -169,6 +169,11 @@ $cellDefinitions    =   [
         Label: 'Factura Compra'
     ),
     new TableCell(
+        PropertyName: 'Cantidad',
+        Colspan: 2,
+        Label: 'Cantidad'
+    ),
+    new TableCell(
         PropertyName: 'Precio_total',
         Colspan: 2,
         Label: 'Precio Total'
@@ -178,7 +183,7 @@ $cellDefinitions    =   [
         Colspan: 2,
         Label: 'Tipo',
         FormatFunction  :   function($data,$cell){
-            $Widget = new Text($data->tipoproducto->DescripcionProduto);
+            $Widget = new Text($data->tipoproducto->DescripcionProducto);
 
             return new Container(
                 Classes:['center'],

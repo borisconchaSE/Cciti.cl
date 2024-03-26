@@ -12,6 +12,7 @@ use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\stockSvc;
 use Application\BLL\Services\Core\marcaSvc;
 use Application\BLL\Services\Core\empresaSvc;
+use Application\BLL\Services\Core\modeloSvc;
 use Application\BLL\Services\Core\ubicacionSvc;
 use Application\Configuration\ConnectionEnum;
 use Application\Resources\AssetManagerFactory;
@@ -43,15 +44,18 @@ class StockController extends BaseController
 
         ## PROCEDEMOS A BUSCAR LA INFORMACIÓN
 
-        $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
+        $DatosMarca             =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
 
-        $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
+        $DatosModelo            =   (new modeloSvc(ConnectionEnum::TI))->GetAll();
+
+        $DatosEmpresa           =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
 
         ## GENERAMOS UN ARRAY CON LOS DATOS PARA LA VISTA
 
         $data   =  (object) [
             "DatosMarca"        =>  $DatosMarca,
-            "DatosEmpresa"      =>  $DatosEmpresa
+            "DatosEmpresa"      =>  $DatosEmpresa,
+            "DatosModelo"       =>  $DatosModelo
         ]; 
 
         ## RENDERIZAMOS LA VISTA
@@ -63,13 +67,25 @@ class StockController extends BaseController
     public function PopupEditarStock(int $id_stock) 
     { 
 
+        $EmpresaSvc         =   new empresaSvc(ConnectionEnum::TI);
+        $DepartamentoSvc    =   new departamentoSvc(ConnectionEnum::TI);
+        $UbicacionSvc       =   new ubicacionSvc(ConnectionEnum::TI);
+
         ## PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL USUARIO EN EL BO
         $StockDto           =   (new StockBO())->GetStock($id_stock);
+
+        $userEmpresa        =   $StockDto->Empresa_asignado;
+        $idDepto            =   $StockDto->Departamento;
+        $idUbicacion        =   $StockDto->Ubicacion;
+        $IdEmpresa_U        =   $EmpresaSvc->GetBy(new BindVariable('Descripcion','=',$userEmpresa));
+        $Departamento       =   $DepartamentoSvc->GetBy(new BindVariable('Descripcion','=',$idDepto));
+        $Ubicacion          =   $UbicacionSvc->GetBy(new BindVariable('Descripcion','=',$idUbicacion));
         $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
         $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
         $DatosArea          =   (new departamentoSvc(ConnectionEnum::TI))->GetAll();
         $DatosUbicacion     =   (new ubicacionSvc(ConnectionEnum::TI))->GetAll();
         $DatosCentro        =   (new centrocostosSvc(ConnectionEnum::TI))->GetAll();
+        $DatosModelo        =   (new modeloSvc(ConnectionEnum::TI))->GetAll();
 
         ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
@@ -78,7 +94,11 @@ class StockController extends BaseController
             "DatosEmpresa"              =>  $DatosEmpresa,
             "DatosArea"                 =>  $DatosArea,
             "DatosUbicacion"            =>  $DatosUbicacion,
-            "DatosCentro"               =>  $DatosCentro
+            "DatosCentro"               =>  $DatosCentro,
+            "DatosModelo"               =>  $DatosModelo,
+            "IdEmpresa_U"               =>  $IdEmpresa_U,
+            "Departamento"              =>  $Departamento,
+            "Ubicacion"                 =>  $Ubicacion,
 
         ];
 
@@ -181,6 +201,7 @@ class StockController extends BaseController
         ## PROCEDEMOS A ACTUALIZAR LA INFORMACIÓN EN LA BBDD
         $status         =   $StockBO->UpdateStock($DatosStock);
         $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$DatosStock->idMarca);
+        $Modelo         =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('idModelo',$DatosStock->idModelo);
 
         $Empresa        =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosStock->IdEmpresa);
         
@@ -197,7 +218,9 @@ class StockController extends BaseController
             "idMarca"               =>  $Marca->Descripcion,
             "IdEmpresa"             =>  $Empresa->Descripcion,
             "tipo"                  =>  $DatosStock->tipo,
-            "estado_stock"          =>  $DatosStock->estado_stock
+            "estado_stock"          =>  $DatosStock->estado_stock,
+            "idModelo"              =>  $Modelo->Descripcion,
+            
         ] ;
 
 
@@ -228,6 +251,7 @@ class StockController extends BaseController
             "idMarca"               =>  $StockDto->idMarca,
             "tipo"                  =>  $StockDto->tipo,
             "estado_stock"          =>  $StockDto->estado_stock,
+            "idModelo"              =>  $StockDto->idModelo,
         ] ;
     }
 

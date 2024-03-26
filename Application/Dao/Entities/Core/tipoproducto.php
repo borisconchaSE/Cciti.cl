@@ -11,7 +11,7 @@ class tipoproducto
     
 	#[EntityField(PrimaryKey: true)]
 	public int $idTipoProducto = 0;
-	public string $DescripcionProduto = '';
+	public string $DescripcionProducto = '';
 
     function __construct()
     {

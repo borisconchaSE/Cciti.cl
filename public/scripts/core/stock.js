@@ -57,7 +57,7 @@ function btnEditarStock_OnClick(eventInfo){
 }
 
 function btnAgregarNuevoStock_OnClick(eventInfo){
-    // debugger;
+    debugger;
     console.log(eventInfo);
 
     /* almacenamos en variables los datos que vamos a utilizar */
@@ -95,6 +95,7 @@ function btnAgregarNuevoStock_OnClick(eventInfo){
             "IdEmpresa"             :   eventInfo.FormData.IdEmpresa,
             "tipo"                  :   eventInfo.FormData.tipo,
             "estado_stock"          :   eventInfo.FormData.estado_stock,
+            "idModelo"              :   eventInfo.FormData.idModelo,
         })
     } 
 
@@ -135,6 +136,8 @@ function DibujarNuevoStock(DatosStock = {
     'idMarca'               :   '1',
     'tipo'                  :   'Original',
     'estado_stock'          :   'En Stock',
+    'idModelo'              :   '1',
+
 }, Permisos = []){
  
     var table       = $('#tbListadoStock').DataTable();
@@ -148,8 +151,9 @@ function DibujarNuevoStock(DatosStock = {
     var idMarca                 =   DatosStock.idMarca;
     var tipo                    =   DatosStock.tipo;
     var estado_stock            =   DatosStock.estado_stock;
+    var idModelo                =   DatosStock.idModelo;
 
-    var rowNode     = table.row.add( [ Fecha, Descripcion, Cantidad, Precio_Unitario, Precio_total, IdEmpresa, idMarca, tipo, estado_stock] ).draw().node();
+    var rowNode     = table.row.add( [ Fecha, Descripcion, Cantidad, Precio_Unitario, Precio_total, IdEmpresa, idMarca, idModelo, tipo, estado_stock] ).draw().node();
     
     /* AGREGAMOS LOS VALORES PK */
     debugger;
@@ -166,6 +170,7 @@ function DibujarNuevoStock(DatosStock = {
     $(rowNode).find('td:eq(6)').attr('data-pk',DatosStock.id_stock)
     $(rowNode).find('td:eq(7)').attr('data-pk',DatosStock.id_stock)
     $(rowNode).find('td:eq(8)').attr('data-pk',DatosStock.id_stock)
+    $(rowNode).find('td:eq(8)').attr('data-pk',DatosStock.id_stock)
 
     /* INCORPORAMOS EL NOMBRE DE LA PROPIEDAD A LA TABLA */
     $(rowNode).find('td:eq(0)').attr('data-property-name','Fecha')
@@ -175,8 +180,9 @@ function DibujarNuevoStock(DatosStock = {
     $(rowNode).find('td:eq(4)').attr('data-property-name','Precio_total')
     $(rowNode).find('td:eq(5)').attr('data-property-name','IdEmpresa')
     $(rowNode).find('td:eq(6)').attr('data-property-name','idMarca')
-    $(rowNode).find('td:eq(7)').attr('data-property-name','tipo')
-    $(rowNode).find('td:eq(8)').attr('data-property-name','estado_stock') 
+    $(rowNode).find('td:eq(7)').attr('data-property-name','idModelo')
+    $(rowNode).find('td:eq(8)').attr('data-property-name','tipo')
+    $(rowNode).find('td:eq(9)').attr('data-property-name','estado_stock') 
 
 }
 
@@ -205,6 +211,7 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
 
     var id_stock                    =   eventInfo.FormData.id_stock;
     var Fecha                       =   eventInfo.FormData.Fecha;
+    var Fecha_Asignacion            =   eventInfo.FormData.Fecha_Asignacion;
     var Descripcion                 =   eventInfo.FormData.Descripcion;
     var Cantidad                    =   eventInfo.FormData.Cantidad;
     var Precio_Unitario             =   eventInfo.FormData.Precio_Unitario;
@@ -216,6 +223,7 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
     var IdEmpresa                   =   eventInfo.FormData.IdEmpresa;
     var tipo                        =   eventInfo.FormData.tipo;
     var estado_stock                =   eventInfo.FormData.estado_stock;
+    var idModelo                    =   eventInfo.FormData.idModelo;
 
      
     var entity      =   {
@@ -233,7 +241,9 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
             idMarca                         :   idMarca,
             IdEmpresa                       :   IdEmpresa,
             tipo                            :   tipo,
-            estado_stock                    :   estado_stock
+            estado_stock                    :   estado_stock,
+            idModelo                        :   idModelo,
+            Fecha_Asignacion                :   Fecha_Asignacion,
         })
     }
 
@@ -249,6 +259,7 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
             $(`td[data-pk="${id_stock}"][data-property-name="Precio_Unitario"]`).html(Precio_Unitario)
             $(`td[data-pk="${id_stock}"][data-property-name="Precio_total"]`).html(Precio_total)
             $(`td[data-pk="${id_stock}"][data-property-name="idMarca"]`).html(idMarca)
+            $(`td[data-pk="${id_stock}"][data-property-name="idModelo"]`).html(idModelo)
             $(`td[data-pk="${id_stock}"][data-property-name="IdEmpresa"]`).html(IdEmpresa)
             $(`td[data-pk="${id_stock}"][data-property-name="tipo"]`).html(tipo)
             $(`td[data-pk="${id_stock}"][data-property-name="estado_stock"]`).html(estado_stock)
@@ -430,35 +441,35 @@ function validarInputsStock(frmkey){
     }
 }
 
-function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
+// function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
 
-    debugger;
-    var IdEmpresaU = eventInfo.FormData.IdEmpresaU;
+//     debugger;
+//     var IdEmpresaU = eventInfo.FormData.IdEmpresaU;
 
-    var entity      =   {
-        "DatosEmpresa"  :   JSON.stringify({
+//     var entity      =   {
+//         "DatosEmpresa"  :   JSON.stringify({
 
-            IdEmpresaU                      :   IdEmpresaU
-        })
-    }
+//             IdEmpresaU                      :   IdEmpresaU
+//         })
+//     }
     
-    const service = new OpcionesStockSvc(); 
+//     const service = new OpcionesStockSvc(); 
  
-    service.GetbyEmpresa(
-        entity,
-        function(result){
-            debugger;
-            console.log(result);
-            $('#frmEditarStock-idDepto').val(result.idDepto);
-            $('#frmEditarStock-idDepto-content').html(result.Descripcion);
-        },
-        function(errorCode,errorMessage){ 
-            Toast.fire({
-                icon: 'error',
-                title: errorMessage
-            });
-        }
-    )
+//     service.GetbyEmpresa(
+//         entity,
+//         function(result){
+//             debugger;
+//             console.log(result);
+//             $('#frmEditarStock-idDepto').val(result.idDepto);
+//             $('#frmEditarStock-idDepto-content').html(result.Descripcion);
+//         },
+//         function(errorCode,errorMessage){ 
+//             Toast.fire({
+//                 icon: 'error',
+//                 title: errorMessage
+//             });
+//         }
+//     )
 
     // if (idAreaPreEntrega >= 0) {
     //     // llamar al servicio y obtener la siguiente fecha
@@ -510,7 +521,7 @@ function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
     //     $('#FechaAgenda').val('');
     // }
 
-}
+// }
 
 function __tceu(btn){
 

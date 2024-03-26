@@ -199,7 +199,24 @@ if($data->Compra != null){
     ## IMPRIMIMOS UN ERROR EN PANTALLA 
    $display->AddFormFromObject( 
         formKey         :   'frmEditarCompra',
-        object          :   $data->Compra,
+        object          :   (object)[ 
+            "idO_C"             =>  $data->Compra->idO_C,
+            "Fecha_Compra"      =>  $data->Compra->Fecha_compra,
+            "Descripcion"       =>  $data->Compra->Descripcion,
+            "idMarca"           =>  $MarcaData,
+            "idModelo"          =>  $ModeloData,
+            "Orden_compra"      =>  $data->Compra->Orden_compra,
+            "Factura_compra"    =>  $data->Compra->Factura_compra, 
+            "Precio_U"          =>  $data->Compra->Precio_U,
+            "Cantidad"          =>  $data->Compra->Cantidad,
+            "Precio_total"      =>  $data->Compra->Precio_total, 
+            "tipo"              =>  $Tipo,
+            "idProveedor"       =>  $ProveedorData,
+            "idEstado_oc"       =>  $EstadoOCData,
+            "idEstado_FC"       =>  $EstadoFCData,
+            "IdEmpresa"         =>  $EmpresaData
+
+         ],
         keyFieldName    :   'idO_C',
         rowGroups       :   [ 
             new FormRowGroup(

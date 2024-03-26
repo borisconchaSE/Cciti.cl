@@ -92,12 +92,14 @@ class CompraController extends BaseController
 
         $ListasGastos = [4,7];
 
-        ## PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL USUARIO EN EL BO
+        ## PROCEDEMOS A BUSCAR LA INFORMACIÓN EN EL BO
         $CompraDto          =   (new CompraBO())->GetCompra($IdO_C);
 
         $Marca              =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('Descripcion',$CompraDto->marca);
 
         $Modelo             =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('Descripcion',$CompraDto->modelo);
+
+        $Proveedor          =   (new proveedorSvc(ConnectionEnum::TI))->GetBy(new BindVariable('idProveedor','=',$CompraDto->idProveedor));
 
         $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
 
@@ -116,6 +118,7 @@ class CompraController extends BaseController
 
 
 
+
         ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
             "Compra"                =>  $CompraDto,
@@ -127,7 +130,8 @@ class CompraController extends BaseController
             "DatosProveedor"        =>  $DatosProveedor,
             "DatosOC"               =>  $DatosOC,
             "DatosFC"               =>  $DatosFC,
-            "DatosTipo"             =>  $DatosTipo
+            "DatosTipo"             =>  $DatosTipo,
+            "Proveedor"             =>  $Proveedor,
         ];
 
         if(in_array($CompraDto->idTipoProducto,$ListasGastos)){
@@ -178,26 +182,7 @@ class CompraController extends BaseController
     public function CambiarParametrosCompra($DatosCompra) 
     { 
         
-        ## ----------------------------------------------------------------------
-        ## PARA VALIDAR LA INFORMACIÓN QUE PROVIENE DESDE LA REQUEST
-        ## UTILIZAMOS UN TIPO DE DTO LLAMADO FILTER QUE NOS PERMITE IDENTIFICAR 
-        ## Y ESTABLECER CUALES SON LOS PARAMETROS QUE ACEPTA LA API
-        ## ----------------------------------------------------------------------
-
         ## en primer lugar validamos los campos ingresados
-
-        ## validamos el id del usuario
-        if ($DatosCompra->Cantidad < 1 ) {
-            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Cantidad ingresada invalida");
-        }
-
-        if ($DatosCompra->idMarca < 1 ) {
-            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Marca ingresada invalida");
-        }
-
-        if ($DatosCompra->idModelo < 1 ) {
-            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Empresa ingresada invalida");
-        }
 
         ## validamos el nombre
         if ( strlen($DatosCompra->Fecha_compra) > 10   ) {
@@ -209,21 +194,8 @@ class CompraController extends BaseController
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Descripcion ingresada invalida");
         }
 
-        ## validamos la sigla
-        if ( strlen($DatosCompra->Precio_U) < 4 ) {
-            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Precio unitario ingresado invalida");
-        }
-
         if ( strlen($DatosCompra->Precio_total) < 4 ) {
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Precio total ingresado invalida");
-        }
-
-        if ( strlen($DatosCompra->tipo) < 5 ) {
-            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Tipo ingresado invalido");
-        }
-
-        if ( strlen($DatosCompra->Orden_compra) < 5 ) {
-            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Estado del stock invalido");
         }
 
         if ( strlen($DatosCompra->Factura_compra) < 5 ) {

@@ -46,6 +46,32 @@ if(!empty($data->Stock->tipo)){
 
 }
 
+
+
+if(!empty($data->IdEmpresa_U->Values)){
+
+    $EmpresaU   =   $data->IdEmpresa_U->Values;
+    $EmpresaU   =   $EmpresaU[0]->IdEmpresa;
+
+}
+
+if(!empty($data->Departamento->Values)){
+
+    $Depto      =   $data->Departamento->Values;
+    $Depto      =   $Depto[0]->idDepto;
+
+}
+
+if(!empty($data->Ubicacion->Values)){
+
+    $Ubi        =   $data->Ubicacion->Values;
+    $Ubi        =   $Ubi[0]->idubicacion;
+
+}
+
+
+
+
 if(!empty($data->Stock->estado_stock)){
 
     if(($data->Stock->estado_stock) == "En Stock" ){
@@ -74,6 +100,8 @@ if(!empty($data->DatosEmpresa)){
         Values      :   $Empresa
     ) ;
 }
+
+
 
 $Area = [
     new departamentoDto(
@@ -151,11 +179,23 @@ if($data->Stock != null){
         )
     );
 
-    ## EN CASO DE QUE LOS DATOS DEL CLIENTE VENGA VACIO
+    ## EN CASO DE QUE LOS DATOS VENGA VACIO
     ## IMPRIMIMOS UN ERROR EN PANTALLA 
    $display->AddFormFromObject( 
         formKey         :   'frmEditarStock',
-        object          :   $data->Stock,
+        object          :   (object)[ 
+            "id_stock"          =>  $data->Stock->id_stock,
+            "Descripcion"       =>  $data->Stock->Descripcion,
+            "Fecha"             =>  $data->Stock->Fecha,
+            "Cantidad"          =>  $data->Stock->Cantidad,
+            "Precio_Unitario"   =>  $data->Stock->Precio_Unitario, 
+            "estado_stock"      =>  $data->Stock->estado_stock,
+            "IdEmpresa"         =>  $data->Stock->IdEmpresa, 
+            "IdEmpresaU"        =>  $EmpresaU,
+            "idDepto"           =>  $Depto,
+            "idubicacion"       =>  $Ubi
+
+         ],
         keyFieldName    :   'id_stock',
         rowGroups       :   [ 
             new FormRowGroup(
@@ -222,13 +262,6 @@ if($data->Stock != null){
                             Required        :   true,
                             Colspan         :   4,
                         ),
-                        new FormRowFieldText(
-                            PropertyName    :   'Precio_total',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Precio Total',
-                            Required        :   true,
-                            Colspan         :   4,
-                        ),
                         new FormRowFieldSelect(
                             PropertyName: 'idMarca',
                             Label: 'Marca',
@@ -289,20 +322,20 @@ if($data->Stock != null){
                                 Values          : $Empresa,
                                 Key             : 'IdEmpresa',
                                 Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                SelectedValue   : $EmpresaU,
                                 DisplaySearch   : true
                             ),
                         ),
                         new FormRowFieldSelect(
                             PropertyName    :   'idDepto',
-                            Label           :   'Unidad',
+                            Label           :   'Departamento',
                             Colspan         :   4,
                             Required        : true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Area,
                                 Key             : 'idDepto',
                                 Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                SelectedValue   : $Depto,
                                 DisplaySearch   : true
                             ),
                         ),
@@ -315,7 +348,7 @@ if($data->Stock != null){
                                 Values          : $Ubicacion,
                                 Key             : 'idubicacion',
                                 Description     : 'Descripcion',
-                                SelectedValue   : -1,
+                                SelectedValue   : $Ubi,
                                 DisplaySearch   : true
                             ),
                         )

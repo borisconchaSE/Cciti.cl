@@ -3,6 +3,7 @@ namespace Application\Dao\Services\Core;
 use Application\Dao\Entities\Core\empresa;
 use Application\Dao\Entities\Core\stock;
 use Application\Dao\Entities\Core\marca;
+use Application\Dao\Entities\Core\modelo;
 use Intouch\Framework\Dao\Queryable;
 
 trait stockDaoT
@@ -12,6 +13,7 @@ trait stockDaoT
                 ->From(stock::class)
                 ->With(empresa::class)
                 ->With(marca::class)
+                ->With(modelo::class)
                 ->Where('estado_stock = ?',"En Stock")
                 ->OrderBy('id_stock desc');
 
@@ -27,6 +29,7 @@ trait stockDaoT
                 ->From(stock::class)
                 ->With(empresa::class)
                 ->With(marca::class)
+                ->With(modelo::class)
                 ->Where('estado_stock = ?',"Entregado")
                 ->OrderBy('id_stock desc')
                 ->Top(25);

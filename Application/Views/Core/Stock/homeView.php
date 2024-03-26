@@ -135,6 +135,22 @@ $cellDefinitions    =   [
         }
     ),
     new TableCell(
+        PropertyName: 'idModelo',
+        Colspan: 2,
+        Label: 'Modelo',
+        FormatFunction: function($data,$cell) {
+            
+            $Widget = new Text($data->modelo->Descripcion);
+
+            return new Container(
+                Classes:['center'],
+                Children:[
+                    $Widget
+                ]
+            );
+        }
+    ),
+    new TableCell(
         PropertyName: 'IdEmpresa',
         Colspan: 2,
         Label: 'Empresa producto',

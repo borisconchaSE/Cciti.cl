@@ -88,7 +88,7 @@ class StockBO
 
         try{
 
-            $user   = "No aplica";
+            $user   = "Sin Asignar";
             if ($NuevoStock->Fecha_Asignacion == ""){
                 $Fecha  = null;
             }else{
@@ -121,7 +121,8 @@ class StockBO
                 IdEmpresa                   :   $NuevoStock->IdEmpresa,
                 idMarca                     :   $NuevoStock->idMarca,
                 tipo                        :   $NuevoStock->tipo,
-                estado_stock                :   $NuevoStock->estado_stock
+                estado_stock                :   $NuevoStock->estado_stock,
+                idModelo                    :   $NuevoStock->idModelo
             );
             
             ## GUARDAMOS EL NUEVO ITEM EN LA BBDD
@@ -164,29 +165,36 @@ class StockBO
             if($estado == "Entregado"){
         
                 ## BUSCAMOS EL DTO DEL USUARIO
-                $StockDto                   =   $StockSvc->FindByForeign('id_stock',$DatosStock->id_stock);
                 $DepartamentoDto            =   $DepartamentoSvc->FindByForeign('idDepto',$DatosStock->idDepto);
                 $EmpresaDto                 =   $EmpresaSvc->FindByForeign('IdEmpresa',$DatosStock->IdEmpresaU);
                 $UbicacionDto               =   $UbicacionSvc->FindByForeign('idubicacion',$DatosStock->idubicacion);
         
                 $FechaData      =   $DatosStock->Fecha;
+                $FechaA_Data    =   $DatosStock->Fecha_Asignacion;
                 $DeptoData      =   $DepartamentoDto->Descripcion;
                 $EmpresaU       =   $EmpresaDto->Descripcion;
                 $UbicacionData  =   $UbicacionDto->Descripcion;
                 $FechaData      =   date("Y-m-d", strtotime($FechaData));
+                $FechaA_Data    =   date("Y-m-d", strtotime($FechaA_Data));
                 ## 
                 $StockDto->Fecha                            =   $FechaData;
+                $StockDto->Fecha_asignacion                 =   $FechaA_Data;
                 $StockDto->Descripcion                      =   $DatosStock->Descripcion;
-                $StockDto->Cantidad                         =   $DatosStock->Cantidad;
-                $StockDto->Precio_Unitario                  =   $DatosStock->Precio_Unitario;
-                $StockDto->Precio_total                     =   $DatosStock->Precio_total;
                 $StockDto->Empresa_asignado                 =   $EmpresaU;
                 $StockDto->Departamento                     =   $DeptoData;
                 $StockDto->Ubicacion                        =   $UbicacionData;
+                $StockDto->Cantidad                         =   $DatosStock->Cantidad;
+                $StockDto->Precio_Unitario                  =   $DatosStock->Precio_Unitario;
+                $StockDto->Precio_total                     =   $DatosStock->Precio_total;
+                $StockDto->estado_stock                     =   $DatosStock->estado_stock;
+                $StockDto->tipo                             =   $DatosStock->tipo;
                 $StockDto->idMarca                          =   $DatosStock->idMarca;
                 $StockDto->IdEmpresa                        =   $DatosStock->IdEmpresa;
-                $StockDto->tipo                             =   $DatosStock->tipo;
-                $StockDto->estado_stock                     =   $DatosStock->estado_stock;
+                $StockDto->idModelo                         =   $DatosStock->idModelo;
+
+                $StockSvc->Update($StockDto);
+
+                return true;
 
             }elseif($estado == "En Stock"){
 
@@ -199,6 +207,7 @@ class StockBO
                 $StockDto->Precio_Unitario                  =   $DatosStock->Precio_Unitario;
                 $StockDto->Precio_total                     =   $DatosStock->Precio_total;
                 $StockDto->idMarca                          =   $DatosStock->idMarca;
+                $StockDto->idModelo                         =   $DatosStock->idModelo;
                 $StockDto->IdEmpresa                        =   $DatosStock->IdEmpresa;
                 $StockDto->tipo                             =   $DatosStock->tipo;
                 $StockDto->estado_stock                     =   $DatosStock->estado_stock;

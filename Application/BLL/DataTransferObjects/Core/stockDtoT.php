@@ -6,6 +6,7 @@ trait stockDtoT
 
     public $empresa = null;
     public $marca = null;
+    public $modelo = null;
 
     function __get($name) {
 
