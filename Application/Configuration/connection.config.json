@@ -11,7 +11,7 @@
     },
     "core": {
         "Description": "LOCAL",
-        "Host": "jdbc:mysql://192.168.4.130:3310/",
+        "Host": "192.168.4.130:3310",
         "Database": "autogestores_core",
         "User": "botris",
         "Password": "Mico2077.",
@@ -29,7 +29,7 @@
     },
     "TI": {
         "Description": "LOCAL",
-        "Host": "jdbc:mysql://192.168.4.130:3310/",
+        "Host": "192.168.4.130:3310",
         "Database": "baseti",
         "User": "botris",
         "Password": "Mico2077.",

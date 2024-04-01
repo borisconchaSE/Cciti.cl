@@ -33,7 +33,7 @@ trait ordencompraDaoT
                 ->With(estadoFC::class)
                 ->With(empresa::class)
                 ->With(tipoproducto::class)
-                ->Where('ordenCompra.idTipoProducto not in (?,?,?)',"1","4","7")
+                ->Where('ordencompra.idTipoProducto not in (?,?,?)',"1","4","7")
                 ->OrderBy('Fecha_compra desc');
 
         return $this->Query(
@@ -48,7 +48,7 @@ trait ordencompraDaoT
                 ->With(estadoFC::class)
                 ->With(empresa::class)
                 ->With(tipoproducto::class)
-                ->Where('ordenCompra.idTipoProducto in (?,?)',"4","7")
+                ->Where('ordencompra.idTipoProducto in (?,?)',"4","7")
                 ->OrderBy('Fecha_compra desc');
 
         return $this->Query(
