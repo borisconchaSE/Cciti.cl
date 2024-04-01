@@ -145,11 +145,11 @@ class StockController extends BaseController
         $UbicacionService     =   new ubicacionSvc(ConnectionEnum::TI);
         $DepartamentoService  =   new departamentoSvc(ConnectionEnum::TI);
 
-        $idDepto        =     $DatosDepto->idDepto;
+        $idDepto        =       $DatosDepto->idDepto;
 
-        $datosDept      =   $DepartamentoService->GetByForeign('idDepto',$idDepto);
+        $datosDept      =       $DepartamentoService->GetByForeign('idDepto',$idDepto);
 
-        $idubi          =   $datosDept->Values[0]->idubicacion;
+        $idubi          =       $datosDept->Values[0]->idubicacion;
 
 
         try{
@@ -174,11 +174,14 @@ class StockController extends BaseController
         ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
         $CentroService     =   new centrocostosSvc(ConnectionEnum::TI);
 
-        $idubicacion       =     $DatosUbi->idubicacion;
+        $idubicacion        =       $DatosUbi->idubicacion;
+        $idDepto            =       $DatosUbi->idDepto;
 
         try{
             ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
-            $datos          =   $CentroService->GetByForeign('idCentro',$idubicacion);
+            $datos        =   $CentroService->GetBy([
+                new BindVariable('idubicacion','=',$idubicacion),
+                new BindVariable('idDepto','=',$idDepto)]);
 
         } catch (\Exception $ex) {
 
