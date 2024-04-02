@@ -3,9 +3,9 @@
     "ApplicationDescription"    : "App",
     "ApplicationCopyright"      : "Sergio Escobar",
     "ApplicationWebsite"        : "www.sergioescobar.cl",
-    "ApplicationWebsiteLink"    : "http://localhost.cciti.cl",
+    "ApplicationWebsiteLink"    : "192.168.4.130:81",
 
-    "ImageEndPoint"             : "http://localhost.cciti.cl/images",
+    "ImageEndPoint"             : "192.168.4.130:81/images",
     "PdfToolPath"               : "/usr/local/bin/wkhtmltopdf",
     "Watermark"                 : "Developing Site",
     "DemoUser"                  : "demo@alcaino.cl",
