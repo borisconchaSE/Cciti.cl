@@ -3,9 +3,9 @@
     "ApplicationDescription"    : "App",
     "ApplicationCopyright"      : "Sergio Escobar",
     "ApplicationWebsite"        : "www.sergioescobar.cl",
-    "ApplicationWebsiteLink"    : "192.168.4.130:81",
+    "ApplicationWebsiteLink"    : "http://192.168.4.130:81",
 
-    "ImageEndPoint"             : "192.168.4.130:81/images",
+    "ImageEndPoint"             : "http://192.168.4.130:81/images",
     "PdfToolPath"               : "/usr/local/bin/wkhtmltopdf",
     "Watermark"                 : "Developing Site",
     "DemoUser"                  : "demo@alcaino.cl",
