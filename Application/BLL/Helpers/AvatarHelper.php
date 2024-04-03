@@ -20,17 +20,24 @@ class AvatarHelper {
      * 
      * @return null|string
      */
-    public static function GetAvatar($idCliente = null, $idUsuario = null, $avatar = null, $genero = null) {
+    public static function GetAvatar($idCliente = null, $idUsuario = null, $avatar = null, $genero) {
+
+        $genero2 = null;
+        $newAvatar = "/assets/avatar/default/USERF.png";
 
         $avatarDoc = DocumentFactory::CreateDocument(ProcessTypeEnum::PROCESS_SYSTEM, DocumentTypeEnum::AVATAR, [
             "IdCliente"     => $idCliente,
             "IdUsuario"     => $idUsuario,
             "Avatar"        => $avatar,
-            "Genero"        => $genero
+            "Genero"        => $genero2
         ]);
 
         if (isset($avatarDoc)) {
-            $avatar = $avatarDoc->GetUrl();
+            if($genero == 2){
+                $avatar = $newAvatar;
+            }else{
+                $avatar = $avatarDoc->GetUrl();
+            }
 
             return $avatar;
         }

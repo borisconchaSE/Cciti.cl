@@ -26,7 +26,7 @@ if (isset(Session::Instance()->usuario)) {
     if (isset($usuario)) {
 
         if (isset($usuario->Contacto)) {
-            $nombreUsuario  = $usuario->Contacto->Nombre;
+            $nombreUsuario  = $usuario->Nombre;
             $cargo          = $usuario->Contacto->Cargo;
         }
         else {
@@ -41,7 +41,8 @@ if (isset(Session::Instance()->usuario)) {
 }
 
 // Get the avatar
-$avatar = AvatarHelper::GetAvatar();
+$genero = $usuario->Genero;
+$avatar = AvatarHelper::GetAvatar($idCliente = null, $idUsuario = null, $avatar = null, $genero);
  
 $AppName     =   SystemConfig::Instance()->ApplicationName ?: "App";
  
@@ -285,8 +286,8 @@ $toolbarUserOption  =   new Container(
                 new Html(
                     '
                     <button type="button" class="btn header-item bg-soft-light border-start border-end" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" src="/assets/images/users/avatar-1.jpg" alt="Header Avatar">
-                        <span class="d-none d-xl-inline-block ms-1 fw-medium">'.$cargo.'</span>
+                        <img class="rounded-circle header-profile-user" src='.$avatar.' alt="Header Avatar">
+                        <span class="d-none d-xl-inline-block ms-1 fw-medium">'.$nombreUsuario.'</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end" style="">

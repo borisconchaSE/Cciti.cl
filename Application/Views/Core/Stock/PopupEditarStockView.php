@@ -201,7 +201,6 @@ if($data->Stock != null){
             "id_stock"          =>  $data->Stock->id_stock,
             "Descripcion"       =>  $data->Stock->Descripcion,
             "Fecha"             =>  $FechaData,
-            "tipo"              =>  $Tipo,
             "Cantidad"          =>  $data->Stock->Cantidad,
             "Precio_Unitario"   =>  $data->Stock->Precio_Unitario,
             "Precio_total"      =>  $data->Stock->Precio_total,
@@ -224,18 +223,17 @@ if($data->Stock != null){
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Nombre Producto',
                             Required        :   true,
-                            Colspan         :   4
+                            Colspan         :   4,
+                            Disabled        :   true
                         ), 
-                        new FormRowFieldDate(
+                        new FormRowFieldText(
                             PropertyName    :   'Fecha',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
+                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Fecha Llegada',
                             Placeholder     :   $FechaData,    
                             Required        :   true,
-                            Colspan         :   4, 
-                            Events          :   [
-                                new FormOnChangeEvent()
-                            ]
+                            Colspan         :   4,
+                            Disabled        :   true
                         ),
                         new FormRowFieldDate(
                             PropertyName    :   'Fecha_Asignacion',
@@ -247,29 +245,6 @@ if($data->Stock != null){
                                 new FormOnChangeEvent()
                             ]
                         ),
-                        new FormRowFieldSelect(
-                            PropertyName: 'tipo',
-                            Label: 'Tipo',
-                            Colspan: 4,
-                            Required: true,
-                            SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : [
-                                    (object)    [
-                                        "tipo"              =>   "Original",
-                                        "Descripcion"       =>   "Original"
-                                    ],
-                                    (object)    [
-                                        "tipo"              =>   "Alternativo",
-                                        "Descripcion"       =>   "Alternativo"
-                                    ]
-                                ],
-                                Key             : 'tipo',
-                                Description     : 'Descripcion',
-                                SelectedValue   : $Tipo,
-                                DisplaySearch   : true
-                            ),
-                            Events      :   [new FormOnChangeEvent()]
-                        )
                     ],
                     [
                         new FormRowFieldText(
@@ -277,7 +252,8 @@ if($data->Stock != null){
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Cantidad',
                             Required        :   true,
-                            Colspan         :   4
+                            Colspan         :   4,
+                            Disabled        :   true
                         ),
                         new FormRowFieldText(
                             PropertyName    :   'Precio_Unitario',
@@ -285,6 +261,7 @@ if($data->Stock != null){
                             Label           :   'Precio Unitario',
                             Required        :   true,
                             Colspan         :   4,
+                            Disabled        :   true
                         ),
                         new FormRowFieldText(
                             PropertyName    :   'Precio_total',
@@ -292,12 +269,14 @@ if($data->Stock != null){
                             Label           :   'Precio Total',
                             Required        :   true,
                             Colspan         :   4,
+                            Disabled        :   true
                         ),
                         new FormRowFieldSelect(
                             PropertyName: 'idMarca',
                             Label: 'Marca',
                             Colspan: 4,
                             Required: true,
+                            Disabled:   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Marca,
                                 Key             : 'idMarca',
@@ -311,6 +290,7 @@ if($data->Stock != null){
                             Label: 'Modelo',
                             Colspan: 4,
                             Required: true,
+                            Disabled:   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Modelo,
                                 Key             : 'idModelo',
@@ -324,6 +304,7 @@ if($data->Stock != null){
                             Label           :   'Empresa Producto',
                             Colspan         :   4,
                             Required        : true,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Empresa,
                                 Key             : 'IdEmpresa',

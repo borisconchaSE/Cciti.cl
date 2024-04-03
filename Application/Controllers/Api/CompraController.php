@@ -12,6 +12,7 @@ use Application\BLL\Filters\NuevoUsuarioFilterDto;
 use Application\BLL\Services\Core\empresaSvc;
 use Application\BLL\Services\Core\estadoFCSvc;
 use Application\BLL\Services\Core\estadoOCSvc;
+use Application\BLL\Services\Core\estadosactivosSvc;
 use Application\BLL\Services\Core\proveedorSvc;
 use Application\BLL\Services\Core\tipoproductoSvc;
 use Application\Configuration\ConnectionEnum;
@@ -56,6 +57,8 @@ class CompraController extends BaseController
 
         $DatosTipo          =   (new tipoproductoSvc(ConnectionEnum::TI))->GetAll();
 
+        $DatosActivo        =   (new estadosactivosSvc(ConnectionEnum::TI))->GetAll();
+
         ## GENERAMOS UN ARRAY CON LOS DATOS PARA LA VISTA
 
         $data   =  (object) [
@@ -65,7 +68,8 @@ class CompraController extends BaseController
             "DatosProveedor"        =>  $DatosProveedor,
             "DatosOC"               =>  $DatosOC,
             "DatosFC"               =>  $DatosFC,
-            "DatosTipo"             =>  $DatosTipo
+            "DatosTipo"             =>  $DatosTipo,
+            "DatosActivo"           =>  $DatosActivo
 
         ]; 
 
@@ -115,6 +119,8 @@ class CompraController extends BaseController
 
         $DatosTipo          =   (new tipoproductoSvc(ConnectionEnum::TI))->GetAll();
 
+        $DatosActivo         =   (new estadosactivosSvc(ConnectionEnum::TI))->GetAll();
+
 
 
 
@@ -132,6 +138,7 @@ class CompraController extends BaseController
             "DatosFC"               =>  $DatosFC,
             "DatosTipo"             =>  $DatosTipo,
             "Proveedor"             =>  $Proveedor,
+            "DatosActivo"           =>  $DatosActivo,
         ];
 
         if(in_array($CompraDto->idTipoProducto,$ListasGastos)){

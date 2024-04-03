@@ -1,15 +1,8 @@
 <?php
 namespace Application\BLL\DataTransferObjects\Core;
 
-trait ordencompraDtoT
+trait estadosactivosDtoT
 {
-    public $proveedor       =   null;
-    public $estadoOC        =   null;
-    public $estadoFC        =   null;
-    public $empresa         =   null;
-    public $tipoproducto    =   null;
-    public $estadosactivos  =   null;
-    
     function __get($name) {
 
         switch($name) {

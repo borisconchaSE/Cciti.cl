@@ -3,6 +3,7 @@
 use Application\BLL\DataTransferObjects\Core\empresaDto;
 use Application\BLL\DataTransferObjects\Core\estadoFCDto;
 use Application\BLL\DataTransferObjects\Core\estadoOCDto;
+use Application\BLL\DataTransferObjects\Core\estadosactivosDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Application\BLL\DataTransferObjects\Core\proveedorDto;
@@ -181,6 +182,24 @@ if(!empty($data->DatosTipo)){
     ) ;
 }
 
+$EstadoActivo = [
+    new estadosactivosDto(
+        IdEstadoActivo                  :   -1,
+        DescripcionActivo               :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosActivo)){
+
+    $EstadoActivo   = array_merge($EstadoActivo,$data->DatosActivo->Values);
+
+    $EstadoActivo   =   new GenericCollection(
+        DtoName     :   estadosactivosDto::class,
+        Key         :   'IdEstadoActivo',
+        Values      :   $EstadoActivo
+    ) ;
+}
+
 ## EN CASO DE QUE LOS DATOS VENGA VACIO
 ## IMPRIMIMOS UN ERROR EN PANTALLA 
 $display->AddFormFromObject( 
@@ -270,6 +289,19 @@ $display->AddFormFromObject(
                             Values          : $TipoProducto,
                             Key             : 'idTipoProducto',
                             Description     : 'DescripcionProducto',
+                            SelectedValue   : -1,
+                            DisplaySearch   : true
+                        ),
+                    ),
+                    new FormRowFieldSelect(
+                        PropertyName: 'IdEstadoActivo',
+                        Label: 'Estado Activo',
+                        Colspan: 4,
+                        Required: true,
+                        SelectDefinition: new FormRowFieldSelectDefinition(
+                            Values          : $EstadoActivo,
+                            Key             : 'IdEstadoActivo',
+                            Description     : 'DescripcionActivo',
                             SelectedValue   : -1,
                             DisplaySearch   : true
                         ),

@@ -165,7 +165,7 @@ if(!empty($data->DatosMarca)){
 
 $EmpresaData    =   $data->Stock->IdEmpresa;
 $MarcaData      =   $data->Stock->idMarca;
-$FechaData      =   $data->Stock->Fecha;
+$FechaData      =   $data->Stock->Fecha_asignacion;
 $FechaData      =   date("d-m-Y", strtotime($FechaData));
 
 ## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
@@ -188,11 +188,11 @@ if($data->Stock != null){
     ## EN CASO DE QUE LOS DATOS VENGA VACIO
     ## IMPRIMIMOS UN ERROR EN PANTALLA 
    $display->AddFormFromObject( 
-        formKey         :   'frmEditarStock',
+        formKey         :   'frmEditarStockEntregado',
         object          :   (object)[ 
             "id_stock"          =>  $data->Stock->id_stock,
             "Descripcion"       =>  $data->Stock->Descripcion,
-            "Fecha"             =>  $data->Stock->Fecha,
+            "Fecha_asignacion"  =>  $data->Stock->Fecha_asignacion,
             "Cantidad"          =>  $data->Stock->Cantidad,
             "Precio_Unitario"   =>  $data->Stock->Precio_Unitario, 
             "estado_stock"      =>  $data->Stock->estado_stock,
@@ -219,9 +219,9 @@ if($data->Stock != null){
                             Colspan         :   4
                         ), 
                         new FormRowFieldDate(
-                            PropertyName    :   'Fecha',
+                            PropertyName    :   'Fecha_asignacion',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
-                            Label           :   'Fecha Llegada',
+                            Label           :   'Fecha Entrega',
                             Placeholder     :   $FechaData,    
                             Required        :   true,
                             Colspan         :   4, 
@@ -367,7 +367,7 @@ if($data->Stock != null){
 
    $BodyContent         =   new Container(
     Children:[
-        $display->Widgets()['frmEditarStock']
+        $display->Widgets()['frmEditarStockEntregado']
     ]
    ) ;
 

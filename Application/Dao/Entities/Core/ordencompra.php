@@ -27,6 +27,7 @@ class ordencompra
 	public ?int $idEstado_FC = null;
 	public ?int $IdEmpresa = null;
 	public ?int $idTipoProducto = null;
+	public ?int $IdEstadoActivo = null;
 
     function __construct()
     {

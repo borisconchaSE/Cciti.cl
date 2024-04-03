@@ -194,6 +194,21 @@ $cellDefinitions    =   [
         }
     ),
     new TableCell(
+        PropertyName: 'IdEstadoActivo',
+        Colspan: 2,
+        Label: 'Estado Activo',
+        FormatFunction  :   function($data,$cell){
+            $Widget = new Text($data->estadosactivos->DescripcionActivo);
+
+            return new Container(
+                Classes:['center'],
+                Children:[
+                    $Widget
+                ]
+            );
+        }
+    ),
+    new TableCell(
         PropertyName: 'idEstado_oc',
         Colspan: 2,
         Label: 'Estado OC',

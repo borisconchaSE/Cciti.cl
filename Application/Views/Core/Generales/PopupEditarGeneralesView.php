@@ -3,6 +3,7 @@
 use Application\BLL\DataTransferObjects\Core\empresaDto;
 use Application\BLL\DataTransferObjects\Core\estadoFCDto;
 use Application\BLL\DataTransferObjects\Core\estadoOCDto;
+use Application\BLL\DataTransferObjects\Core\estadosactivosDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Application\BLL\DataTransferObjects\Core\proveedorDto;
@@ -176,11 +177,30 @@ if(!empty($data->DatosTipo)){
     ) ;
 }
 
+$EstadoActivo = [
+    new estadosactivosDto(
+        IdEstadoActivo                  :   -1,
+        DescripcionActivo               :   'Sin Seleccionar'
+    )
+];
+
+if(!empty($data->DatosActivo)){
+
+    $EstadoActivo   = array_merge($EstadoActivo,$data->DatosActivo->Values);
+
+    $EstadoActivo   =   new GenericCollection(
+        DtoName     :   estadosactivosDto::class,
+        Key         :   'IdEstadoActivo',
+        Values      :   $EstadoActivo
+    ) ;
+}
+
 $EmpresaData        =   $data->Compra->IdEmpresa;
 $ProveedorData      =   $data->Compra->idProveedor;
 $EstadoOCData       =   $data->Compra->idEstado_oc;
 $EstadoFCData       =   $data->Compra->idEstado_FC;
 $TipoProductoData   =   $data->Compra->idTipoProducto;
+$EstadoActivoData   =   $data->Compra->IdEstadoActivo;
 $FechaData          =   $data->Compra->Fecha_compra;
 $FechaData          =   date("d-m-Y", strtotime($FechaData));
 
@@ -209,13 +229,13 @@ if($data->Compra != null){
             "Fecha_compra"      =>  $FechaData,
             "IdEmpresa"         =>  $EmpresaData,
             "idProveedor"       =>  $ProveedorData,
-            // "Rut"               =>  $ProRut,
             "Descripcion"       =>  $data->Compra->Descripcion,
             "Orden_compra"      =>  $data->Compra->Orden_compra,
             "Factura_compra"    =>  $data->Compra->Factura_compra,
             "Cantidad"          =>  $data->Compra->Cantidad,
             "Precio_total"      =>  $data->Compra->Precio_total,
             "tipo"              =>  $TipoProductoData,
+            "IdEstadoActivo"    =>  $EstadoActivoData,
             "idEstado_oc"       =>  $EstadoOCData,
             "idEstado_FC"       =>  $EstadoFCData
 
@@ -266,13 +286,6 @@ if($data->Compra != null){
                                 DisplaySearch   : true
                             ), 
                         ),
-                        // new FormRowFieldText(
-                        //     PropertyName    :   'Rut',
-                        //     FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                        //     Label           :   'Rut Proveedor',
-                        //     Required        :   true,
-                        //     Colspan         :   4
-                        // ),
                         new FormRowFieldText(
                             PropertyName    :   'Descripcion',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
@@ -322,6 +335,19 @@ if($data->Compra != null){
                                 Key             : 'idTipoProducto',
                                 Description     : 'DescripcionProducto',
                                 SelectedValue   : $TipoProductoData,
+                                DisplaySearch   : true
+                            ),
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName: 'IdEstadoActivo',
+                            Label: 'Estado del Activo',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $EstadoActivo,
+                                Key             : 'IdEstadoActivo',
+                                Description     : 'DescripcionActivo',
+                                SelectedValue   : $EstadoActivoData,
                                 DisplaySearch   : true
                             ),
                         ),
