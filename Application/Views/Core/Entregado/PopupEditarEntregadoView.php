@@ -53,6 +53,8 @@ if(!empty($data->IdEmpresa_U->Values)){
     $EmpresaU   =   $data->IdEmpresa_U->Values;
     $EmpresaU   =   $EmpresaU[0]->IdEmpresa;
 
+}else{
+    $EmpresaU   =   -1;
 }
 
 if(!empty($data->Departamento->Values)){
@@ -60,6 +62,8 @@ if(!empty($data->Departamento->Values)){
     $Depto      =   $data->Departamento->Values;
     $Depto      =   $Depto[0]->idDepto;
 
+}else{
+    $Depto      =   -1;
 }
 
 if(!empty($data->Ubicacion->Values)){
@@ -67,6 +71,8 @@ if(!empty($data->Ubicacion->Values)){
     $Ubi        =   $data->Ubicacion->Values;
     $Ubi        =   $Ubi[0]->idubicacion;
 
+}else{
+    $Ubi        =   -1;
 }
 
 
@@ -317,7 +323,7 @@ if($data->Stock != null){
                             PropertyName    :   'IdEmpresaU',
                             Label           :   'Empresa Usuario',
                             Colspan         :   4,
-                            Required        : false,
+                            Required        : true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Empresa,
                                 Key             : 'IdEmpresa',

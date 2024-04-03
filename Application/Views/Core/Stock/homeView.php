@@ -54,17 +54,17 @@ $display        =   new Display();
 ## UNA VEZ DEFINIDO, PROCEDEMOS A GENERAR LA VISUALIZACIÓN DE LOS COMPONENTES DE LA TABLA
 ## ----------------------------------------------------------------------------------------------
 
-$display->AddButton(
-    new Button(
-        Key             :   'btnAgregarStock',
-        Child           :   new FaIconText('fa-plus-circle','Agregar Stock'),
-        Classes         :   ['pull-right'],
-        ButtonStyle     :   ButtonStyleEnum::BUTTON_SOFT_INFO,
-        Events          :   [
-            new ButtonOnClickEvent()
-        ]
-    )
-) ;
+// $display->AddButton(
+//     new Button(
+//         Key             :   'btnAgregarStock',
+//         Child           :   new FaIconText('fa-plus-circle','Agregar Stock'),
+//         Classes         :   ['pull-right'],
+//         ButtonStyle     :   ButtonStyleEnum::BUTTON_SOFT_INFO,
+//         Events          :   [
+//             new ButtonOnClickEvent()
+//         ]
+//     )
+// ) ;
 
 
 

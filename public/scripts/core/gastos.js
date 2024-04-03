@@ -374,38 +374,6 @@ function validarInputsCompra(frmkey){
         'Ingresar una empresa disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     ) 
 
-    var statusInputOC = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-idEstado_oc`, /* facilitamos el ID del input que debemos validar */
-        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
-
-            x = validarTextoInput(x);
-
-            if (x != -1) {
-                return true;
-            }else{
-                return false;
-            }
-        }, /*  --- */
-        '',
-        'Ingresar una marca disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
-    )
-
-    var statusInputFC = ValidarInput( /* Invocamos la función que permite validar los inputs */
-    `${frmkey}-idEstado_FC`, /* facilitamos el ID del input que debemos validar */
-    function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
-
-        x = validarTextoInput(x);
-
-        if (x != -1) {
-            return true;
-        }else{
-            return false;
-        }
-    }, /*  --- */
-    '',
-    'Ingresar un modelo disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
-    )
-
     var statusInputProveedor = ValidarInput( /* Invocamos la función que permite validar los inputs */
     `${frmkey}-idProveedor`, /* facilitamos el ID del input que debemos validar */
     function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
@@ -429,9 +397,7 @@ function validarInputsCompra(frmkey){
         statusInputFecha            != true ||
         statusInputPrecioT          != true ||
         statusInputEmpresa          != true ||
-        statusInputFC               != true ||
-        statusInputProveedor        != true ||
-        statusInputOC               != true 
+        statusInputProveedor        != true 
     ){
         return false;
     }else{

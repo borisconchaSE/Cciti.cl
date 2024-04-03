@@ -178,14 +178,14 @@ $display->AddFormFromObject(
                         PropertyName    :   'Orden_compra',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                         Label           :   'Orden Compra',
-                        Required        :   true,
+                        Required        :   false,
                         Colspan         :   4
                     ),
                     new FormRowFieldText(
                         PropertyName    :   'Factura_compra',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                         Label           :   'Factura Compra',
-                        Required        :   true,
+                        Required        :   false,
                         Colspan         :   4,
                     ),
                 ],

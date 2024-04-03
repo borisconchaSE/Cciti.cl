@@ -78,8 +78,8 @@ class StockController extends BaseController
         $idDepto            =   $StockDto->Departamento;
         $idUbicacion        =   $StockDto->Ubicacion;
         $IdEmpresa_U        =   $EmpresaSvc->GetBy(new BindVariable('Descripcion','=',$userEmpresa));
-        $Departamento       =   $DepartamentoSvc->GetBy(new BindVariable('Descripcion','=',$idDepto));
         $Ubicacion          =   $UbicacionSvc->GetBy(new BindVariable('Descripcion','=',$idUbicacion));
+        $Departamento       =   $DepartamentoSvc->GetBy(new BindVariable('Descripcion','=',$idDepto)); 
         $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
         $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
         $DatosArea          =   (new departamentoSvc(ConnectionEnum::TI))->GetAll();
