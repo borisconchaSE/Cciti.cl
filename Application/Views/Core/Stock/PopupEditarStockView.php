@@ -201,6 +201,7 @@ if($data->Stock != null){
             "id_stock"          =>  $data->Stock->id_stock,
             "Descripcion"       =>  $data->Stock->Descripcion,
             "Fecha"             =>  $FechaData,
+            "tipo"              =>  $Tipo,
             "Cantidad"          =>  $data->Stock->Cantidad,
             "Precio_Unitario"   =>  $data->Stock->Precio_Unitario,
             "Precio_total"      =>  $data->Stock->Precio_total,
@@ -245,6 +246,30 @@ if($data->Stock != null){
                                 new FormOnChangeEvent()
                             ]
                         ),
+                        new FormRowFieldSelect(
+                            PropertyName: 'tipo',
+                            Label: 'Tipo',
+                            Colspan: 4,
+                            Required: true,
+                            Disabled        :   true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : [
+                                    (object)    [
+                                        "tipo"              =>   "Original",
+                                        "Descripcion"       =>   "Original"
+                                    ],
+                                    (object)    [
+                                        "tipo"              =>   "Alternativo",
+                                        "Descripcion"       =>   "Alternativo"
+                                    ]
+                                ],
+                                Key             : 'tipo',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $Tipo,
+                                DisplaySearch   : true
+                            ),
+                            Events      :   [new FormOnChangeEvent()]
+                        )
                     ],
                     [
                         new FormRowFieldText(
@@ -276,7 +301,7 @@ if($data->Stock != null){
                             Label: 'Marca',
                             Colspan: 4,
                             Required: true,
-                            Disabled:   true,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Marca,
                                 Key             : 'idMarca',
@@ -290,7 +315,7 @@ if($data->Stock != null){
                             Label: 'Modelo',
                             Colspan: 4,
                             Required: true,
-                            Disabled:   true,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Modelo,
                                 Key             : 'idModelo',
