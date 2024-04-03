@@ -29,7 +29,7 @@
         "Decorators": [],
         "Items": [ 
             {
-                "Description": "@@{MnuCompras, Toners}",
+                "Description": "@@{MnuCompras, Tonners}",
                 "Icon": "fa-shopping-basket",
                 "Uri": "/compra"               
             },

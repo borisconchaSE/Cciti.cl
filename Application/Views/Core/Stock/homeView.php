@@ -42,7 +42,7 @@ $display        =   new Display();
 <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0 font-size-18">Stock de toners</h4>
+                <h4 class="mb-sm-0 font-size-18">Stock de tonners</h4>
             </div>
         </div>
     </div>
@@ -169,7 +169,7 @@ $cellDefinitions    =   [
     new TableCell(
         PropertyName: 'tipo',
         Colspan: 2,
-        Label: 'Tipo toner',
+        Label: 'Tipo tonner',
         FormatFunction  :   function( stockDto $data,$cell){
             $stop = 1;
             if ($data->tipo == 'Alternativo'){
