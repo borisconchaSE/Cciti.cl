@@ -137,44 +137,45 @@ $NotificacionDemo   =  new Html(
 ## CONSTRUIMOS EL TOOLBAR DE LOS USUARIOS | AQUI VAN LAS ACCIONES QUE PUEDE REALIZAR EL USUASRIO CON LA INTERFACE
 ## -----------------------------------------------------------------------------------------------------------------------------------
 
-  
 
+    $adminMenu  =   new Container(
+        Classes     :  ['dropdown d-inline-block'],
+        Children    :[
+        new Html('
+             <button type="button" class="btn header-item bg-soft-light border-start border-end" id="page-header-user-dropdown_settings" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings icon-lg"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>'
+        ),
+        new Container(
+            Classes : ['dropdown-menu dropdown-menu-end'],
+            Styles  :   [
+                ["position", "absolute"],
+                ["inset", "0px auto auto 0px"],
+                ["margin", "0px"],
+                ["transform", "translate(-15px, 72px)"]
+            ],
+            Children: [
+                new Action(
+                    Action  :   "/Core/nuevaclave",
+                    Classes :   ['dropdown-item'],
+                    Child   :   new FaIconText(
+                        Name    :   'fa-user',
+                        Text    : 'Administrar usuarios'
+                    )
+                    ),
+                new Action(
+                    Action  :   "/Core/nuevaclave",
+                    Classes :   ['dropdown-item'],
+                    Child   :   new FaIconText(
+                        Name    :   'fa-user',
+                        Text    : 'Cambiar Contraseña'
+                    )
+                )
+            ]
+        )
+        ]
+    );
 
-// if ( __ValidarAccesoRestriccion('EDIRTAR_CUENTAS_SISTEMA') ){
-
-//     $adminMenu  =   new Container(
-//         Classes     :  ['dropdown d-inline-block'],
-//         Children    :[
-//         new Html('
-//              <button type="button" class="btn header-item bg-soft-light border-start border-end" id="page-header-user-dropdown_settings" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-//              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings icon-lg"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-//             </button>'
-//         ),
-//         new Container(
-//             Classes : ['dropdown-menu dropdown-menu-end'],
-//             Styles  :   [
-//                 ["position", "absolute"],
-//                 ["inset", "0px auto auto 0px"],
-//                 ["margin", "0px"],
-//                 ["transform", "translate(-15px, 72px)"]
-//             ],
-//             Children: [
-//                 new Action(
-//                     Action  :   "/administracion/cuentas",
-//                     Classes :   ['dropdown-item'],
-//                     Child   :   new FaIconText(
-//                         Name    :   'fa-user',
-//                         Text    : 'Administrar Usuarios'
-//                     )
-//                 )
-//             ]
-//         )
-//         ]
-//     );
-    
-// }else{
-//     $adminMenu = new Html('');
-// }
 
 
  
@@ -295,6 +296,9 @@ $toolbarUserOption  =   new Container(
                         
                         <a class="dropdown-item" href="https://sergioescobar.sd.cloud.invgate.net/">
                             Ir a mesa de ayuda
+                        </a>
+                        <a class="dropdown-item" href="http://localhost.cciti.cl/nuevaclave">
+                            Cambiar Contraseña
                         </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/core/logout">

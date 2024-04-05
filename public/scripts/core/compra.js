@@ -518,6 +518,46 @@ function validarInputsCompra(frmkey){
     }
 }
 
+function frmNuevoProducto_idMarca_OnChange(eventInfo) {
+
+    debugger;
+    var idMarca = eventInfo.FormData.idMarca;
+
+    if (idMarca != -1){
+        var entity      =   {
+            "DatosMarca"  :   JSON.stringify({
+    
+                idMarca                      :   idMarca
+            })
+        }
+        
+        const service = new OpcionesCompraSvc();
+    
+        console.log(entity)
+     
+        service.GetbyMarca(
+            entity,
+            function(result){
+                debugger;
+                console.log(result);
+                $('#frmNuevoProducto-idModelo').html("")
+                var optios = ""
+                optios += `<option value="-1">Sin Seleccionar</option>`
+                $.each( result, function( key, value ) {
+                    optios += `<option value="${value.idModelo}">${value.Descripcion}</option>`
+                })
+                $('#frmNuevoProducto-idModelo').html(optios);
+            },
+            function(errorCode,errorMessage){ 
+                Toast.fire({
+                    icon: 'error',
+                    title: errorMessage
+                });
+            }
+        )
+    }
+}
+
 function __tceu(btn){
 
     var me = $(btn)[0];

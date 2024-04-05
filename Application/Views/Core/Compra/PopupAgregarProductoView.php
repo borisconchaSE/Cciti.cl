@@ -16,6 +16,7 @@ use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldText;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldTypeEnum;
 use Intouch\Framework\View\DisplayDefinitions\FormRowGroup;
+use Intouch\Framework\View\DisplayEventActions\RefreshListAction;
 use Intouch\Framework\View\DisplayEvents\FormButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\FormOnChangeEvent;
 use Intouch\Framework\Widget\Container;
@@ -201,8 +202,15 @@ $display->AddFormFromObject(
                             Description     : 'Descripcion',
                             SelectedValue   : -1,
                             DisplaySearch   : true
-                        ), 
-                    ),
+                        ),
+                        Events      :   [new FormOnChangeEvent(
+                            Actions: [
+                                new RefreshListAction(
+                                    TargetElementKeys: ['idModelo']
+                                )
+                            ]
+                        )] 
+                    ),           
                 ],
                 [
                     new FormRowFieldSelect(
@@ -215,7 +223,8 @@ $display->AddFormFromObject(
                             Key             : 'idModelo',
                             Description     : 'Descripcion',
                             SelectedValue   : -1,
-                            DisplaySearch   : true
+                            DisplaySearch   : true,
+                            LinkToList      : 'idMarca'
                         ), 
                     ),
                     new FormRowFieldText(

@@ -395,7 +395,6 @@ if($data->Stock != null){
                                 SelectedValue   : -1,
                                 DisplaySearch   : true,
                                 LinkToList      : 'IdEmpresaU'
-                                // JSRefreshService: ['OpcionesStockSvc', 'GetByEmpresa']
                             ),
                             Events      :   [new FormOnChangeEvent(
                                 Actions: [
@@ -417,7 +416,6 @@ if($data->Stock != null){
                                 SelectedValue   : -1,
                                 DisplaySearch   : true,
                                 LinkToList: 'idDepto'
-                                // JSRefreshService: ['OpcionesStockSvc', 'GetByDepto']
                             ),
                             Events      :   [new FormOnChangeEvent(
                                 Actions: [

@@ -251,6 +251,29 @@ class CompraController extends BaseController
 
 
     }
+
+    #[Route(Methods: ['POST'], RequireSession:true)]
+    #[ReturnActionViewResult]
+    public function GetbyMarca($DatosMarca) 
+    { 
+        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        $ModeloService     =   new modeloSvc(ConnectionEnum::TI);
+
+        $idMarca       =     $DatosMarca->idMarca;
+
+        try{
+            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            $datos          =   $ModeloService->GetByForeign('idMarca',$idMarca);
+
+        } catch (\Exception $ex) {
+
+            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            $datos = null;
+        }
+
+        return $datos;
+
+    }
    
 
 }
