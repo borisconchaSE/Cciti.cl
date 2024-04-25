@@ -203,6 +203,7 @@ $TipoProductoData   =   $data->Compra->idTipoProducto;
 $EstadoActivoData   =   $data->Compra->IdEstadoActivo;
 $FechaData          =   $data->Compra->Fecha_compra;
 $FechaData          =   date("d-m-Y", strtotime($FechaData));
+$Rproveedor         =   $data->Proveedor->Rut;
 
 ## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN
 if($data->Compra != null){
@@ -229,6 +230,7 @@ if($data->Compra != null){
             "Fecha_compra"      =>  $FechaData,
             "IdEmpresa"         =>  $EmpresaData,
             "idProveedor"       =>  $ProveedorData,
+            "Proveedor"         =>  $Rproveedor,
             "Descripcion"       =>  $data->Compra->Descripcion,
             "Orden_compra"      =>  $data->Compra->Orden_compra,
             "Factura_compra"    =>  $data->Compra->Factura_compra,
@@ -284,7 +286,17 @@ if($data->Compra != null){
                                 Description     : 'Nombre',
                                 SelectedValue   : $ProveedorData,
                                 DisplaySearch   : true
-                            ), 
+                            ),
+                            Events      :   [new FormOnChangeEvent()]  
+                        ),
+                        new FormRowFieldText(
+                            PropertyName    :   'Proveedor',
+                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
+                            Label           :   'Rut Proveedor',
+                            Required        :   true,
+                            Colspan         :   4,
+                            Disabled        :   true,
+                            Events          :   [new FormOnChangeEvent()]
                         ),
                         new FormRowFieldText(
                             PropertyName    :   'Descripcion',

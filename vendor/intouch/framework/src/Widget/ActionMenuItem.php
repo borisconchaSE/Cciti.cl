@@ -11,7 +11,7 @@ class ActionMenuItem extends GenericWidget {
         public string   $Content,
         public string   $Action,
         public bool     $Active = false,
-        public ?FaIcon  $Icon = null,
+        public          $Icon = null,
         public array    $Classes = [],
         public array    $Styles = [],
         public array    $Attributes = []

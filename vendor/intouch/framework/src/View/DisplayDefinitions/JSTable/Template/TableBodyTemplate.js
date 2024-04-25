@@ -78,7 +78,6 @@ class [[TABLE_KEY]]_TemporalJSComponent_{
                 url: "/api/table/getdata?guid=[[TABLE_KEY]]",
                 type: "GET",
                 dataSrc: function(d){
-                     
                     const hasButtons = [[HASBUTTON]];
                     window.[[TABLE_KEY]]_process_data = [];
                     window.[[TABLE_KEY]]template__data = [];

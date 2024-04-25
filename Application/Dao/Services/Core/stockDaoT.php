@@ -31,8 +31,7 @@ trait stockDaoT
                 ->With(marca::class)
                 ->With(modelo::class)
                 ->Where('estado_stock = ?',"Entregado")
-                ->OrderBy('id_stock desc')
-                ->Top(25);
+                ->OrderBy('id_stock desc');
 
         $result     =    $this->Query(
             query: $qry

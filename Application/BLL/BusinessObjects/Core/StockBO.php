@@ -9,57 +9,61 @@ use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\empresaSvc;
 use Application\BLL\Services\Core\ubicacionSvc;
+use Application\BLL\Services\Core\VWExcelEntregadoSvc;
+use Application\BLL\Services\Core\VWStockExcelSvc;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;
 
 class StockBO 
 {
 
+    //FUNCION QUE OBTIENE LOS DATOS A MOSTRAR EN LA TABLA DE STOCK ATUAL
     public function CargarTablaStock() 
     {
-        ## EL PRIMER PASO, ES OBTENER LA LISTA DE DATOS QUE SE ENCUENTRAN GENERADOS EN LA TABLA DE LA BBDD
-        ## PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
-        ## al generar el service debemos especificar la conexión a usar (solo nombre)
+        // EL PRIMER PASO, ES OBTENER LA LISTA DE DATOS QUE SE ENCUENTRAN GENERADOS EN LA TABLA DE LA BBDD
+        // PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
+        // al generar el service debemos especificar la conexión a usar (solo nombre)
    
-        $StockSvc           = new stockSvc(ConnectionEnum::TI);
+        $StockSvc           = new VWStockExcelSvc(ConnectionEnum::TI);
         
-        ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
-        ## para esto usamos la propiedad GetAll del ORM interno del framework
-        $DatosTabla  =   $StockSvc->BuscarStock();
+        // en segundo lugar, obtenemos todos los registros disponibles en la BBDD
+        // para esto usamos la propiedad GetAll del ORM interno del framework
+        $DatosTabla  =   $StockSvc->GetAll();
             
-        ## por ultimo, retornamos la lista de todos los datos de la tabla
+        // por ultimo, retornamos la lista de todos los datos de la tabla
         return $DatosTabla; 
     }
 
+    //FUNCION QUE OBTIENE LOS DATOS A MOSTRAR EN LA TABLA DE STOCK ENTREGADO
     public function CargarTablaEntregado() 
     {
-        ## EL PRIMER PASO, ES OBTENER LA LISTA DE DATOS QUE SE ENCUENTRAN GENERADOS EN LA TABLA DE LA BBDD
-        ## PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
-        ## al generar el service debemos especificar la conexión a usar (solo nombre)
+        // EL PRIMER PASO, ES OBTENER LA LISTA DE DATOS QUE SE ENCUENTRAN GENERADOS EN LA TABLA DE LA BBDD
+        // PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
+        // al generar el service debemos especificar la conexión a usar (solo nombre)
    
-        $StockSvc           = new stockSvc(ConnectionEnum::TI);
+        $StockSvc           = new VWExcelEntregadoSvc(ConnectionEnum::TI);
         
-        ## en segundo lugar, obtenemos todos los registros disponibles en la BBDD
-        ## para esto usamos la propiedad GetAll del ORM interno del framework
-        $DatosTabla  =   $StockSvc->BuscarEntregado();
+        // en segundo lugar, obtenemos todos los registros disponibles en la BBDD
+        // para esto usamos la propiedad GetAll del ORM interno del framework
+        $DatosTabla  =   $StockSvc->GetAll();
             
-        ## por ultimo, retornamos la lista de todos los datos de la tabla
+        // por ultimo, retornamos la lista de todos los datos de la tabla
         return $DatosTabla; 
     }
     
     public function GetStock(int $id_stock){ 
  
 
-        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        // INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
         $StockService     =   new stockSvc(ConnectionEnum::TI);
 
         try{
-            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            // BUSCAMOS LA INFORMACIÓN DEL USUARIO
             $datos          =   $StockService->FindByForeign('id_stock',$id_stock);
 
         } catch (\Exception $ex) {
 
-            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            // GENERAMOS UNA VARIABLE VACIA POR EL ERROR
             $datos = null;
         }
 
@@ -67,20 +71,21 @@ class StockBO
 
     }
 
+    //FUNCION LA CUAL INYECTA LOS DATOS A GUARDAR DE UN NUEVO PRODUCTO EN LA BBDD
     public function GuardarStockNuevo($NuevoStock) : stockDto|null  {
 
-        ## VALIDAMOS LOS PARAMETROS DE LA FECHA
+        // VALIDAMOS LOS PARAMETROS DE LA FECHA
         if (strlen($NuevoStock->Fecha) < 10){
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message:'Ha ocurrido un error inesperado');
         }
 
-        ## VALIDAMOS EL TIPO DE STOCK
+        // VALIDAMOS EL TIPO DE STOCK
         if ( $NuevoStock->tipo > 12){
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message:'Ha ocurrido un error inesperado');
         }
 
-        ## UNA VEZ VALIDADOS LOS DATOS ENVIAMOS A LA FUNCIÓN
-        ## PROCEDEMOS A GENERAR EL NUEVO ITEM DEL STOCK
+        // UNA VEZ VALIDADOS LOS DATOS ENVIAMOS A LA FUNCIÓN
+        // PROCEDEMOS A GENERAR EL NUEVO ITEM DEL STOCK
 
         $stockSvc     =   new stockSvc(ConnectionEnum::TI);
 
@@ -107,7 +112,7 @@ class StockBO
                 $NuevoStock->tipo = "Alternativo";
             };
 
-            ## EN PRIMER LUGAR PROCEDEMOS A CREAR EL DTO DEL STOCK
+            // EN PRIMER LUGAR PROCEDEMOS A CREAR EL DTO DEL STOCK
             $StockDto     =   new stockDto(
                 Fecha                       :   $NuevoStock->Fecha,
                 Fecha_asignacion            :   $Fecha,
@@ -125,11 +130,11 @@ class StockBO
                 idModelo                    :   $NuevoStock->idModelo
             );
             
-            ## GUARDAMOS EL NUEVO ITEM EN LA BBDD
+            // GUARDAMOS EL NUEVO ITEM EN LA BBDD
             $StockDto                 =   $stockSvc->Insert($StockDto);
 
 
-            ## EN CASO DE QUE ESTE TODO CORRECTO, PROCEDEMOS A GUARDAR LOS CAMBIOS
+            // EN CASO DE QUE ESTE TODO CORRECTO, PROCEDEMOS A GUARDAR LOS CAMBIOS
             GenericSvc::SaveMultipleOperations();
             return $StockDto;
 
@@ -141,43 +146,58 @@ class StockBO
 
     }
 
+    //FUNCION PARA MODIFICAR EL PRODUCTO DEL STOCK(ACTIVO O ENTREGADO)
     public function UpdateStock($DatosStock){
 
-        ## INSTANCIAMOS EL SERVICE DEL USUARIO
+        // INSTANCIAMOS EL SERVICE DEL STOCK
         $StockSvc                   =   new stockSvc(ConnectionEnum::TI);
+
+        // INSTANCIAMOS EL SERVICE DE LOS DEPARTAMENTOS(AREAS) PERTENECIENTES A LA COMPAÑIA
         $DepartamentoSvc            =   new departamentoSvc(ConnectionEnum::TI);
+
+        // INSTANCIAMOS EL SERVICE DE LAS EMPRESAS(SEM, SEMY, ETC.) PERTENECIENTES A LA COMPAÑIA
         $EmpresaSvc                 =   new empresaSvc(ConnectionEnum::TI);
+
+        // INSTANCIAMOS EL SERVICE DE LAS UBICACIONES(PAICAVI, OHIGGINS, ETC) PERTENECIENTES A LA COMPAÑIA
         $UbicacionSvc               =   new ubicacionSvc(ConnectionEnum::TI);
 
-        ## BUSCAMOS EL DTO DEL USUARIO
+        // BUSCAMOS EL DTO DEL STOCK
         $StockDto         =   $StockSvc->FindByForeign('id_stock',$DatosStock->id_stock);
 
-        ## VALIDAMOS SI EL USUARIO EXISTEE DENTRO DE LA BBDD
+        // VALIDAMOS SI EL PRODUCTO DEL STOCK EXISTE DENTRO DE LA BBDD
         if ($StockDto == null){
             throw new BusinessException(code:ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: 'El producto no se encuentra disponble');
         }
 
-        ## PROCEDEMOS DENTRO DE UN TRY CATCH A PROCESAR LA SOLICITUD
+        // PROCEDEMOS DENTRO DE UN TRY CATCH A PROCESAR LA SOLICITUD
         try{
 
+            //OBTENERMOS EL ESTADO DEL PRODUCTO
             $estado = $DatosStock->estado_stock;
 
+            //VALIDAMOS EL ESTADO DEL PRODUCTO PARA SABER DE QUE VISTA PROVIENE ESTE(ACTUAL O ENTREGADO)
             if($estado == "Entregado"){
         
-                ## BUSCAMOS EL DTO DEL USUARIO
+                // BUSCAMOS LA INFORMACION DEL DEPARTAMENTO
                 $DepartamentoDto            =   $DepartamentoSvc->FindByForeign('idDepto',$DatosStock->idDepto);
+
+                // BUSCAMOS LA INFORMACION DE LA EMPRESA
                 $EmpresaDto                 =   $EmpresaSvc->FindByForeign('IdEmpresa',$DatosStock->IdEmpresaU);
+
+                // BUSCAMOS LA INFORMACION DE LA UBICACION
                 $UbicacionDto               =   $UbicacionSvc->FindByForeign('idubicacion',$DatosStock->idubicacion);
         
-                $FechaData      =   $DatosStock->Fecha;
-                $FechaA_Data    =   $DatosStock->Fecha_Asignacion;
+                // GUARDAMOS LA INFORMACION OBTENIDA DE LOS DTO EN VARIABLES PARA INSERTARLOS EN LA BBDD
+                $FechaA_Data    =   $DatosStock->Fecha;
                 $DeptoData      =   $DepartamentoDto->Descripcion;
                 $EmpresaU       =   $EmpresaDto->Descripcion;
                 $UbicacionData  =   $UbicacionDto->Descripcion;
-                $FechaData      =   date("Y-m-d", strtotime($FechaData));
+
+                //ESTANDARIZAMOS LA FECHA AL FORMATO DE LA BBDD
                 $FechaA_Data    =   date("Y-m-d", strtotime($FechaA_Data));
-                ## 
-                $StockDto->Fecha                            =   $FechaData;
+                
+                //INYECTAMOS LOS NUEVOS DATOS QUE TENDRA EL PRODUCTO EN EL DTO
+                $StockDto->Fecha                            =   $StockDto->Fecha;
                 $StockDto->Fecha_asignacion                 =   $FechaA_Data;
                 $StockDto->Descripcion                      =   $DatosStock->Descripcion;
                 $StockDto->Empresa_asignado                 =   $EmpresaU;
@@ -185,22 +205,25 @@ class StockBO
                 $StockDto->Ubicacion                        =   $UbicacionData;
                 $StockDto->Cantidad                         =   $DatosStock->Cantidad;
                 $StockDto->Precio_Unitario                  =   $DatosStock->Precio_Unitario;
-                $StockDto->Precio_total                     =   $DatosStock->Precio_total;
+                $StockDto->Precio_total                     =   $StockDto->Precio_total;
                 $StockDto->estado_stock                     =   $DatosStock->estado_stock;
                 $StockDto->tipo                             =   $DatosStock->tipo;
                 $StockDto->idMarca                          =   $DatosStock->idMarca;
                 $StockDto->IdEmpresa                        =   $DatosStock->IdEmpresa;
                 $StockDto->idModelo                         =   $DatosStock->idModelo;
 
+                // ACTUALIZAMOS LOS VALOREDE DE LA BBDD
                 $StockSvc->Update($StockDto);
 
                 return true;
 
             }elseif($estado == "En Stock"){
 
+                //ESTANDARIZAMOS LA FECHA AL FORMATO DE LA BBDD
                 $FechaData      =   $DatosStock->Fecha;
                 $FechaData      =   date("Y-m-d", strtotime($FechaData));
-                ## 
+                
+                //INYECTAMOS LOS NUEVOS DATOS QUE TENDRA EL PRODUCTO EN EL DTO
                 $StockDto->Fecha                            =   $FechaData;
                 $StockDto->Descripcion                      =   $DatosStock->Descripcion;
                 $StockDto->Cantidad                         =   $DatosStock->Cantidad;
@@ -212,7 +235,7 @@ class StockBO
                 $StockDto->tipo                             =   $DatosStock->tipo;
                 $StockDto->estado_stock                     =   $DatosStock->estado_stock;
                 
-                ## ACTUALIZAMOS LOS VALORES EN LA BBDD
+                // ACTUALIZAMOS LOS VALORES EN LA BBDD
                 $StockSvc->Update($StockDto);
     
                 return true;

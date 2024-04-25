@@ -18,6 +18,7 @@ use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldText;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldTypeEnum;
 use Intouch\Framework\View\DisplayDefinitions\FormRowGroup;
+use Intouch\Framework\View\DisplayEventActions\RefreshListAction;
 use Intouch\Framework\View\DisplayEvents\FormButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\FormOnChangeEvent;
 use Intouch\Framework\Widget\Container;
@@ -239,14 +240,17 @@ $display->AddFormFromObject(
                             Description     : 'Nombre',
                             SelectedValue   : -1,
                             DisplaySearch   : true
-                        ), 
+                        ),
+                        Events      :   [new FormOnChangeEvent()] 
                     ),
                     new FormRowFieldText(
                         PropertyName    :   'Proveedor',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                         Label           :   'Rut Proveedor',
                         Required        :   true,
-                        Colspan         :   4
+                        Colspan         :   4,
+                        Disabled        :   true,
+                        Events          :   [new FormOnChangeEvent()]
                     ),
                 ],
                 [

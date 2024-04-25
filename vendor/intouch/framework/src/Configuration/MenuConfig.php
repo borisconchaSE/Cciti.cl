@@ -15,6 +15,7 @@ use Intouch\Framework\Widget\ActionMenuItem;
 use Intouch\Framework\Widget\ActionMenuMiniSeparator;
 use Intouch\Framework\Widget\ActionMenuSeparator;
 use Intouch\Framework\Widget\ActionMenuTitle;
+use Intouch\Framework\Widget\BxIcon;
 use Intouch\Framework\Widget\FaIcon;
 use Intouch\Framework\Widget\Menu;
 use Intouch\Framework\Widget\MenuItem;
@@ -215,9 +216,8 @@ class MenuConfig extends BaseConfig {
 
                         $icon = null;
                         if (isset($item->Icon) && $item->Icon != '') {
-                            $icon = new FaIcon(
-                                Name        :   $item->Icon,
-                                Styles      :   [['font-size','12px']],
+                            $icon = new BxIcon(
+                                Name        :   $item->Icon, 
                                 Classes     :   ['']
                             );
                         }
@@ -230,6 +230,13 @@ class MenuConfig extends BaseConfig {
                             Icon: $icon,
                             Active: $activa
                         ));
+                    }
+
+                    if (!empty($func->Icon)){
+                        $icon = new BxIcon(
+                            Name        :   $func->Icon, 
+                            Classes     :   ['']
+                        );
                     }
         
                     $nuevoMenu = new ActionMenu(

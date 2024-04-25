@@ -15,7 +15,7 @@ class ActionMenu extends GenericWidget {
         PUBLIC ARRAY $MenuTreeClasses = [],
         public array $Styles = [],
         public string $Title = '',
-        public ?FaIcon $Icon = null,
+        public $Icon = null,
         public bool $Animated = true,
         public string $AnimationType = AnimationTypeEnum::FLIP_IN_X,
         public ?array $Items = [],

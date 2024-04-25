@@ -137,7 +137,7 @@ function DibujarNuevoStock(DatosStock = {
     'estado_stock'          :   'En Stock',
 }, Permisos = []){
  
-    var table       = $('#tbListadoStock').DataTable();
+    var table       = $('#tbListadoEntregado').DataTable();
 
     var Fecha                   =   DatosStock.Fecha;
     var Descripcion             =   DatosStock.Descripcion;
@@ -184,7 +184,7 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
 
     debugger;
     /* almacenamos en variables los datos que vamos a utilizar */
-    var frmkey      =   eventInfo.FormKey; 
+    var frmkey                      =   eventInfo.FormKey;
 
     var txtbackup   =   $('#btnGuardarCambiosStock').html(); 
     $('#btnGuardarCambiosStock').addClass('disabled')
@@ -201,33 +201,37 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
         return; 
     }
 
-
-
     var id_stock                    =   eventInfo.FormData.id_stock;
-    var Fecha                       =   eventInfo.FormData.Fecha;
     var Descripcion                 =   eventInfo.FormData.Descripcion;
+    var Fecha                       =   eventInfo.FormData.Fecha_asignacion;
+    var tipo                        =   eventInfo.FormData.tipo;
     var Cantidad                    =   eventInfo.FormData.Cantidad;
     var Precio_Unitario             =   eventInfo.FormData.Precio_Unitario;
-    var Precio_total                =   eventInfo.FormData.Precio_total;
     var idMarca                     =   eventInfo.FormData.idMarca;
-    var IdEmpresa                   =   eventInfo.FormData.IdEmpresa;
-    var tipo                        =   eventInfo.FormData.tipo;
+    var idModelo                    =   eventInfo.FormData.idModelo;
     var estado_stock                =   eventInfo.FormData.estado_stock;
+    var IdEmpresa                   =   eventInfo.FormData.IdEmpresa;
+    var IdEmpresaU                  =   eventInfo.FormData.IdEmpresaU;
+    var idDepto                     =   eventInfo.FormData.idDepto;
+    var idubicacion                 =   eventInfo.FormData.idubicacion; 
 
      
     var entity      =   {
         "DatosStock"  :   JSON.stringify({
 
             id_stock                        :   id_stock,
-            Fecha                           :   Fecha,
             Descripcion                     :   Descripcion,
+            Fecha                           :   Fecha,
+            tipo                            :   tipo,
             Cantidad                        :   Cantidad,
             Precio_Unitario                 :   Precio_Unitario,
-            Precio_total                    :   Precio_total,
             idMarca                         :   idMarca,
+            idModelo                        :   idModelo,
+            estado_stock                    :   estado_stock,
             IdEmpresa                       :   IdEmpresa,
-            tipo                            :   tipo,
-            estado_stock                    :   estado_stock
+            IdEmpresaU                      :   IdEmpresaU,
+            idDepto                         :   idDepto,
+            idubicacion                     :   idubicacion
         })
     }
 
@@ -237,15 +241,17 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
         entity,
         function(result){  
             $('.modal').modal('hide');  
-            $(`td[data-pk="${id_stock}"][data-property-name="Fecha"]`).html(Fecha)
-            $(`td[data-pk="${id_stock}"][data-property-name="Descripcion"]`).html(Descripcion)
+            $(`td[data-pk="${id_stock}"][data-property-name="Fecha_Asignacion"]`).html(Fecha)
+            $(`td[data-pk="${id_stock}"][data-property-name="Nombre_Producto"]`).html(Descripcion)
             $(`td[data-pk="${id_stock}"][data-property-name="Cantidad"]`).html(Cantidad)
-            $(`td[data-pk="${id_stock}"][data-property-name="Precio_Unitario"]`).html(Precio_Unitario)
-            $(`td[data-pk="${id_stock}"][data-property-name="Precio_total"]`).html(Precio_total)
-            $(`td[data-pk="${id_stock}"][data-property-name="idMarca"]`).html(idMarca)
-            $(`td[data-pk="${id_stock}"][data-property-name="IdEmpresa"]`).html(IdEmpresa)
-            $(`td[data-pk="${id_stock}"][data-property-name="tipo"]`).html(tipo)
-            $(`td[data-pk="${id_stock}"][data-property-name="estado_stock"]`).html(estado_stock)
+            $(`td[data-pk="${id_stock}"][data-property-name="Precio_Producto"]`).html(Precio_Unitario)
+            $(`td[data-pk="${id_stock}"][data-property-name="Marca"]`).html(idMarca)
+            $(`td[data-pk="${id_stock}"][data-property-name="Modelo"]`).html(idModelo)
+            $(`td[data-pk="${id_stock}"][data-property-name="Empresa"]`).html(IdEmpresa)
+            $(`td[data-pk="${id_stock}"][data-property-name="Empresa_asignado"]`).html(IdEmpresaU)
+            $(`td[data-pk="${id_stock}"][data-property-name="Departamento"]`).html(idDepto)
+            $(`td[data-pk="${id_stock}"][data-property-name="Ubicacion"]`).html(idubicacion)
+            $(`td[data-pk="${id_stock}"][data-property-name="Tipo_Tonner"]`).html(tipo)
             Toast.fire({
                 icon: 'success',
                 title: 'Cambios guardados correctamente'
@@ -265,7 +271,8 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
 
 function validarInputsStock(frmkey){
     
-    var statusInputProducto = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputProducto = ValidarInput(
+        true,  /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Descripcion`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -288,14 +295,15 @@ function validarInputsStock(frmkey){
     /* ------------------------------------------------------------------------------------------------ */
     /* VALIDAMOS EL INPUT QUE CORRESPONDE LA CONTRASEÑA DEL NUEVO USUARIO                                   */
     /* ------------------------------------------------------------------------------------------------ */
-    var statusInputFecha = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-Fecha`, /* facilitamos el ID del input que debemos validar */
+    var statusInputFecha = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-Fecha_asignacion`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
             /* validamos el input ingresado */
             x = validarTextoInput(x)
 
-            $(`${frmkey}-Fecha`).val(x)
+            $(`${frmkey}-Fecha_asignacion`).val(x)
 
             y = x.length;
 
@@ -320,7 +328,8 @@ function validarInputsStock(frmkey){
     /* VALIDAMOS EL INPUT QUE CORRESPONDE AL NOMBRE DEL CARGO DEL NUEVO USUARIO                                   */
     /* ------------------------------------------------------------------------------------------------ */
  
-    var statusInputCantidad = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputCantidad = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Cantidad`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
             
@@ -339,7 +348,8 @@ function validarInputsStock(frmkey){
     /* ------------------------------------------------------------------------------------------------ */
 
 
-    var statusInputPrecioU = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputPrecioU = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Precio_Unitario`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -357,25 +367,9 @@ function validarInputsStock(frmkey){
         '',
         'Ingresar el precio unitario.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     )
-    
-    var statusInputPrecioT = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-Precio_total`, /* facilitamos el ID del input que debemos validar */
-        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
-            x = validarTextoInput(x);
-
-            if (x != undefined && x != null && x.length >= 3) {
-                return true;
-            }else{
-                return false;
-            }
-            
-        }, /*  --- */
-        '',
-        'Ingresar el valor total.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
-    )
-
-    var statusInputEmpresa = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputEmpresa = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-IdEmpresa`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -391,7 +385,8 @@ function validarInputsStock(frmkey){
         'Ingresar una empresa disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     ) 
 
-    var statusInputMarca = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputMarca = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-idMarca`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -414,7 +409,6 @@ function validarInputsStock(frmkey){
         statusInputFecha            != true ||
         statusInputCantidad         != true ||
         statusInputPrecioU          != true ||
-        statusInputPrecioT          != true ||
         statusInputEmpresa          != true ||
         statusInputMarca            != true 
     ){

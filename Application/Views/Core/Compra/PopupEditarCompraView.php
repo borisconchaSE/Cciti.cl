@@ -18,11 +18,11 @@ use Intouch\Framework\View\DisplayDefinitions\FormRowFieldTypeEnum;
 use Intouch\Framework\View\DisplayDefinitions\FormRowGroup;
 use Intouch\Framework\View\DisplayEvents\FormButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\FormOnChangeEvent;
+use Intouch\Framework\View\DisplayEvents\FormOnKeyUpEvent;
 use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
 use Intouch\Framework\Widget\Text;
-use Karriere\JsonDecoder\Property;
 
 $BodyContent     =   new Container(
     Classes     :   ['alert alert-danger label-arrow'],
@@ -39,7 +39,6 @@ $display        =   new Display();
 
 ## -------------------------------------------------------------------------------
 ## GENERAMOS LOS VALORES POR DEFECTO DE LOS INPUTS
-## -------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------
 $Empresa = [
     new empresaDto(
@@ -178,7 +177,7 @@ if($ModeloData == null){
     $ModeloData = -1;
 }
 
-## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
+## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DE LA COMPRA
 if($data->Compra != null){
 
     ## AGREGAMOS EL BTN QUE NOS PERMITE GUARDAR LOS CAMBIOS
@@ -187,7 +186,6 @@ if($data->Compra != null){
             Key             :   'btnGuardarCambiosCompra',
             FormKey         :   'frmEditarCompra',
             Child           :   new Text('Guardar Cambios'),
-            #Classes         :   ['pull-right', 'wide'],
             ButtonStyle     :     ButtonStyleEnum::BUTTON_SOFT_SUCCESS,
             Events          :   [
                 new FormButtonOnClickEvent()
@@ -195,8 +193,7 @@ if($data->Compra != null){
         )
     );
 
-    ## EN CASO DE QUE LOS DATOS DEL CLIENTE VENGA VACIO
-    ## IMPRIMIMOS UN ERROR EN PANTALLA 
+    //GENERAMOS LA ESTRUCTURA DEL FORMULARIO
    $display->AddFormFromObject( 
         formKey         :   'frmEditarCompra',
         object          :   (object)[ 
@@ -287,18 +284,23 @@ if($data->Compra != null){
                     ],
                     [
                         new FormRowFieldText(
-                            PropertyName    :   'Precio_U',
-                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
-                            Label           :   'Precio Unitario',
-                            Required        :   true,
-                            Colspan         :   4
-                        ),
-                        new FormRowFieldText(
                             PropertyName    :   'Cantidad',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Cantidad',
                             Required        :   true,
                             Colspan         :   4,
+                            Events          :   [new FormOnChangeEvent(), new FormOnKeyUpEvent()]
+                        ),
+                        new FormRowFieldText(
+                            PropertyName    :   'Precio_U',
+                            FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
+                            Label           :   'Precio Unitario',
+                            Required        :   true,
+                            Colspan         :   4,
+                            Events      :   [
+                                new FormOnChangeEvent(),
+                                new FormOnKeyUpEvent()
+                            ]
                         ),
                         new FormRowFieldText(
                             PropertyName    :   'Precio_total',
@@ -306,6 +308,8 @@ if($data->Compra != null){
                             Label           :   'Precio Total',
                             Required        :   true,
                             Colspan         :   4,
+                            Disabled        :   true,
+                            Events          :   [new FormOnChangeEvent()]
                         ),
                         new FormRowFieldSelect(
                             PropertyName: 'tipo',
@@ -391,6 +395,7 @@ if($data->Compra != null){
         fillData        :   true
    );
 
+   // VARIABLE QUE CONTIENE LA ESTRUCTURA DEL FORMULARIO
    $BodyContent         =   new Container(
     Children:[
         $display->Widgets()['frmEditarCompra']
@@ -403,7 +408,7 @@ if($data->Compra != null){
 } 
 
 
-
+//INYECTAMOS LA VARIABLE QUE CONTIENE EL FORULARIO A EL CONTENIDO DEL POPUP
 $content = new Container(
     Classes: ['view-content'],
     Styles: [],
@@ -412,6 +417,7 @@ $content = new Container(
     ]
 );
 
+// CONFIGURAMOS LA ESTRUTURA QUE TENDRA EL POPUP DEL FORMULARIO
 $popUp = new PopUpContent(
     Key                 : 'PopupNuevo', 
     Title               : 'Editar Compra',
@@ -424,6 +430,8 @@ $popUp = new PopUpContent(
     Content             : $content
 );
 
+// DIBUJAMOS LOS DATOS QUE TENDRA EL FORMULARIO
 $popUp->Draw();
 
+// DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
 $display->DrawScripts(addLoadEvent:false);

@@ -12,15 +12,17 @@ use Intouch\Framework\Dao\Queryable;
 trait ordencompraDaoT
 {
     public function BuscarCompras() {
+        $fecha = getdate();
+        $fechaHoy = $fecha['year'];
+        $fechaHoy .= "%";
         $qry = (new Queryable())
                 ->From(ordenCompra::class)
                 ->With(proveedor::class)
                 ->With(estadoOC::class)
                 ->With(estadoFC::class)
                 ->With(empresa::class)
-                ->Where('idTipoProducto = ?',"1")
-                ->OrderBy('Fecha_compra desc')
-                ->Top(25);
+                ->Where("idTipoProducto = ? AND DATE_FORMAT(Fecha_compra, '%Y-%m-%d') LIKE ?","1",$fechaHoy)
+                ->OrderBy('Fecha_compra desc');
 
         return $this->Query(
             query: $qry

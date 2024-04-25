@@ -1,46 +1,46 @@
 {
     "home": {
         "Description": "@@{MnuHome, Home}",
-        "Icon": "fa-home",
+        "Icon": "fas fa-home",
         "Uri": "/home",
         "Decorators": [],
         "Items" : []
     },
     "listasstock":{
         "Description": "@@{MnuStock, Stocks}",
-        "Icon": "fa-list",
+        "Icon": "fas fa-warehouse",
         "Decorators": [],
         "Items": [ 
             {
                 "Description": "@@{MnuStock, Actual}",
-                "Icon": "fa-cubes",
+                "Icon": "fas fa-box",
                 "Uri": "/stock"               
             },
             {
                 "Description": "@@{MnuStock, Entregado}",
-                "Icon": "fa-cubes",
+                "Icon": "fas fa-parachute-box",
                 "Uri": "/entregado"               
             }
         ]
     },
     "listas": {
         "Description": "@@{MnuCompras, Compras}",
-        "Icon": "fa-list",
+        "Icon": "fas fa-shopping-cart",
         "Decorators": [],
         "Items": [ 
             {
                 "Description": "@@{MnuCompras, Tonners}",
-                "Icon": "fa-shopping-basket",
+                "Icon": "fas fa-print",
                 "Uri": "/compra"               
             },
             {
                 "Description": "@@{MnuCompras, Activos TI}",
-                "Icon": "fa-shopping-basket",
+                "Icon": "fas fa-laptop",
                 "Uri": "/generales"               
             }, 
             {
                 "Description": "@@{MnuCompras, Gastos}",
-                "Icon": "fa-shopping-basket",
+                "Icon": "fas fa-credit-card",
                 "Uri": "/gastos"               
             }  
         ]

@@ -710,6 +710,7 @@ Number.prototype.padLeft = function (n,str) {
 
 jQuery.fn.TablaEstandar = function(CustomSettings,custombtn = false,customExcel = null, records = 10) {
 
+    debugger;
     if(CustomSettings != null){
         
         custombtn = ( CustomSettings.CustomPdf == true && CustomSettings.HideAllButtons == false) ? true : false;
@@ -742,11 +743,13 @@ jQuery.fn.TablaEstandar = function(CustomSettings,custombtn = false,customExcel 
             btn.push(
                 {  
                     extend: 'excelHtml5',
-                    title : 'Reporte-Excel-TI',
-                    filename:'Reporte-Excel-TI',
+                    title : 'Reporte-TI',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    filename:'Reporte-TI',
                     exportOptions: {
                     columns: "thead th:not(.btnAccion)"
-                }
+                }           
             }
             ) ;
         }
@@ -805,7 +808,6 @@ jQuery.fn.TablaEstandar = function(CustomSettings,custombtn = false,customExcel 
             ) ;
         }
     }
-
     //------------------------------------------------
     var table = $(this).DataTable({
 		"language"  : {
@@ -835,13 +837,15 @@ jQuery.fn.TablaEstandar = function(CustomSettings,custombtn = false,customExcel 
         "pageLength" : records,
         "order": [] ,
         "aaSorting": [],
-        'buttons':   btn
+        "buttons": btn
     }); 
 
     //Muestra los botones de exportacion de la tabla
 
     table.buttons().container()
     .appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
+
+   
 
     return table;
 
@@ -851,7 +855,7 @@ function __customtableExcel(settings = {}){
     console.log("🚀 ~ file: app.js ~ line 1203 ~ __customtableExcel ~ settings", settings)
 
     if(settings?.Controller != null && settings?.FileName != null){
-        window.open(`/api/table/${settings.Controller}?filename=${settings.FileName}&estado=${settings.Estado}`, '_blank');
+        window.open(`/api/table/${settings.Controller}?filename=${settings.FileName}&estado=${settings.Estado}&guid=${settings.TableKey}`, '_blank');
     }else{
         console.error('error')
     }
@@ -1307,8 +1311,35 @@ $(function () {
 
 });
 
-$.LoadingSpinner = function() {
+$.LoadingSpinner        = function() {
     return '<i class="fa fa-spinner fa-pulse fa-fw"></i>';
+}
+
+jQuery.fn.InteractiveButtonAnimation     =   function (IsLoading = false){ 
+    if (window.btnSettings == undefined || window.btnSettings == null){
+        window.btnSettings = {};
+    }
+
+
+    
+    if (IsLoading == true) {
+        let key                         =   this.attr("id");
+        window.btnSettings[key]         =   this.html()
+        
+        this.prop("disabled",true)
+        this.addClass("disabled") 
+        this.html(`
+            <i class="fa fa-spinner fa-pulse fa-fw"></i>
+            <span class="sr-only">Loading...</span>`
+        )
+      
+    
+    }else{
+        let key                         =   this.attr("id");
+        this.prop("disabled",false)
+        this.removeClass("disabled")
+        this.html(window.btnSettings[key])
+    }
 }
 
 
@@ -1449,8 +1480,7 @@ function reiniciarEstiloValidacionInput(idInput){
     $(`#${idInput}`).removeClass('valid');
     $(`#${idInput}`).removeClass('invalid');
 }
-function ValidarInput(idInput,CondicionValidante,SuccessMessage,ErrorMessage){
-
+function ValidarInput(ShowMessage,idInput,CondicionValidante,SuccessMessage,ErrorMessage){ 
     /* capturamos el input */
     var element         =   $(`#${idInput}`)
     var element_span    =   $(`#${idInput}-span`)
@@ -1474,13 +1504,15 @@ function ValidarInput(idInput,CondicionValidante,SuccessMessage,ErrorMessage){
         returnstatus    =   false;
     }
     /* modificamos los estilos del input */
-    reiniciarEstiloValidacionInput(idInput)
-    element.addClass(classToAdd);
-    
+    reiniciarEstiloValidacionInput(idInput)  
     /* modificamos los estilos del span */
-    reiniciarEstiloValidacionInput(`${idInput}-span`)
-    element_span.addClass(classToAdd);
-    element_span.text(messageToShow);
+    reiniciarEstiloValidacionInput(`${idInput}-span`) 
+
+    if (ShowMessage == true){
+        element.addClass(classToAdd);
+        element_span.addClass(classToAdd);
+        element_span.text(messageToShow);
+    } 
     return returnstatus;
 }
 
@@ -1534,3 +1566,186 @@ const validateFormatoEmail = (email) => {
       );
 };
 
+
+
+function force_wizzard_focus(hrefId){
+
+    $(`a[href="#${hrefId}"][class="nav-link"]`).click()
+}
+
+
+function monthDiff(d1, d2) { 
+
+    var months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+}
+
+
+function validateNumberFormat(element){
+    var value   =   $(element).val();
+    value       =   value.replace(/[^0-9]/gi, '');
+    $(element).val(value);
+}
+
+
+jQuery.fn.EnforcedValidarInputValue = function(ConditionFunction) { 
+
+    var value           = this.value ? this.value : $(this).val(); ;
+     
+    /* ejecutamos la condicion solicitada */
+    var condition       =   ConditionFunction(value);
+    var classToAdd      =   '';
+    var messageToShow   =   '';
+    var returnstatus    =   true;
+
+    if (condition == true){
+        classToAdd      =   'valid' 
+        returnstatus    =   true;
+    }else {
+        classToAdd      =   'invalid' 
+        returnstatus    =   false;
+    }
+
+    $(this).removeClass("valid");
+    $(this).removeClass("invalid");
+    $(this).addClass(classToAdd); 
+
+    return returnstatus; 
+}
+
+jQuery.fn.shake = function(interval,distance,times){
+    interval = typeof interval == "undefined" ? 100 : interval;
+    distance = typeof distance == "undefined" ? 10 : distance;
+    times = typeof times == "undefined" ? 3 : times;
+    var jTarget = $(this);
+    jTarget.css('position','relative');
+    for(var iter=0;iter<(times+1);iter++){
+       jTarget.animate({ left: ((iter%2==0 ? distance : distance*-1))}, interval);
+    }
+    return jTarget.animate({ left: 0},interval);
+ }
+
+
+function inputLenghtValidation(input, options = {
+    showStatus      :   false,
+    showCounter     :   false
+}){ 
+    
+    if( !input instanceof HTMLElement){
+        return false;
+    }
+
+    var min         =   $(input).attr("minlength") * 1;
+    var max         =   $(input).attr("maxlength") * 1;
+    var value       =   $(input).val();
+
+    value           =   value.replaceAll("'","")
+    value           =   value.replaceAll("`","")
+    value           =   value.replaceAll('"',"")
+    $(input).val(value);
+    
+
+    if ( (min == null && max == null) || ( min < 1 && max < 1 ) ){
+        return true;
+    }
+
+    var min_status  =   min > 1 ?  (value.length >= min) ? true : false : true;
+    var max_status  =   max > 1 ?  (value.length <= max) ? true : false : true;
+    var fValidation =   (min_status == true && max_status == true) ? true : false; 
+
+    if (options.showCounter == true){
+
+        var brotherelement = $(input).siblings(`[class="input-frm-status"]`)
+
+        if ( brotherelement.length >= 1 && brotherelement[0] instanceof HTMLElement ){ 
+            brotherelement.html(`(${value.length} / ${max} )`); 
+        }
+
+    }
+
+    if (options.showStatus == true ){
+
+
+        if (fValidation) {
+            $(input).removeClass("invalid")
+            $(input).removeClass("valid")
+            //$(input).addClass("valid")
+        }else{
+            $(input).removeClass("invalid")
+            $(input).removeClass("valid")
+            $(input).addClass("invalid")
+        }
+    } 
+
+    return fValidation;
+}
+
+
+
+function ___setBadgeNumber(PrimaryName = "" , PrimaryValue = 0) {
+   
+
+    $(`[data-bs-toggle]`).tooltip("hide");
+
+
+    setTimeout(() => {
+        $(`[data-bs-toggle]`).tooltip("hide");
+        $('.tooltip.fade.show.bs-tooltip-end').remove()
+    }, 1000);
+
+    $(`td[${PrimaryName}="${PrimaryValue}"]`)
+
+    var cell            =   $(`tr[${PrimaryName}="${PrimaryValue}"]`)[0];
+    var badgeElement    =   $(cell).find('#btnVerContactoBadge')
+
+    badgeElement.removeClass('hide');
+
+    var Counter                 =   badgeElement.children().html()
+    var FinalValue              =   (Counter * 1) + 1
+
+    badgeElement.children().html(FinalValue) 
+    
+
+}
+
+ 
+jQuery.fn.InputValidarRut = function() { 
+
+    var rut     =   this.val();
+
+    var Fn = {
+        // Valida el rut con su cadena completa "XXXXXXXX-X"
+        validaRut : function (rutCompleto) {
+
+            if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
+                return false;
+            var tmp 	= rutCompleto.split('-');
+            var digv	= tmp[1]; 
+            var rut 	= tmp[0];
+            if ( digv == 'K' ) digv = 'k' ;
+            return (Fn.dv(rut) == digv );
+        },
+        dv : function(T){
+            var M=0,S=1;
+            for(;T;T=Math.floor(T/10))
+                S=(S+T%10*(9-M++%6))%11;
+            return S?S-1:'k';
+        }
+        
+    }
+
+    var status  =   Fn.validaRut(rut);
+    this.removeClass('invalid')
+    this.removeClass('valid')
+    if ( status == true) { 
+        this.addClass('valid')    
+    }else{
+        this.addClass('invalid')    
+    }
+ 
+    return status;
+   
+}

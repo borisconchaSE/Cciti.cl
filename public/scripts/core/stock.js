@@ -105,6 +105,7 @@ function btnAgregarNuevoStock_OnClick(eventInfo){
         entity,
         function(result){
             console.log(result);
+            debugger;
             DibujarNuevoStock(result);
             $('.modal').modal('hide');
             Toast.fire({
@@ -140,6 +141,7 @@ function DibujarNuevoStock(DatosStock = {
 
 }, Permisos = []){
  
+    debugger;
     var table       = $('#tbListadoStock').DataTable();
 
     var Fecha                   =   DatosStock.Fecha;
@@ -253,16 +255,15 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
         entity,
         function(result){  
             $('.modal').modal('hide');  
-            $(`td[data-pk="${id_stock}"][data-property-name="Fecha"]`).html(Fecha)
-            $(`td[data-pk="${id_stock}"][data-property-name="Descripcion"]`).html(Descripcion)
+            $(`td[data-pk="${id_stock}"][data-property-name="Fecha_Llegada"]`).html(Fecha)
+            $(`td[data-pk="${id_stock}"][data-property-name="Nombre_Producto"]`).html(Descripcion)
             $(`td[data-pk="${id_stock}"][data-property-name="Cantidad"]`).html(Cantidad)
             $(`td[data-pk="${id_stock}"][data-property-name="Precio_Unitario"]`).html(Precio_Unitario)
-            $(`td[data-pk="${id_stock}"][data-property-name="Precio_total"]`).html(Precio_total)
-            $(`td[data-pk="${id_stock}"][data-property-name="idMarca"]`).html(idMarca)
-            $(`td[data-pk="${id_stock}"][data-property-name="idModelo"]`).html(idModelo)
-            $(`td[data-pk="${id_stock}"][data-property-name="IdEmpresa"]`).html(IdEmpresa)
-            $(`td[data-pk="${id_stock}"][data-property-name="tipo"]`).html(tipo)
-            $(`td[data-pk="${id_stock}"][data-property-name="estado_stock"]`).html(estado_stock)
+            $(`td[data-pk="${id_stock}"][data-property-name="Marca"]`).html(idMarca)
+            $(`td[data-pk="${id_stock}"][data-property-name="Modelo"]`).html(idModelo)
+            $(`td[data-pk="${id_stock}"][data-property-name="Empresa"]`).html(IdEmpresa)
+            $(`td[data-pk="${id_stock}"][data-property-name="Tipo_tonner"]`).html(tipo)
+            $(`td[data-pk="${id_stock}"][data-property-name="Estado_Producto"]`).html(estado_stock)
             Toast.fire({
                 icon: 'success',
                 title: 'Cambios guardados correctamente'
@@ -282,9 +283,10 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
 
 function validarInputsStock(frmkey){
     
-    var statusInputProducto = ValidarInput( /* Invocamos la función que permite validar los inputs */
-        `${frmkey}-Descripcion`, /* facilitamos el ID del input que debemos validar */
-        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
+    var statusInputProducto = ValidarInput(
+        true,
+        `${frmkey}-Descripcion`, 
+        function(x){
 
             x = validarTextoInput(x);
 
@@ -306,6 +308,7 @@ function validarInputsStock(frmkey){
     /* VALIDAMOS EL INPUT QUE CORRESPONDE LA CONTRASEÑA DEL NUEVO USUARIO                                   */
     /* ------------------------------------------------------------------------------------------------ */
     var statusInputFecha = ValidarInput( /* Invocamos la función que permite validar los inputs */
+        true,
         `${frmkey}-Fecha`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -338,6 +341,7 @@ function validarInputsStock(frmkey){
     /* ------------------------------------------------------------------------------------------------ */
  
     var statusInputCantidad = ValidarInput( /* Invocamos la función que permite validar los inputs */
+        true,
         `${frmkey}-Cantidad`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
             
@@ -357,6 +361,7 @@ function validarInputsStock(frmkey){
 
 
     var statusInputPrecioU = ValidarInput( /* Invocamos la función que permite validar los inputs */
+        true,
         `${frmkey}-Precio_Unitario`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -376,6 +381,7 @@ function validarInputsStock(frmkey){
     )
     
     var statusInputPrecioT = ValidarInput( /* Invocamos la función que permite validar los inputs */
+        true,
         `${frmkey}-Precio_total`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -393,6 +399,7 @@ function validarInputsStock(frmkey){
     )
 
     var statusInputEmpresa = ValidarInput( /* Invocamos la función que permite validar los inputs */
+        true,
         `${frmkey}-IdEmpresa`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -409,6 +416,7 @@ function validarInputsStock(frmkey){
     ) 
 
     var statusInputMarca = ValidarInput( /* Invocamos la función que permite validar los inputs */
+        true,
         `${frmkey}-idMarca`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -441,9 +449,25 @@ function validarInputsStock(frmkey){
     }
 }
 
+function frmEditarStock_estado_stock_OnChange(eventInfo) {
+
+    var estado_stock = eventInfo.FormData.estado_stock;
+
+    if (estado_stock == "Entregado"){
+        $('#frmEditarStock-IdEmpresaU').prop('disabled', false);
+        $('#frmEditarStock-idDepto').prop('disabled', false);
+        $('#frmEditarStock-idubicacion').prop('disabled', false);
+        $('#frmEditarStock-idCentro').prop('disabled', false);
+    }else{
+        $('#frmEditarStock-IdEmpresaU').prop('disabled', true);
+        $('#frmEditarStock-idDepto').prop('disabled', true);
+        $('#frmEditarStock-idubicacion').prop('disabled', true);
+        $('#frmEditarStock-idCentro').prop('disabled', true);
+    }
+}
+
 function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
 
-    debugger;
     var IdEmpresaU = eventInfo.FormData.IdEmpresaU;
 
     if (IdEmpresaU != -1){
@@ -483,7 +507,6 @@ function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
 
 function frmEditarStock_idDepto_OnChange(eventInfo) {
 
-    debugger;
     var idDepto = eventInfo.FormData.idDepto;
 
     if(idDepto != -1){
@@ -521,7 +544,6 @@ function frmEditarStock_idDepto_OnChange(eventInfo) {
 
 function frmEditarStock_idubicacion_OnChange(eventInfo) {
 
-    debugger;
     var idubicacion = eventInfo.FormData.idubicacion;
     var idDepto = eventInfo.FormData.idDepto;
 

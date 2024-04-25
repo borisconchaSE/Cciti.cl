@@ -2,7 +2,6 @@
 
 use Application\BLL\DataTransferObjects\Core\centrocostosDto;
 use Application\BLL\DataTransferObjects\Core\departamentoDto;
-use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\empresaDto;
 use Application\BLL\DataTransferObjects\Core\modeloDto;
@@ -24,7 +23,6 @@ use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
 use Intouch\Framework\Widget\Text;
-use Karriere\JsonDecoder\Property;
 
 $BodyContent     =   new Container(
     Classes     :   ['alert alert-danger label-arrow'],
@@ -38,6 +36,9 @@ $BodyContent     =   new Container(
 $display        =   new Display();
 
 
+## -------------------------------------------------------------------------------
+## GENERAMOS LOS VALORES POR DEFECTO DE LOS INPUTS
+## -------------------------------------------------------------------------------
 if(!empty($data->Stock->tipo)){
 
     if(($data->Stock->tipo) == "Original" ){
@@ -176,7 +177,7 @@ $FechaData          =   $data->Stock->Fecha;
 $FechaData          =   date("d-m-Y", strtotime($FechaData));
 
 
-## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
+## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL STOCK A EDITAR
 if($data->Stock != null){
 
     ## AGREGAMOS EL BTN QUE NOS PERMITE GUARDAR LOS CAMBIOS
@@ -185,7 +186,6 @@ if($data->Stock != null){
             Key             :   'btnGuardarCambiosStock',
             FormKey         :   'frmEditarStock',
             Child           :   new Text('Guardar Cambios'),
-            #Classes         :   ['pull-right', 'wide'],
             ButtonStyle     :     ButtonStyleEnum::BUTTON_SOFT_SUCCESS,
             Events          :   [
                 new FormButtonOnClickEvent()
@@ -193,8 +193,7 @@ if($data->Stock != null){
         )
     );
 
-    ## EN CASO DE QUE LOS DATOS DEL CLIENTE VENGA VACIO
-    ## IMPRIMIMOS UN ERROR EN PANTALLA 
+    // GENERAMOS LA ESTRUCTURA QUE TENDRA EL FORMULARIO PARA EDITAR STOCK
    $display->AddFormFromObject( 
         formKey         :   'frmEditarStock',
         object          :   (object)[ 
@@ -367,7 +366,8 @@ if($data->Stock != null){
                             PropertyName    :   'IdEmpresaU',
                             Label           :   'Empresa Usuario',
                             Colspan         :   4,
-                            Required        : false,
+                            Required        :   false,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Empresa,
                                 Key             : 'IdEmpresa',
@@ -388,6 +388,7 @@ if($data->Stock != null){
                             Label           :   'Unidad',
                             Colspan         :   4,
                             Required        : false,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Area,
                                 Key             : 'idDepto',
@@ -409,6 +410,7 @@ if($data->Stock != null){
                             Label           :   'Ubicación',
                             Colspan         :   4,
                             Required        : false,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Ubicacion,
                                 Key             : 'idubicacion',
@@ -430,6 +432,7 @@ if($data->Stock != null){
                             Label           :   'Centro de Costos',
                             Colspan         :   4,
                             Required        : false,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Centro,
                                 Key             : 'idCentro',
@@ -437,7 +440,6 @@ if($data->Stock != null){
                                 SelectedValue   : -1,
                                 DisplaySearch   : true,
                                 LinkToList: 'idubicacion'
-                                // JSRefreshService: ['OpcionesStockSvc', 'GetByUbi']
                             ),
                             Events      :   [new FormOnChangeEvent()]
                         )
@@ -448,6 +450,7 @@ if($data->Stock != null){
         fillData        :   true
    );
 
+   //AGREGAMOS LA ESTRUCTURA DEL FOMULARIO A UNA VARIABLE U OBJETO
    $BodyContent         =   new Container(
     Children:[
         $display->Widgets()['frmEditarStock']
@@ -460,7 +463,7 @@ if($data->Stock != null){
 } 
 
 
-
+// INYECTAMOS LA VARIABLE QUE CONTIENE EL FORMULARIO EN EL POPUP PARA EDITAR STOCK
 $content = new Container(
     Classes: ['view-content'],
     Styles: [],
@@ -469,6 +472,7 @@ $content = new Container(
     ]
 );
 
+// GENERAMOS LA ESTRUCTURA DEL POPUP PARA EDITAR STOCK 
 $popUp = new PopUpContent(
     Key                 : 'PopupEditarStock', 
     Title               : 'Editar Producto',
@@ -481,6 +485,8 @@ $popUp = new PopUpContent(
     Content             : $content
 );
 
+// DIBUJAMOS LOS DATOS QUE TENDRA EL FORMULARIO
 $popUp->Draw();
 
+// DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
 $display->DrawScripts(addLoadEvent:false);

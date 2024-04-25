@@ -120,7 +120,6 @@ function btnCrearNuevaCompra_OnClick(eventInfo){
         entity,
         function(result){
             console.log(result);
-            DibujarNuevoCompra(result);
             $('.modal').modal('hide');
             Toast.fire({
                 icon: 'success',
@@ -147,42 +146,50 @@ function btnCrearNuevaCompra_OnClick(eventInfo){
 /* ESTA FUNCIÓN NOS PERMITE COMPATIBILIZAR LOS DATOS GENERADOS DESDE EL FRONT VS LOS DATOS DEL BACK
 /* -------------------------------------------------------------------------------------------------- */
 function DibujarNuevoCompra(DatosCompra = {
-    'Fecha_compra'              :   '2000-01-01',
-    'Descripcion'               :   'HP30A',
-    'idMarca'                   :   'HP',
-    'idModelo'                  :   '30A',
-    'Orden_compra'              :   '16513',
-    'Factura_compra'            :   '185202',
-    'Precio_U'                  :   '58632',
-    'Cantidad'                  :   '1',
-    'Precio_total'              :   '58632',
-    'tipo'                      :   'Original',
-    'idProveedor'               :   'Comercial Rann LTDA',
-    'idEstado_oc'               :   'Emitida',
-    'idEstado_FC'               :   'Contabilizada',
-    'IdEmpresa'                 :   'SEM',
+    'Fecha_Compra'                  :   '2000-01-01',
+    'Nombre_Producto'               :   'HP30A',
+    'Marca'                         :   'HP',
+    'Modelo'                        :   '30A',
+    'Orden_Compra'                  :   '16513',
+    'Factura_Compra'                :   '185202',
+    'Precio_Unitario'               :   '58632',
+    'Cantidad'                      :   '1',
+    'Precio_Total'                  :   '58632',
+    'Tipo'                          :   'Original',
+    'Proveedor'                     :   'Comercial Rann LTDA',
+    'Estado_OC'                     :   'Emitida',
+    'Estado_FC'                     :   'Contabilizada',
+    'Empresa'                       :   'SEM',
 }, Permisos = []){
  
     var table       = $('#tbListadoCompras').DataTable();
 
-    var idCell              =   DatosCompra.idO_C;
-    var Fecha               =   DatosCompra.Fecha_compra;
-    var Descripcion         =   DatosCompra.Descripcion;
-    var idMarca             =   DatosCompra.idMarca;
-    var idModelo            =   DatosCompra.idModelo;
-    var Orden_compra        =   DatosCompra.Orden_compra;
-    var Factura_compra      =   DatosCompra.Factura_compra;
-    var Precio_U            =   DatosCompra.Precio_U;
-    var Cantidad            =   DatosCompra.Cantidad;
-    var Precio_total        =   DatosCompra.Precio_total;
-    var tipo                =   DatosCompra.tipo;
-    var idProveedor         =   DatosCompra.idProveedor;
-    var idEstado_oc         =   DatosCompra.idEstado_oc;
-    var idEstado_FC         =   DatosCompra.idEstado_FC;
-    var IdEmpresa           =   DatosCompra.IdEmpresa;   
+    var Fecha_Compra            =   DatosCompra.Fecha_Compra;
+    var Nombre_Producto         =   DatosCompra.Nombre_Producto;
+    var Marca                   =   DatosCompra.Marca;
+    var Modelo                  =   DatosCompra.Modelo;
+    var Orden_Compra            =   DatosCompra.Orden_Compra;
+    var Factura_Compra          =   DatosCompra.Factura_Compra;
+    var Precio_Unitario         =   DatosCompra.Precio_Unitario;
+    var Cantidad                =   DatosCompra.Cantidad;
+    var Precio_Total            =   DatosCompra.Precio_Total;
+    var Tipo                    =   DatosCompra.Tipo;
+    var Proveedor               =   DatosCompra.Proveedor;
+    var Estado_OC               =   DatosCompra.Estado_OC;
+    var Estado_FC               =   DatosCompra.Estado_FC;
+    var Empresa                 =   DatosCompra.Empresa;
+    var Boton                   =   `<div class="text-right one-line-text">
+                                        <button class="btnEditarCompra btn  btn btn-sm btn-success" style="position: relative;  cursor: pointer;  " id="btnEditarCompra" name="btnEditarCompra" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Editar" data-table="tbListadoCompras">
+                                            <i class="fa fa-edit"></i>
+                                        <div class="hide badge-element" style="position: absolute;  right: 2px;  top: -10px;  cursor: pointer; " id="btnEditarCompraBadge">
+                                            <span class="badge bg-danger sm badge-text-element" style="border: 1px solid #ffffff;  padding: 0px 4px 1px 4px;  font-size: 10px;  cursor: pointer; " id="btnEditarCompraBadgeContent">
+                                            </span>
+                                        </div>
+                                        </button>
+                                    </div>`;           
 
 
-    var rowNode     = table.row.add( [ idCell, Fecha, Descripcion, idMarca, idModelo, Orden_compra, Factura_compra, Precio_U, Cantidad, Precio_total, tipo, idProveedor, idEstado_oc, idEstado_FC, IdEmpresa] ).draw().node();
+    var rowNode     = table.row.add( [Fecha_Compra, Nombre_Producto, Marca, Modelo, Orden_Compra, Factura_Compra, Precio_Unitario, Cantidad, Precio_Total, Tipo, Proveedor, Estado_OC, Estado_FC, Empresa,Boton] ).draw().node();
     
     /* AGREGAMOS LOS VALORES PK */
     debugger;
@@ -204,22 +211,23 @@ function DibujarNuevoCompra(DatosCompra = {
     $(rowNode).find('td:eq(11)').attr('data-pk',DatosCompra.idO_C)
     $(rowNode).find('td:eq(12)').attr('data-pk',DatosCompra.idO_C)
     $(rowNode).find('td:eq(13)').attr('data-pk',DatosCompra.idO_C)
+    $(rowNode).find('td:eq(14)').attr('data-pk',DatosCompra.idO_C)
 
     /* INCORPORAMOS EL NOMBRE DE LA PROPIEDAD A LA TABLA */
-    $(rowNode).find('td:eq(0)').attr('data-property-name','Fecha_compra')
-    $(rowNode).find('td:eq(1)').attr('data-property-name','Descripcion')
-    $(rowNode).find('td:eq(2)').attr('data-property-name','idMarca')
-    $(rowNode).find('td:eq(3)').attr('data-property-name','idModelo')
-    $(rowNode).find('td:eq(4)').attr('data-property-name','Orden_compra')
-    $(rowNode).find('td:eq(5)').attr('data-property-name','Factura_compra')
-    $(rowNode).find('td:eq(6)').attr('data-property-name','Precio_U')
+    $(rowNode).find('td:eq(0)').attr('data-property-name','Fecha_Compra')
+    $(rowNode).find('td:eq(1)').attr('data-property-name','Nombre_Producto')
+    $(rowNode).find('td:eq(2)').attr('data-property-name','Marca')
+    $(rowNode).find('td:eq(3)').attr('data-property-name','Modelo')
+    $(rowNode).find('td:eq(4)').attr('data-property-name','Orden_Compra')
+    $(rowNode).find('td:eq(5)').attr('data-property-name','Factura_Compra')
+    $(rowNode).find('td:eq(6)').attr('data-property-name','Precio_Unitario')
     $(rowNode).find('td:eq(7)').attr('data-property-name','Cantidad')
-    $(rowNode).find('td:eq(8)').attr('data-property-name','Precio_total')
-    $(rowNode).find('td:eq(9)').attr('data-property-name','tipo')
-    $(rowNode).find('td:eq(10)').attr('data-property-name','idProveedor')
-    $(rowNode).find('td:eq(11)').attr('data-property-name','idEstado_oc')
-    $(rowNode).find('td:eq(12)').attr('data-property-name','idEstado_FC')
-    $(rowNode).find('td:eq(13)').attr('data-property-name','IdEmpresa')
+    $(rowNode).find('td:eq(8)').attr('data-property-name','Precio_Total')
+    $(rowNode).find('td:eq(9)').attr('data-property-name','Tipo')
+    $(rowNode).find('td:eq(10)').attr('data-property-name','Proveedor')
+    $(rowNode).find('td:eq(11)').attr('data-property-name','Estado_OC')
+    $(rowNode).find('td:eq(12)').attr('data-property-name','Estado_FC')
+    $(rowNode).find('td:eq(13)').attr('data-property-name','Empresa')
 
 }
 
@@ -291,20 +299,20 @@ function btnGuardarCambiosCompra_OnClick(eventInfo){
         entity,
         function(result){  
             $('.modal').modal('hide');  
-            $(`td[data-pk="${idO_C}"][data-property-name="Fecha_compra"]`).html(Fecha_compra)
-            $(`td[data-pk="${idO_C}"][data-property-name="Descripcion"]`).html(Descripcion)
-            $(`td[data-pk="${idO_C}"][data-property-name="marca"]`).html(idMarca)
-            $(`td[data-pk="${idO_C}"][data-property-name="modelo"]`).html(idModelo)
-            $(`td[data-pk="${idO_C}"][data-property-name="Orden_compra"]`).html(Orden_compra)
-            $(`td[data-pk="${idO_C}"][data-property-name="Factura_compra"]`).html(Factura_compra)
-            $(`td[data-pk="${idO_C}"][data-property-name="Precio_U"]`).html(Precio_U)
+            $(`td[data-pk="${idO_C}"][data-property-name="Fecha_Compra"]`).html(Fecha_compra)
+            $(`td[data-pk="${idO_C}"][data-property-name="Nombre_Producto"]`).html(Descripcion)
+            $(`td[data-pk="${idO_C}"][data-property-name="Marca"]`).html(idMarca)
+            $(`td[data-pk="${idO_C}"][data-property-name="Modelo"]`).html(idModelo)
+            $(`td[data-pk="${idO_C}"][data-property-name="Orden_Compra"]`).html(Orden_compra)
+            $(`td[data-pk="${idO_C}"][data-property-name="Factura_Compra"]`).html(Factura_compra)
+            $(`td[data-pk="${idO_C}"][data-property-name="Precio_Unitario"]`).html(Precio_U)
             $(`td[data-pk="${idO_C}"][data-property-name="Cantidad"]`).html(Cantidad)
-            $(`td[data-pk="${idO_C}"][data-property-name="Precio_total"]`).html(Precio_total)
-            $(`td[data-pk="${idO_C}"][data-property-name="tipo"]`).html(tipo)
-            $(`td[data-pk="${idO_C}"][data-property-name="idProveedor"]`).html(idProveedor)
-            $(`td[data-pk="${idO_C}"][data-property-name="idEstado_oc"]`).html(idEstado_oc)
-            $(`td[data-pk="${idO_C}"][data-property-name="idEstado_FC"]`).html(idEstado_FC)
-            $(`td[data-pk="${idO_C}"][data-property-name="IdEmpresa"]`).html(IdEmpresa)
+            $(`td[data-pk="${idO_C}"][data-property-name="Precio_Total"]`).html(Precio_total)
+            $(`td[data-pk="${idO_C}"][data-property-name="Tipo"]`).html(tipo)
+            $(`td[data-pk="${idO_C}"][data-property-name="Proveedor"]`).html(idProveedor)
+            $(`td[data-pk="${idO_C}"][data-property-name="Estado_OC"]`).html(idEstado_oc)
+            $(`td[data-pk="${idO_C}"][data-property-name="Estado_FC"]`).html(idEstado_FC)
+            $(`td[data-pk="${idO_C}"][data-property-name="Empresa"]`).html(IdEmpresa)
             Toast.fire({
                 icon: 'success',
                 title: 'Cambios guardados correctamente'
@@ -325,7 +333,8 @@ function btnGuardarCambiosCompra_OnClick(eventInfo){
 
 function validarInputsCompra(frmkey){
     
-    var statusInputProducto = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputProducto = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Descripcion`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -348,7 +357,8 @@ function validarInputsCompra(frmkey){
     /* ------------------------------------------------------------------------------------------------ */
     /* VALIDAMOS EL INPUT QUE CORRESPONDE LA CONTRASEÑA DEL NUEVO USUARIO                                   */
     /* ------------------------------------------------------------------------------------------------ */
-    var statusInputFecha = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputFecha = ValidarInput(
+        true,/* Invocamos la función que permite validar los inputs */
         `${frmkey}-Fecha_compra`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -380,7 +390,8 @@ function validarInputsCompra(frmkey){
     /* VALIDAMOS EL INPUT QUE CORRESPONDE AL NOMBRE DEL CARGO DEL NUEVO USUARIO                                   */
     /* ------------------------------------------------------------------------------------------------ */
  
-    var statusInputCantidad = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputCantidad = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Cantidad`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
             
@@ -399,7 +410,8 @@ function validarInputsCompra(frmkey){
     /* ------------------------------------------------------------------------------------------------ */
 
 
-    var statusInputPrecioU = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputPrecioU = ValidarInput( 
+        true,/* Invocamos la función que permite validar los inputs */
         `${frmkey}-Precio_U`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -418,7 +430,8 @@ function validarInputsCompra(frmkey){
         'Ingresar el precio unitario.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     )
     
-    var statusInputPrecioT = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputPrecioT = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-Precio_total`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -435,7 +448,8 @@ function validarInputsCompra(frmkey){
         'Ingresar el valor total.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     )
 
-    var statusInputEmpresa = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputEmpresa = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-IdEmpresa`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -451,7 +465,8 @@ function validarInputsCompra(frmkey){
         'Ingresar una empresa disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     ) 
 
-    var statusInputMarca = ValidarInput( /* Invocamos la función que permite validar los inputs */
+    var statusInputMarca = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
         `${frmkey}-idMarca`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
@@ -467,38 +482,124 @@ function validarInputsCompra(frmkey){
         'Ingresar una marca disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     )
 
-    var statusInputModelo = ValidarInput( /* Invocamos la función que permite validar los inputs */
-    `${frmkey}-idModelo`, /* facilitamos el ID del input que debemos validar */
-    function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
+    var statusInputModelo = ValidarInput(
+        true,     /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-idModelo`, /* facilitamos el ID del input que debemos validar */
+        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
-        x = validarTextoInput(x);
+            x = validarTextoInput(x);
 
-        if (x != -1) {
-            return true;
-        }else{
-            return false;
-        }
-    }, /*  --- */
-    '',
-    'Ingresar un modelo disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
+            if (x != -1) {
+                return true;
+            }else{
+                return false;
+            }
+        }, /*  --- */
+        '',
+        'Ingresar un modelo disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
     )
 
-    var statusInputProveedor = ValidarInput( /* Invocamos la función que permite validar los inputs */
-    `${frmkey}-idProveedor`, /* facilitamos el ID del input que debemos validar */
-    function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
+        var statusInputProveedor = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-idProveedor`, /* facilitamos el ID del input que debemos validar */
+        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
-        x = validarTextoInput(x);
+            x = validarTextoInput(x);
 
-        if (x != -1) {
-            return true;
-        }else{
-            return false;
-        }
-    }, /*  --- */
-    '',
-    'Ingresar un proveedor disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
-    ) 
+            if (x != -1) {
+                return true;
+            }else{
+                return false;
+            }
+        }, /*  --- */
+        '',
+        'Ingresar un proveedor disponible.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
+    )
+    
+    var statusInputOrden = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-Orden_compra`, /* facilitamos el ID del input que debemos validar */
+        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
+            x = validarTextoInput(x);
+
+            if (x != -1) {
+                return true;
+            }else{
+                return false;
+            }
+        }, /*  --- */
+        '',
+        'Ingresar orden de compra.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
+    )
+    
+    var statusInputFactura = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-Factura_compra`, /* facilitamos el ID del input que debemos validar */
+        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
+
+            x = validarTextoInput(x);
+
+            if (x != -1) {
+                return true;
+            }else{
+                return false;
+            }
+        }, /*  --- */
+        '',
+        'Ingresar factura de compra.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
+    )
+    
+    var statusInputTipo = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-tipo`, /* facilitamos el ID del input que debemos validar */
+        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
+
+            x = validarTextoInput(x);
+
+            if (x != -1) {
+                return true;
+            }else{
+                return false;
+            }
+        }, /*  --- */
+        '',
+        'Ingresar tipo producto.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
+    )
+
+    var statusInputOC = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-idEstado_oc`, /* facilitamos el ID del input que debemos validar */
+        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
+
+            x = validarTextoInput(x);
+
+            if (x != -1) {
+                return true;
+            }else{
+                return false;
+            }
+        }, /*  --- */
+        '',
+        'Ingresar estado OC.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
+    )
+
+    var statusInputFC = ValidarInput(
+        true, /* Invocamos la función que permite validar los inputs */
+        `${frmkey}-idEstado_FC`, /* facilitamos el ID del input que debemos validar */
+        function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
+
+            x = validarTextoInput(x);
+
+            if (x != -1) {
+                return true;
+            }else{
+                return false;
+            }
+        }, /*  --- */
+        '',
+        'Ingresar estado FC.' /* Ingresamos el mensaje que se debe mostrar en caso de ser invalido */
+    )
     /* ------------------------------------------------------------------------------------------------ */
         
     if  (
@@ -510,7 +611,12 @@ function validarInputsCompra(frmkey){
         statusInputEmpresa          != true ||
         statusInputModelo           != true ||
         statusInputProveedor        != true ||
-        statusInputMarca            != true 
+        statusInputMarca            != true ||
+        statusInputOrden            != true ||
+        statusInputFactura          != true ||
+        statusInputTipo             != true ||
+        statusInputOC               != true ||
+        statusInputFC               != true 
     ){
         return false;
     }else{
@@ -520,7 +626,6 @@ function validarInputsCompra(frmkey){
 
 function frmNuevoProducto_idMarca_OnChange(eventInfo) {
 
-    debugger;
     var idMarca = eventInfo.FormData.idMarca;
 
     if (idMarca != -1){
@@ -547,6 +652,7 @@ function frmNuevoProducto_idMarca_OnChange(eventInfo) {
                     optios += `<option value="${value.idModelo}">${value.Descripcion}</option>`
                 })
                 $('#frmNuevoProducto-idModelo').html(optios);
+                $('#frmNuevoProducto-idModelo').prop('disabled', false);
             },
             function(errorCode,errorMessage){ 
                 Toast.fire({
@@ -556,6 +662,39 @@ function frmNuevoProducto_idMarca_OnChange(eventInfo) {
             }
         )
     }
+}
+
+function frmNuevoProducto_Precio_U_OnKeyUp(eventInfo){
+    var precio_total = obtenertotal(eventInfo)
+    $('#frmNuevoProducto-Precio_total').html("")
+    $('#frmNuevoProducto-Precio_total').prop('value', precio_total);
+}
+
+function frmNuevoProducto_Cantidad_OnKeyUp(eventInfo){
+    var precio_total = obtenertotal(eventInfo)
+    $('#frmNuevoProducto-Precio_total').html("")
+    $('#frmNuevoProducto-Precio_total').prop('value', precio_total);
+}
+
+function frmEditarCompra_Precio_U_OnKeyUp(eventInfo){
+    var precio_total = obtenertotal(eventInfo)
+    $('#frmEditarCompra-Precio_total').html("")
+    $('#frmEditarCompra-Precio_total').prop('value', precio_total);
+}
+
+function frmEditarCompra_Cantidad_OnKeyUp(eventInfo){
+    var precio_total = obtenertotal(eventInfo)
+    $('#frmEditarCompra-Precio_total').html("")
+    $('#frmEditarCompra-Precio_total').prop('value', precio_total);
+}
+
+function obtenertotal(eventInfo){
+    var b = eventInfo.FormData.Precio_U;
+    var a = eventInfo.FormData.Cantidad;
+
+    var total = b * a;
+    return total;
+
 }
 
 function __tceu(btn){

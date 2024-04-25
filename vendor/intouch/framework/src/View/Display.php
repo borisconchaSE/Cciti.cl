@@ -2008,7 +2008,7 @@ class Display {
                                 FormRowField $field, $propertyValue, 
                                 string $keyFieldName, string $formKey,
                                 $keyFieldValue = '', bool $fillData = false,
-                                int $layout = TipoLayoutFilaEnum::BOOTSTRAP): FormGroupColumn | null {
+                                int $layout = TipoLayoutFilaEnum::BOOTSTRAP): FormGroupColumn | null | InputText {
 
         $groupclasses = [];
         if (isset($field->GroupClass)) {
@@ -2024,15 +2024,8 @@ class Display {
             $InputAttributes = array_merge($InputAttributes,$field->Attributes );
         }
         
-        $result = new FormGroupColumn(
-            Key: (isset($field->GroupKey)) ? $field->GroupKey : '',
-            Label: $field->Label,
-            Layout:         $layout,
-            Colspan: $field->Colspan,
-            Required: $field->Required,
-            Classes: $groupclasses,
-            Disabled: $field->Disabled,
-            Input: new InputText(
+        if ( $layout == TipoLayoutFilaEnum::INPUTGROUP ){
+            $result = new InputText(
                 Key: $field->Id,
                 Type: $field->FieldType,
                 Value: ($fillData) ? $propertyValue : '',
@@ -2041,9 +2034,30 @@ class Display {
                 Placeholder: $field->Placeholder,
                 Attributes: $InputAttributes,
                 Classes: ['form-input'],
-            ),
-        );
+            ) ;
+        }else{
 
+        
+            $result = new FormGroupColumn(
+                Key: (isset($field->GroupKey)) ? $field->GroupKey : '',
+                Label: $field->Label,
+                Layout:         $layout,
+                Colspan: $field->Colspan,
+                Required: $field->Required,
+                Classes: $groupclasses,
+                Disabled: $field->Disabled,
+                Input: new InputText(
+                    Key: $field->Id,
+                    Type: $field->FieldType,
+                    Value: ($fillData) ? $propertyValue : '',
+                    Required: $field->Required,
+                    Disabled: $field->Disabled,
+                    Placeholder: $field->Placeholder,
+                    Attributes: $InputAttributes,
+                    Classes: ['form-input'],
+                ),
+            );
+        }
         return $result;
     }
 
@@ -2307,7 +2321,7 @@ class Display {
                                 $keyFieldValue = '',
                                 $fillData = false,
                                 array $attributes = [],
-                                int $layout = TipoLayoutFilaEnum::BOOTSTRAP): FormGroupColumn | null {
+                                int $layout = TipoLayoutFilaEnum::BOOTSTRAP): FormGroupColumn | null | InputSelect {
 
         // Search o sin search
         $classes = ['form-input new'];
@@ -2332,17 +2346,8 @@ class Display {
         $valueDecoration =  ($field->SelectDefinition->MultipleSelection == true) ? "[]" : "";
 
         
-
-        // Description
-        $result = new FormGroupColumn(
-            Key: (isset($field->GroupKey)) ? $field->GroupKey : '',
-            Label: $field->Label,
-            Layout:         $layout,
-            Colspan: $field->Colspan,
-            Required: $field->Required,    
-            Classes: $groupclasses,
-            Attributes: $attributes,        
-            Input: new InputSelect(
+        if ($layout == TipoLayoutFilaEnum::INPUTGROUP){
+            $result = new InputSelect(
                 Key: $field->Id,
                 ValueField: $field->SelectDefinition->Key . $valueDecoration,
                 DescriptionField: $field->SelectDefinition->Description,
@@ -2358,8 +2363,39 @@ class Display {
                 ],
                 OptionAttributeNames: $field->SelectDefinition->OptionAttributeNames,
                 MultipleSelection: $field->SelectDefinition->MultipleSelection
-            ),
-        );
+            ) ;
+        }else{
+
+        
+
+        // Description
+            $result = new FormGroupColumn(
+                Key: (isset($field->GroupKey)) ? $field->GroupKey : '',
+                Label: $field->Label,
+                Layout:         $layout,
+                Colspan: $field->Colspan,
+                Required: $field->Required,    
+                Classes: $groupclasses,
+                Attributes: $attributes,        
+                Input: new InputSelect(
+                    Key: $field->Id,
+                    ValueField: $field->SelectDefinition->Key . $valueDecoration,
+                    DescriptionField: $field->SelectDefinition->Description,
+                    DescriptionFunction: $field->SelectDefinition->DescriptionFunction,
+                    Values: $values,
+                    SelectedValue: ($fillData) ? $propertyValue : $field->SelectDefinition->SelectedValue,
+                    Required: $field->Required,
+                    Disabled: $field->Disabled,
+                    Classes: $classes,                
+                    Attributes: [
+                        ['data-' . $keyFieldName, $keyFieldValue],
+                        ['data-form-id', $formKey]
+                    ],
+                    OptionAttributeNames: $field->SelectDefinition->OptionAttributeNames,
+                    MultipleSelection: $field->SelectDefinition->MultipleSelection
+                ),
+            );
+        }
 
         return $result;
     }
@@ -2998,9 +3034,11 @@ class Display {
         );
 
         $BaseScript = file_get_contents($ruta.'/DisplayDefinitions/JSTable/Template/TableBodyTemplate.js');
-        
+        $IdUsuario  =   Session::Instance()->usuario->IdUsuario;
 
-        RedisDataTable::Instance()->$tableKey = new GenericCollection(
+        $tableKeyCache  =   $IdUsuario."_" . $tableKey;
+
+        RedisDataTable::Instance()->$tableKeyCache = new GenericCollection(
             DtoName : $DtoName,
             Values  : $ToJson
         );

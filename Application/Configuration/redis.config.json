@@ -1,5 +1,6 @@
 {
     "Endpoint" : "localhost",
     "Port" : "6379",
-    "TokenPrefix" : "montaje"
+    "TokenPrefix" : "montaje",
+    "ExpireTime"    :   7600
 }

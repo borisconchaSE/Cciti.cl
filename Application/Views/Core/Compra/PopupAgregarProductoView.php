@@ -9,7 +9,6 @@ use Application\BLL\DataTransferObjects\Core\proveedorDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\FormButton;
-use Intouch\Framework\View\DisplayDefinitions\FormRowFieldHidden;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldDate;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelect;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
@@ -19,6 +18,7 @@ use Intouch\Framework\View\DisplayDefinitions\FormRowGroup;
 use Intouch\Framework\View\DisplayEventActions\RefreshListAction;
 use Intouch\Framework\View\DisplayEvents\FormButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\FormOnChangeEvent;
+use Intouch\Framework\View\DisplayEvents\FormOnKeyUpEvent;
 use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
@@ -52,7 +52,6 @@ $display->AddButton(
 
 ## -------------------------------------------------------------------------------
 ## GENERAMOS LOS VALORES POR DEFECTO DE LOS INPUTS
-## -------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------
 $Marca = [
     new marcaDto(
@@ -163,8 +162,7 @@ if(!empty($data->DatosFC)){
     ) ;
 }
 
-## EN CASO DE QUE LOS DATOS VENGA VACIO
-## IMPRIMIMOS UN ERROR EN PANTALLA 
+//GENERAMOS LA ESTRUCTURA DEL FORMULARIO
 $display->AddFormFromObject( 
     formKey         :   'frmNuevoProducto',
     object          :   (object)[  ],
@@ -218,13 +216,14 @@ $display->AddFormFromObject(
                         Label: 'Modelo',
                         Colspan: 4,
                         Required: true,
+                        Disabled:   true,
                         SelectDefinition: new FormRowFieldSelectDefinition(
                             Values          : $Modelo,
                             Key             : 'idModelo',
                             Description     : 'Descripcion',
                             SelectedValue   : -1,
                             DisplaySearch   : true,
-                            LinkToList      : 'idMarca'
+                            LinkToList      : 'idMarca',
                         ), 
                     ),
                     new FormRowFieldText(
@@ -247,13 +246,18 @@ $display->AddFormFromObject(
                         Label           :   'Cantidad',
                         Required        :   true,
                         Colspan         :   4,
+                        Events      :   [new FormOnChangeEvent(), new FormOnKeyUpEvent()]
                     ),
                     new FormRowFieldText(
                         PropertyName    :   'Precio_U',
                         FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                         Label           :   'Precio Unitario',
                         Required        :   true,
-                        Colspan         :   4
+                        Colspan         :   4,
+                        Events      :   [
+                            new FormOnChangeEvent(),
+                            new FormOnKeyUpEvent()
+                        ]
                     ),
                     new FormRowFieldText(
                         PropertyName    :   'Precio_total',
@@ -261,7 +265,10 @@ $display->AddFormFromObject(
                         Label           :   'Precio Total',
                         Required        :   true,
                         Colspan         :   4,
-                    ), 
+                        Disabled        :   true,
+                        Events          :   [new FormOnChangeEvent()]
+                    ),
+                    
                 ],
                 [
                     new FormRowFieldSelect(
@@ -346,6 +353,7 @@ $display->AddFormFromObject(
     fillData        :   false
 );
 
+// VARIABLE QUE CONTIENE LA ESTRUCTURA DEL FORMULARIO
 $BodyContent         =   new Container(
     Children:[
         $display->Widgets()['frmNuevoProducto']
@@ -355,7 +363,7 @@ $BodyContent         =   new Container(
 
  
 
-
+//INYECTAMOS LA VARIABLE QUE CONTIENE EL FORULARIO A EL CONTENIDO DEL POPUP
 $content = new Container(
     Classes: ['view-content'],
     Styles: [],
@@ -364,6 +372,7 @@ $content = new Container(
     ]
 );
 
+// CONFIGURAMOS LA ESTRUTURA QUE TENDRA EL POPUP DEL FORMULARIO
 $popUp = new PopUpContent(
     Key                 : 'PopupCompraNuevo', 
     Title               : 'Nueva Compra',
@@ -376,6 +385,8 @@ $popUp = new PopUpContent(
     Content             : $content
 );
 
+// DIBUJAMOS LOS DATOS QUE TENDRA EL FORMULARIO
 $popUp->Draw();
 
+// DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
 $display->DrawScripts(addLoadEvent:false);

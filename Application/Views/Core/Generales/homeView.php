@@ -1,30 +1,26 @@
 <?php
 
-use Application\BLL\BusinessEnumerations\RolesEnum;
-use Application\BLL\DataTransferObjects\Core\ordencompraDto;
+use Intouch\Framework\BLL\Filters\CustomExcelSettingsFilterDto;
 use Intouch\Framework\BLL\Filters\DataTableSettingsFilterDto;
-use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\Configuration\SystemConfig;
 use Intouch\Framework\Environment\Session;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\Button;
 use Intouch\Framework\View\DisplayDefinitions\JSTable\JSTableCell;
+use Intouch\Framework\View\DisplayDefinitions\JSTableButton;
 use Intouch\Framework\View\DisplayDefinitions\TableButton;
 use Intouch\Framework\View\DisplayDefinitions\TableCell;
 use Intouch\Framework\View\DisplayEvents\ButtonOnClickEvent;
-use Intouch\Framework\View\DisplayEvents\Event;
 use Intouch\Framework\View\DisplayEvents\TableButtonOnClickEvent;
 use Intouch\Framework\Widget\Card;
 use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
-use Intouch\Framework\Widget\Definitions\Label\LabelStyleEnum;
 use Intouch\Framework\Widget\FaIcon;
 use Intouch\Framework\Widget\FaIconText;
 use Intouch\Framework\Widget\Html;
-use Intouch\Framework\Widget\Label;
-use Intouch\Framework\Widget\PageHeader;
+use Intouch\Framework\Widget\JSTableContent;
+use Intouch\Framework\Widget\JSTableScriptFilter;
 use Intouch\Framework\Widget\Text;
-use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Trunc;
 
 use function PHPSTORM_META\map;
 
@@ -100,170 +96,232 @@ $tableheader =  new Container(
 ## COMENZAMOS A DIBUJAR LA TABLA
 
 $cellDefinitions    =   [
-    new TableCell(
-        PropertyName: 'Fecha_compra',
+    new JSTableCell(
+        PropertyName: 'Fecha_Compra',
+        Label: 'Fecha Compra',
         Colspan: 2,
-        Label: 'Fecha Compra'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
-        PropertyName: 'IdEmpresa',
+    new JSTableCell(
+        PropertyName: 'Empresa',
         Colspan: 2,
         Label: 'Empresa',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->empresa->Descripcion);
+        // PropertyList :[
+        //     "empresa"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'IdEmpresa',
+        //         JSFilterName: 'NombreEmpresa'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'NombreEmpresa',
+        //         Script: [
+        //             '
+        //             var Empresa = element.empresa.Descripcion;
 
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
+        //             return `<center> <span class="Center">${Empresa}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
     ),
-    new TableCell(
-        PropertyName: 'Proveedor',
+    new JSTableCell(
+        PropertyName: 'Rut_Proveedor',
         Colspan: 2,
         Label: 'Rut Proveedor',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->proveedor->Rut);
+        // PropertyList :[
+        //     "proveedor"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'Proveedor',
+        //         JSFilterName: 'RutProveedor'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'RutProveedor',
+        //         Script: [
+        //             '
+        //             var Rut = element.proveedor.Rut;
 
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
+        //             return `<center> <span class="Center">${Rut}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
     ),
-    new TableCell(
-        PropertyName: 'idProveedor',
+    new JSTableCell(
+        PropertyName: 'Proveedor',
         Colspan: 2,
         Label: 'Proveedor',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->proveedor->Nombre);
+        // PropertyList :[
+        //     "proveedor"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'idProveedor',
+        //         JSFilterName: 'NombreProveedor'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'NombreProveedor',
+        //         Script: [
+        //             '
+        //             var NombreP = element.proveedor.Nombre;
 
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
+        //             return `<center> <span class="Center">${NombreP}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
     ),
-    new TableCell(
-        PropertyName: 'Descripcion',
+    new JSTableCell(
+        PropertyName: 'Nombre_Producto',
+        Label: 'Descripcion compra',
         Colspan: 2,
-        Label: 'Descripcion Producto'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
-        PropertyName: 'Orden_compra',
+    new JSTableCell(
+        PropertyName: 'Orden_Compra',
+        Label: 'Orden Compra',
         Colspan: 2,
-        Label: 'Orden Compra'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
-        PropertyName: 'Factura_compra',
+    new JSTableCell(
+        PropertyName: 'Factura_Compra',
+        Label: 'Factura Compra',
         Colspan: 2,
-        Label: 'Factura Compra'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
+    new JSTableCell(
         PropertyName: 'Cantidad',
+        Label: 'Cantidad',
         Colspan: 2,
-        Label: 'Cantidad'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
-        PropertyName: 'Precio_total',
+    new JSTableCell(
+        PropertyName: 'Precio_Total',
+        Label: 'Precio Total',
         Colspan: 2,
-        Label: 'Precio Total'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
-        PropertyName: 'tipo',
+    new JSTableCell(
+        PropertyName: 'Tipo',
         Colspan: 2,
         Label: 'Tipo',
-        FormatFunction  :   function($data,$cell){
-            $Widget = new Text($data->tipoproducto->DescripcionProducto);
+        // PropertyList :[
+        //     "tipoproducto"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'tipo',
+        //         JSFilterName: 'TipoProduct'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'TipoProduct',
+        //         Script: [
+        //             '
+        //             var TipoProducto = element.tipoproducto.DescripcionProducto;
 
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
+        //             return `<center> <span class="Center">${TipoProducto}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
     ),
-    new TableCell(
-        PropertyName: 'IdEstadoActivo',
+    new JSTableCell(
+        PropertyName: 'Estado_Activo',
         Colspan: 2,
         Label: 'Estado Activo',
-        FormatFunction  :   function($data,$cell){
-            $Widget = new Text($data->estadosactivos->DescripcionActivo);
+        // PropertyList :[
+        //     "estadosactivos"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'IdEstadoActivo',
+        //         JSFilterName: 'EstadoActivo'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'EstadoActivo',
+        //         Script: [
+        //             '
+        //             var Activo = element.estadosactivos.DescripcionActivo;
 
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
+        //             return `<center> <span class="Center">${Activo}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
     ),
-    new TableCell(
-        PropertyName: 'idEstado_oc',
+    new JSTableCell(
+        PropertyName: 'Estado_OC',
         Colspan: 2,
         Label: 'Estado OC',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->estadoOC->Descripcion);
+        // PropertyList :[
+        //     "estadoOC"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'idEstado_oc',
+        //         JSFilterName: 'EstadoOC'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'EstadoOC',
+        //         Script: [
+        //             '
+        //             var OC = element.estadoOC.Descripcion;
 
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
-
+        //             return `<center> <span class="Center">${OC}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
     ),
-    new TableCell(
-        PropertyName: 'idEstado_FC',
+    new JSTableCell(
+        PropertyName: 'Estado_FC',
         Colspan: 2,
         Label: 'Estado FC',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->estadoFC->Descripcion);
+        // PropertyList :[
+        //     "estadoFC"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'idEstado_FC',
+        //         JSFilterName: 'EstadoFC'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'EstadoFC',
+        //         Script: [
+        //             '
+        //             var FC = element.estadoFC.Descripcion;
 
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
+        //             return `<center> <span class="Center">${FC}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
     ),
 ] ;
-
-
-## ------------------------------------------------------------------------------
-## VALIDAMOS LOS BOTONES A LOS QUE EL USUARIO TIENE ACCESO
-## ------------------------------------------------------------------------------
-$tableButtons    =   [];
-
-
-## VALIDAMOS SI EL USUARIO TIENE PERMISOS PARA EDITAR EL STOCK
- 
-array_push($tableButtons,new TableButton(
-    Key             :   'btnEditarCompra',
-    Child           :   new FaIcon('fa-edit'),
-    Classes         :   ['btn-sm'],
-    OnClickClass    :   'btnEditarCompra',
-    TogglePopUp     :   true,
-    ToggleText      :   'Editar',
-    ButtonStyle     :   ButtonStyleEnum::BUTTON_SUCCESS,
-    Events          :   [ new TableButtonOnClickEvent() ],
-  
-)); 
-  
  
 $display->AddTableFromCollection(
     tableKey: 'tbListadoCompras',
@@ -271,12 +329,31 @@ $display->AddTableFromCollection(
     RowAttributeNames: ['idO_C'],
     CellDefinitions: $cellDefinitions,
     Data: $data['ListaCompras'],
-    Buttons: $tableButtons,
+    Buttons: [
+        new JSTableButton(
+            Key             :   'btnEditarCompra',
+            Child           :   new FaIcon('fa-edit'),
+            Classes         :   ['btn-sm'],
+            OnClickClass    :   'btnEditarCompra',
+            TogglePopUp     :   true,
+            ToggleText      :   'Editar',
+            ButtonStyle     :   ButtonStyleEnum::BUTTON_SUCCESS,
+            Events          :   [ new TableButtonOnClickEvent() ],)
+    ],
     TablaSimple: false,
+    JSRenderTheTable : true,
+    customExcel : new CustomExcelSettingsFilterDto(
+        ShowButton      :   true,
+        Controller      :   "lista",
+        FileName        :   "Lista Activos",
+        Estado          :   null,
+        TableKey        :   'tbListadoActivos'
+    ),
     CustomDataTable: new DataTableSettingsFilterDto(
         HideAllButtons  : false,
         CustomPdf       : false,
         TableHasButtons : true,
+        GroupedButtons  : false,
     )
 );
 
@@ -289,6 +366,7 @@ $content    =   new Container(
             Children    :   [
                 $tableheader,
                 new Card(
+                    Classes:['table-responsive'],
                     Children:[
                         new Html('<br>'),
                         $display->Widgets()['tbListadoCompras']

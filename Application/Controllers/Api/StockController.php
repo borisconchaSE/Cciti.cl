@@ -2,11 +2,7 @@
 
 namespace Application\Controllers\Api;
 
-use Application\BLL\BusinessEnumerations\RolesEnum;
 use Application\BLL\BusinessObjects\Core\StockBO;
-use Application\BLL\Filters\CambiarDatosUsuarioFilterDto;
-use Application\BLL\Filters\EditarUsuarioFilterDto;
-use Application\BLL\Filters\NuevoUsuarioFilterDto;
 use Application\BLL\Services\Core\centrocostosSvc;
 use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\stockSvc;
@@ -23,7 +19,6 @@ use Intouch\Framework\Annotation\Attributes\ReturnCacheTableData;
 use Intouch\Framework\Environment\RedisDataTable;
 use Intouch\Framework\Annotation\Attributes\Route;
 use Intouch\Framework\Dao\BindVariable;
-use Intouch\Framework\Environment\Session;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;
 use Intouch\Framework\View\Display;
@@ -42,7 +37,7 @@ class StockController extends BaseController
     public function PopupAgregarStock() 
     {
 
-        ## PROCEDEMOS A BUSCAR LA INFORMACIÓN
+        // PROCEDEMOS A BUSCAR LA INFORMACIÓN
 
         $DatosMarca             =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
 
@@ -50,7 +45,7 @@ class StockController extends BaseController
 
         $DatosEmpresa           =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
 
-        ## GENERAMOS UN ARRAY CON LOS DATOS PARA LA VISTA
+        // GENERAMOS UN ARRAY CON LOS DATOS PARA LA VISTA
 
         $data   =  (object) [
             "DatosMarca"        =>  $DatosMarca,
@@ -58,20 +53,22 @@ class StockController extends BaseController
             "DatosModelo"       =>  $DatosModelo
         ]; 
 
-        ## RENDERIZAMOS LA VISTA
+        // RENDERIZAMOS LA VISTA
         return Display::GetRenderer('Core/Stock')->RenderView('PopupAgregarStock',$data);
     } 
 
+    // FUNCION PARA LLAMAR EL POPUP PARA EDITAR UN PRODUCTO EN EL STOCK( ACTUAL O ENTREGADO)
     #[Route(Methods: ['POST'], RequireSession:true)]
     #[ReturnActionViewResult]
     public function PopupEditarStock(int $id_stock) 
     { 
 
+        //INSTANCIAMOS LOS SERVICE A UTILIZAR EN EL POPUP
         $EmpresaSvc         =   new empresaSvc(ConnectionEnum::TI);
         $DepartamentoSvc    =   new departamentoSvc(ConnectionEnum::TI);
         $UbicacionSvc       =   new ubicacionSvc(ConnectionEnum::TI);
 
-        ## PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL USUARIO EN EL BO
+        // PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL STOCK A EDITAR EN LA BBDD
         $StockDto           =   (new StockBO())->GetStock($id_stock);
 
         $userEmpresa        =   $StockDto->Empresa_asignado;
@@ -87,7 +84,7 @@ class StockController extends BaseController
         $DatosCentro        =   (new centrocostosSvc(ConnectionEnum::TI))->GetAll();
         $DatosModelo        =   (new modeloSvc(ConnectionEnum::TI))->GetAll();
 
-        ## GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
+        // GUARDAMOS LOS DATOS EN UN ARREGLO PARA ENVIARSELOS A LA VISTA
         $dataView           =  (object) [
             "Stock"                     =>  $StockDto,
             "DatosMarca"                =>  $DatosMarca,
@@ -104,10 +101,10 @@ class StockController extends BaseController
 
         if($StockDto->estado_stock == 'Entregado'){
 
-            ## RENDERIZAMOS LA VISTA
+            // RENDERIZAMOS LA VISTA
             return Display::GetRenderer('Core/Entregado')->RenderView('PopupEditarEntregado',$dataView);
         }else{
-            ## RENDERIZAMOS LA VISTA
+            // RENDERIZAMOS LA VISTA
             return Display::GetRenderer('Core/Stock')->RenderView('PopupEditarStock',$dataView);
         }
 
@@ -117,18 +114,18 @@ class StockController extends BaseController
     #[ReturnActionViewResult]
     public function GetbyEmpresa($DatosEmpresa) 
     { 
-        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        // INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
         $DepartamentoService     =   new departamentoSvc(ConnectionEnum::TI);
 
         $IdEmpresaU       =     $DatosEmpresa->IdEmpresaU;
 
         try{
-            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            // BUSCAMOS LA INFORMACIÓN DEL USUARIO
             $datos          =   $DepartamentoService->GetByForeign('IdEmpresa',$IdEmpresaU);
 
         } catch (\Exception $ex) {
 
-            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            // GENERAMOS UNA VARIABLE VACIA POR EL ERROR
             $datos = null;
         }
 
@@ -141,7 +138,7 @@ class StockController extends BaseController
     public function GetByDepto($DatosDepto) 
     { 
 
-        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        // INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
         $UbicacionService     =   new ubicacionSvc(ConnectionEnum::TI);
         $DepartamentoService  =   new departamentoSvc(ConnectionEnum::TI);
 
@@ -153,12 +150,12 @@ class StockController extends BaseController
 
 
         try{
-            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            // BUSCAMOS LA INFORMACIÓN DEL USUARIO
             $datos          =   $UbicacionService->GetByForeign('idubicacion',$idubi);
 
         } catch (\Exception $ex) {
 
-            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            // GENERAMOS UNA VARIABLE VACIA POR EL ERROR
             $datos = null;
         }
 
@@ -171,21 +168,21 @@ class StockController extends BaseController
     public function GetByUbi($DatosUbi) 
     { 
 
-        ## INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
+        // INSTANCIAMOS EL SERVICE A UTILIZAR Y LO CONECTAMOS A LA BBDD CORE
         $CentroService     =   new centrocostosSvc(ConnectionEnum::TI);
 
         $idubicacion        =       $DatosUbi->idubicacion;
         $idDepto            =       $DatosUbi->idDepto;
 
         try{
-            ## BUSCAMOS LA INFORMACIÓN DEL USUARIO
+            // BUSCAMOS LA INFORMACIÓN DEL USUARIO
             $datos        =   $CentroService->GetBy([
                 new BindVariable('idubicacion','=',$idubicacion),
                 new BindVariable('idDepto','=',$idDepto)]);
 
         } catch (\Exception $ex) {
 
-            ## GENERAMOS UNA VARIABLE VACIA POR EL ERROR
+            // GENERAMOS UNA VARIABLE VACIA POR EL ERROR
             $datos = null;
         }
 
@@ -197,16 +194,10 @@ class StockController extends BaseController
     #[ReturnActionViewResult]
     public function CambiarParametrosStock($DatosStock) 
     { 
-        
-        ## ----------------------------------------------------------------------
-        ## PARA VALIDAR LA INFORMACIÓN QUE PROVIENE DESDE LA REQUEST
-        ## UTILIZAMOS UN TIPO DE DTO LLAMADO FILTER QUE NOS PERMITE IDENTIFICAR 
-        ## Y ESTABLECER CUALES SON LOS PARAMETROS QUE ACEPTA LA API
-        ## ----------------------------------------------------------------------
 
-        ## en primer lugar validamos los campos ingresados
+        // en primer lugar validamos los campos ingresados
 
-        ## validamos el id del usuario
+        // validamos el id del usuario
         if ($DatosStock->Cantidad < 1 ) {
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Cantidad ingresada invalida");
         }
@@ -219,23 +210,19 @@ class StockController extends BaseController
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Empresa ingresada invalida");
         }
 
-        ## validamos el nombre
+        // validamos el nombre
         if ( strlen($DatosStock->Fecha) > 10   ) {
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Fecha ingresada invalida");
         }
 
-        ## validamos el nombre
+        // validamos el nombre
         if ( strlen($DatosStock->Descripcion) < 4   ) {
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Descripcion ingresada invalida");
         }
 
-        ## validamos la sigla
+        // validamos la sigla
         if ( strlen($DatosStock->Precio_Unitario) < 4 ) {
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Precio unitario ingresado invalida");
-        }
-
-        if ( strlen($DatosStock->Precio_total) < 4 ) {
-            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Precio total ingresado invalida");
         }
 
         if ( strlen($DatosStock->tipo) < 5 ) {
@@ -246,20 +233,23 @@ class StockController extends BaseController
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Estado del stock invalido");
         }
 
-        ## -----------------------------------------------------------------------
-        ## UNA VEZ VALIDADO LOS INPUTS
-        ## PROCEDEMOS A INSTANCIAR EL BO 
-        ## PARA REALIZAR LAS ACCIONES DEL NEGOCIO
-        ## -----------------------------------------------------------------------
+        // -----------------------------------------------------------------------
+        // UNA VEZ VALIDADO LOS INPUTS
+        // PROCEDEMOS A INSTANCIAR EL BO 
+        // PARA REALIZAR LAS ACCIONES DEL NEGOCIO
+        // -----------------------------------------------------------------------
         $StockBO      =   new StockBO();
         
 
-        ## PROCEDEMOS A ACTUALIZAR LA INFORMACIÓN EN LA BBDD
+        // PROCEDEMOS A ACTUALIZAR LA INFORMACIÓN EN LA BBDD
         $status         =   $StockBO->UpdateStock($DatosStock);
         $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$DatosStock->idMarca);
         $Modelo         =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('idModelo',$DatosStock->idModelo);
 
         $Empresa        =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosStock->IdEmpresa);
+        $EmpresaU       =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosStock->IdEmpresaU);
+        $Depto          =   (new departamentoSvc(ConnectionEnum::TI))->FindByForeign('idDepto',$DatosStock->idDepto);
+        $Ubicacion      =   (new ubicacionSvc(ConnectionEnum::TI))->FindByForeign('idubicacion',$DatosStock->idubicacion);
         
         if ( $status != true ){
             throw new BusinessException(code: ExceptionCodesEnum::ERR_DATA_UPDATE, message: "No ha sido posible actualizar el producto");
@@ -272,10 +262,13 @@ class StockController extends BaseController
             "Precio_Unitario"       =>  $DatosStock->Precio_Unitario,
             "Precio_total"          =>  $DatosStock->Precio_total,
             "idMarca"               =>  $Marca->Descripcion,
+            "idModelo"              =>  $Modelo->Descripcion,
             "IdEmpresa"             =>  $Empresa->Descripcion,
+            "IdEmpresaU"            =>  $EmpresaU->Descripcion,
+            "idDepto"               =>  $Depto->Descripcion,
+            "idubicacion"           =>  $Ubicacion->Descripcion,
             "tipo"                  =>  $DatosStock->tipo,
             "estado_stock"          =>  $DatosStock->estado_stock,
-            "idModelo"              =>  $Modelo->Descripcion,
             
         ] ;
 
@@ -322,14 +315,14 @@ class StockController extends BaseController
  
         $guid           =   "RPHPDATATABLE_".$guid;
 
-        ## VALIDAMOS SI EL INPUT ES CORRECTO
+        // VALIDAMOS SI EL INPUT ES CORRECTO
         $datos      =   RedisDataTable::Instance()->$guid;
 
         if (empty($datos)){
             throw new BusinessException(code: ExceptionCodesEnum::ERR_DATA_READ,message:'INFORMACIÓN NO DISPONIBLE');
         }
 
-        ## UNA VEZ QUE OBTENEMOS LOS DATOS, PROCEDEMOS A BUSCAR LA INFORMACIÓN DE LA LISTA
+        // UNA VEZ QUE OBTENEMOS LOS DATOS, PROCEDEMOS A BUSCAR LA INFORMACIÓN DE LA LISTA
         try{
             
             $pk             =   str_replace("RPHPDATATABLE_tbListadoStock_","",$guid);

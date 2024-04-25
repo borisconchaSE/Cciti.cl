@@ -1,30 +1,20 @@
 <?php
 
-use Application\BLL\DataTransferObjects\Core\stockDto;
 use Intouch\Framework\BLL\Filters\CustomExcelSettingsFilterDto;
 use Intouch\Framework\BLL\Filters\DataTableSettingsFilterDto;
-use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\Configuration\SystemConfig;
 use Intouch\Framework\Environment\Session;
-use Intouch\Framework\OfficeHelper\Excel;
 use Intouch\Framework\View\Display;
-use Intouch\Framework\View\DisplayDefinitions\Button;
 use Intouch\Framework\View\DisplayDefinitions\JSTable\JSTableCell;
-use Intouch\Framework\Widget\JSTableContent;
-use Intouch\Framework\Widget\JSTableScriptFilter;
-use Intouch\Framework\View\DisplayDefinitions\FormRowFieldHidden;
-use Intouch\Framework\View\DisplayDefinitions\TableButton;
-use Intouch\Framework\View\DisplayDefinitions\TableCell;
-use Intouch\Framework\View\DisplayEvents\ButtonOnClickEvent;
-use Intouch\Framework\View\DisplayEvents\Event;
+use Intouch\Framework\View\DisplayDefinitions\JSTableButton;
 use Intouch\Framework\View\DisplayEvents\TableButtonOnClickEvent;
 use Intouch\Framework\Widget\Card;
 use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\FaIcon;
-use Intouch\Framework\Widget\FaIconText;
 use Intouch\Framework\Widget\Html;
-use Intouch\Framework\Widget\Text;
+use Intouch\Framework\Widget\JSTableContent;
+use Intouch\Framework\Widget\JSTableScriptFilter;
 
 use function PHPSTORM_META\map;
 
@@ -33,12 +23,12 @@ $Usuario        =   Session::Instance()->usuario;
 $display        =   new Display();
 
 ## ----------------------------------------------------------------------------------------------
-## CONSTRUIMOS EL HEADER DE LA PAGINA DE ADMINISTRACIÓN
+## CONSTRUIMOS EL HEADER DE LA PAGINA DE sTOCK
 ## ----------------------------------------------------------------------------------------------
 ?>
 
 @@Layout(authenticated)
-<!-- start page title -->
+<!-- TITULO PAGINA -->
 <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -46,7 +36,6 @@ $display        =   new Display();
             </div>
         </div>
     </div>
-<!-- end page title --> 
 <?php 
 
 
@@ -54,22 +43,12 @@ $display        =   new Display();
 ## UNA VEZ DEFINIDO, PROCEDEMOS A GENERAR LA VISUALIZACIÓN DE LOS COMPONENTES DE LA TABLA
 ## ----------------------------------------------------------------------------------------------
 
-// $display->AddButton(
-//     new Button(
-//         Key             :   'btnAgregarStock',
-//         Child           :   new FaIconText('fa-plus-circle','Agregar Stock'),
-//         Classes         :   ['pull-right'],
-//         ButtonStyle     :   ButtonStyleEnum::BUTTON_SOFT_INFO,
-//         Events          :   [
-//             new ButtonOnClickEvent()
-//         ]
-//     )
-// ) ;
 
-
-
+// CONTAMOS LA CANTIDAD DE STOCK QUE EXISTE ACTUALMENTE PARA MOSTRAR
 $CantidadStock    =   !empty($data['Stock']) ? $data['Stock']->count() : 0;
 
+
+//GENERAMOS EL HEADER DE LA TABLA
 $tableheader =  new Container(
     Classes     :   ['row align-items-center'],
     Children    :   [
@@ -83,14 +62,7 @@ $tableheader =  new Container(
                     ]
                 )
             ]
-                    ), 
-        new Container(
-            Classes:['col-md-6'],
-            Children:[
-                $display->Widgets()['btnAgregarStock'],
-            ]
-        ), 
-          
+        )     
     ]
 ); 
 
@@ -98,159 +70,183 @@ $tableheader =  new Container(
 ## COMENZAMOS A DIBUJAR LA TABLA
 
 $cellDefinitions    =   [
-    new TableCell(
-        PropertyName: 'Fecha',
+    new JSTableCell(
+        PropertyName: 'Fecha_Llegada',
+        Label: 'Fecha Llegada',
         Colspan: 2,
-        Label: 'Fecha Llegada'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
-        PropertyName: 'Descripcion',
+    new JSTableCell(
+        PropertyName: 'Nombre_Producto',
+        Label: 'Nombre Producto',
         Colspan: 2,
-        Label: 'Nombre Producto'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
+    new JSTableCell(
         PropertyName: 'Cantidad',
+        Label: 'Cantidad',
         Colspan: 2,
-        Label: 'Cantidad'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
+    new JSTableCell(
         PropertyName: 'Precio_Unitario',
+        Label: 'Precio Unitario',
         Colspan: 2,
-        Label: 'Precio Unitario'
+        BodyClasses :   ["center"]   
     ),
-    new TableCell(
-        PropertyName: 'idMarca',
-        Colspan: 2,
+    new JSTableCell(
+        PropertyName: 'Marca',
         Label: 'Marca',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->marca->Descripcion);
-
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
-    ),
-    new TableCell(
-        PropertyName: 'idModelo',
         Colspan: 2,
-        Label: 'Modelo',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->modelo->Descripcion);
-
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
-    ),
-    new TableCell(
-        PropertyName: 'IdEmpresa',
-        Colspan: 2,
-        Label: 'Empresa producto',
-        FormatFunction: function($data,$cell) {
-            
-            $Widget = new Text($data->empresa->Descripcion);
-
-            return new Container(
-                Classes:['center'],
-                Children:[
-                    $Widget
-                ]
-            );
-        }
-    ),
-    new TableCell(
-        PropertyName: 'tipo',
-        Colspan: 2,
-        Label: 'Tipo tonner',
-        FormatFunction  :   function( stockDto $data,$cell){
-            $stop = 1;
-            if ($data->tipo == 'Alternativo'){
-                return new Html('<center> <span class="badge badge-soft-warning">Alternativo</span> </center>');
-            }else{
-                return new Html('<center> <span class="badge badge-soft-success">Original</span> </center>');
-            }
-        }
+        // PropertyList :[
+        //     "marca"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'idMarca',
+        //         JSFilterName: 'NombreMarca'
+        //     );
+        // },
         // JSDataFilter: [
         //     new JSTableScriptFilter(
-        //         FunctionName:'EstadoTipo',
+        //         FunctionName:'NombreMarca',
         //         Script: [
         //             '
-        //             if ($data->tipo == "Alternativo"){
-        //                  return new Html(`<center> <span class="badge badge-soft-warning">Alternativo</span> </center>`);
-        //             }else{
-        //                 return new Html(`<center> <span class="badge badge-soft-success">Original</span> </center>`);
-        //             }
+        //             var Marca = element.marca.Descripcion;
+
+        //             return `<center> <span class="Center">${Marca}</span> </center>`;
         //             '
         //         ]
         //     )
-        //         ],
-        //         WidgetFunction: function() {
-        //             return new JSTableContent(
-        //                 PropertyName: 'tipo',
-        //                 JSFilterName: 'EstadoTipo'
-        //             );
-        //         },
+        // ],
     ),
-    new TableCell(
-        PropertyName: 'estado_stock',
+    new JSTableCell(
+        PropertyName: 'Modelo',
+        Label: 'Modelo',
         Colspan: 2,
-        Label: 'Estado producto'
+        // PropertyList :[
+        //     "modelo"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'idModelo',
+        //         JSFilterName: 'NombreModelo'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'NombreModelo',
+        //         Script: [
+        //             '
+        //             var Modelo = element.modelo.Descripcion;
+
+        //             return `<center> <span class="Center">${Modelo}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
+    ),
+    new JSTableCell(
+        PropertyName: 'Empresa',
+        Colspan: 2,
+        Label: 'Empresa producto',
+        // PropertyList :[
+        //     "empresa"
+        // ],
+        BodyClasses :   ["center"],
+        // WidgetFunction: function($x) {
+        //     return new JSTableContent(
+        //         PropertyName: 'IdEmpresa',
+        //         JSFilterName: 'NombreEmpresa'
+        //     );
+        // },
+        // JSDataFilter: [
+        //     new JSTableScriptFilter(
+        //         FunctionName:'NombreEmpresa',
+        //         Script: [
+        //             '
+        //             var Empresa = element.empresa.Descripcion;
+
+        //             return `<center> <span class="Center">${Empresa}</span> </center>`;
+        //             '
+        //         ]
+        //     )
+        // ],
+    ),
+    new JSTableCell(
+        PropertyName: 'Tipo_tonner',
+        Label: 'Tipo tonner',
+        Colspan: 2,
+        BodyClasses :   ["center"],
+        WidgetFunction: function($x) {
+            return new JSTableContent(
+                PropertyName: 'Tipo_tonner',
+                JSFilterName: 'EstadoTipo'
+            );
+        },
+        JSDataFilter: [
+            new JSTableScriptFilter(
+                FunctionName:'EstadoTipo',
+                Script: [
+                    '
+                    var newtipo = element.Tipo_tonner;
+
+                    if ( newtipo == "Alternativo"){
+                         return `<center> <span class="badge badge-soft-warning">Alternativo</span> </center>`;
+                    }else{
+                         return`<center> <span class="badge badge-soft-success">Original</span> </center>`;
+                    }
+                    '
+                ]
+            )
+        ],    
+    ),
+    new JSTableCell(
+        PropertyName: 'Estado_Producto',
+        Label: 'Estado producto',
+        Colspan: 2,
+        BodyClasses :   ["center"]  
     ),
 ] ;
 
-
-## ------------------------------------------------------------------------------
-## VALIDAMOS LOS BOTONES A LOS QUE EL USUARIO TIENE ACCESO
-## ------------------------------------------------------------------------------
-$tableButtons    =   [];
-
-
-## VALIDAMOS SI EL USUARIO TIENE PERMISOS PARA EDITAR EL STOCK
- 
-array_push($tableButtons,new TableButton(
-    Key             :   'btnEditarStock',
-    Child           :   new FaIcon('fa-edit'),
-    Classes         :   ['btn-sm'],
-    OnClickClass    :   'btnEditarStock',
-    TogglePopUp     :   true,
-    ToggleText      :   'Editar',
-    ButtonStyle     :   ButtonStyleEnum::BUTTON_SUCCESS,
-    Events          :   [ new TableButtonOnClickEvent() ],
-  
-)); 
-  
- 
+//AGREGAMOS LA INFORMACION QUE TENDRA LA TABLA
 $display->AddTableFromCollection(
     tableKey: 'tbListadoStock',
     RowIdFieldName: 'id_stock',
     RowAttributeNames: ['id_stock'],
     CellDefinitions: $cellDefinitions,
     Data: $data['Stock'],
-    Buttons: $tableButtons,
+    Buttons: [
+        new JSTableButton(
+            Key             :   'btnEditarStock',
+            Child           :   new FaIcon('fa-edit'),
+            Classes         :   ['btn-sm'],
+            OnClickClass    :   'btnEditarStock',
+            TogglePopUp     :   true,
+            ToggleText      :   'Editar',
+            ButtonStyle     :   ButtonStyleEnum::BUTTON_SUCCESS,
+            Events          :   [ new TableButtonOnClickEvent() ],)
+    ],
     TablaSimple: false,
-    // customExcel : new CustomExcelSettingsFilterDto(
-    //     ShowButton      :   true,
-    //     Controller      :   "lista",
-    //     FileName        :   "Lista Stock Toner",
-    //     Estado          :   null,
-    //     TableKey        :   'tbListadoStock'
-    // ),
+    JSRenderTheTable : true,
+    customExcel : new CustomExcelSettingsFilterDto(
+        ShowButton      :   true,
+        Controller      :   "lista",
+        FileName        :   "Lista Stock Toner",
+        Estado          :   null,
+        TableKey        :   'tbListadoStock'
+    ),
     CustomDataTable: new DataTableSettingsFilterDto(
         HideAllButtons  : false,
         CustomPdf       : false,
-        TableHasButtons : false,
+        TableHasButtons : true,
+        GroupedButtons  : false,
     )
 );
 
-
+// GENERAMOS LA ESTRUCTURA QUE TIENE LA TABLA
 $content    =   new Container(
     Classes     :   ['row'],
     Children    :   [ 
@@ -259,6 +255,7 @@ $content    =   new Container(
             Children    :   [
                 $tableheader,
                 new Card(
+                    Classes:['table-responsive'],
                     Children:[
                         new Html('<br>'),
                         $display->Widgets()['tbListadoStock']
@@ -273,7 +270,7 @@ $content    =   new Container(
 $content->Draw();
 
 
-// ## DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
+## DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
 $display->DrawScripts(addLoadEvent:true);
 
 

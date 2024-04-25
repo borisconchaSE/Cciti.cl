@@ -6,8 +6,6 @@ use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\FormButton;
-use Intouch\Framework\View\DisplayDefinitions\FormRowFieldContent;
-use Intouch\Framework\View\DisplayDefinitions\FormRowFieldHidden;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldDate;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelect;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
@@ -49,7 +47,6 @@ $display->AddButton(
 
 ## -------------------------------------------------------------------------------
 ## GENERAMOS LOS VALORES POR DEFECTO DE LOS INPUTS
-## -------------------------------------------------------------------------------
 ## -------------------------------------------------------------------------------
 $Marca = [
     new marcaDto(
@@ -108,8 +105,7 @@ if(!empty($data->DatosEmpresa)){
 
 
 
-## EN CASO DE QUE LOS DATOS VENGA VACIO
-## IMPRIMIMOS UN ERROR EN PANTALLA 
+//GENERAMOS LA ESTRUCTURA DEL FORMULARIO
 $display->AddFormFromObject( 
     formKey         :   'frmStockNuevo',
     object          :   (object)[  ],
@@ -253,6 +249,7 @@ $display->AddFormFromObject(
     fillData        :   false
 );
 
+// VARIABLE QUE CONTIENE LA ESTRUCTURA DEL FORMULARIO
 $BodyContent         =   new Container(
     Children:[
         $display->Widgets()['frmStockNuevo']
@@ -262,7 +259,7 @@ $BodyContent         =   new Container(
 
  
 
-
+//INYECTAMOS LA VARIABLE QUE CONTIENE EL FORULARIO A EL CONTENIDO DEL POPUP
 $content = new Container(
     Classes: ['view-content'],
     Styles: [],
@@ -271,6 +268,7 @@ $content = new Container(
     ]
 );
 
+// CONFIGURAMOS LA ESTRUTURA QUE TENDRA EL POPUP DEL FORMULARIO
 $popUp = new PopUpContent(
     Key                 : 'PopupStockNuevo', 
     Title               : 'Agregar al Stock',
@@ -283,6 +281,8 @@ $popUp = new PopUpContent(
     Content             : $content
 );
 
+// DIBUJAMOS LOS DATOS QUE TENDRA EL FORMULARIO
 $popUp->Draw();
 
+// DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
 $display->DrawScripts(addLoadEvent:false);

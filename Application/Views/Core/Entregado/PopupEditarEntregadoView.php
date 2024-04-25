@@ -1,9 +1,9 @@
 <?php
 
 use Application\BLL\DataTransferObjects\Core\departamentoDto;
-use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\empresaDto;
+use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Application\BLL\DataTransferObjects\Core\ubicacionDto;
 use Intouch\Framework\Collection\GenericCollection;
 use Intouch\Framework\View\Display;
@@ -21,7 +21,6 @@ use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
 use Intouch\Framework\Widget\Text;
-use Karriere\JsonDecoder\Property;
 
 $BodyContent     =   new Container(
     Classes     :   ['alert alert-danger label-arrow'],
@@ -35,6 +34,9 @@ $BodyContent     =   new Container(
 $display        =   new Display();
 
 
+## -------------------------------------------------------------------------------
+## GENERAMOS LOS VALORES POR DEFECTO DE LOS INPUTS
+## -------------------------------------------------------------------------------
 if(!empty($data->Stock->tipo)){
 
     if(($data->Stock->tipo) == "Original" ){
@@ -147,7 +149,7 @@ if(!empty($data->DatosUbicacion)){
 
 $Marca = [
     new marcaDto(
-        idMarca   :   -1,
+        idMarca         :   -1,
         Descripcion     :   'Sin Seleccionar'
     )
 ];
@@ -163,21 +165,40 @@ if(!empty($data->DatosMarca)){
     ) ;
 }
 
+$Modelo = [
+    new modeloDto(
+        idModelo        :   -1,
+        Descripcion     :   'Sin Seleccionar',
+        idMarca         :   100
+    )
+];
+
+if(!empty($data->DatosModelo)){
+
+    $Modelo   = array_merge($Modelo,$data->DatosModelo->Values);
+
+    $Modelo   =   new GenericCollection(
+        DtoName     :   modeloDto::class,
+        Key         :   'idModelo',
+        Values      :   $Modelo
+    ) ;
+}
+
 $EmpresaData    =   $data->Stock->IdEmpresa;
 $MarcaData      =   $data->Stock->idMarca;
+$ModeloData         =   $data->Stock->idModelo;
 $FechaData      =   $data->Stock->Fecha_asignacion;
 $FechaData      =   date("d-m-Y", strtotime($FechaData));
 
-## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL USUARIO
+## VALIDAMOS SI EXISTE O NO LA INFORMACIÓN DEL PRODUCTO ENTREGADO
 if($data->Stock != null){
 
     ## AGREGAMOS EL BTN QUE NOS PERMITE GUARDAR LOS CAMBIOS
     $display->AddButton(
         new FormButton(
             Key             :   'btnGuardarCambiosStock',
-            FormKey         :   'frmEditarStock',
+            FormKey         :   'frmEditarStockEntregado',
             Child           :   new Text('Guardar Cambios'),
-            #Classes         :   ['pull-right', 'wide'],
             ButtonStyle     :     ButtonStyleEnum::BUTTON_SOFT_SUCCESS,
             Events          :   [
                 new FormButtonOnClickEvent()
@@ -185,8 +206,7 @@ if($data->Stock != null){
         )
     );
 
-    ## EN CASO DE QUE LOS DATOS VENGA VACIO
-    ## IMPRIMIMOS UN ERROR EN PANTALLA 
+    // GENERAMOS LA ESTRUCTURA QUE TENDRA EL FORMULARIO PARA EDITAR STOCK
    $display->AddFormFromObject( 
         formKey         :   'frmEditarStockEntregado',
         object          :   (object)[ 
@@ -198,6 +218,8 @@ if($data->Stock != null){
             "estado_stock"      =>  $data->Stock->estado_stock,
             "IdEmpresa"         =>  $data->Stock->IdEmpresa, 
             "IdEmpresaU"        =>  $EmpresaU,
+            "idMarca"           =>  $MarcaData,
+            "idModelo"          =>  $ModeloData,
             "idDepto"           =>  $Depto,
             "idubicacion"       =>  $Ubi
 
@@ -278,6 +300,19 @@ if($data->Stock != null){
                                 Key             : 'idMarca',
                                 Description     : 'Descripcion',
                                 SelectedValue   : $MarcaData,
+                                DisplaySearch   : true
+                            ), 
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName: 'idModelo',
+                            Label: 'Modelo',
+                            Colspan: 4,
+                            Required: true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Modelo,
+                                Key             : 'idModelo',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $ModeloData,
                                 DisplaySearch   : true
                             ), 
                         ),
@@ -365,6 +400,7 @@ if($data->Stock != null){
         fillData        :   true
    );
 
+    //AGREGAMOS LA ESTRUCTURA DEL FOMULARIO A UNA VARIABLE U OBJETO
    $BodyContent         =   new Container(
     Children:[
         $display->Widgets()['frmEditarStockEntregado']
@@ -377,7 +413,7 @@ if($data->Stock != null){
 } 
 
 
-
+// INYECTAMOS LA VARIABLE U OBJETO QUE CONTIENE EL FORMULARIO EN EL POPUP PARA EDITAR EL PRODUCTO
 $content = new Container(
     Classes: ['view-content'],
     Styles: [],
@@ -386,6 +422,7 @@ $content = new Container(
     ]
 );
 
+// GENERAMOS LA ESTRUCTURA DEL POPUP PARA EDITAR EL PRODUCTO
 $popUp = new PopUpContent(
     Key                 : 'PopupEditarStock', 
     Title               : 'Editar Producto',
@@ -398,6 +435,8 @@ $popUp = new PopUpContent(
     Content             : $content
 );
 
+// DIBUJAMOS LOS DATOS QUE TENDRA EL FORMULARIO
 $popUp->Draw();
 
+// DIBUJAMOS LOS SCRIPTS GENERADOS POR EL FRAMEWORK
 $display->DrawScripts(addLoadEvent:false);

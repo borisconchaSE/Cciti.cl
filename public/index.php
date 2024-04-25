@@ -36,8 +36,10 @@ use Intouch\Framework\Configuration\MenuConfig;
 use Intouch\Framework\Configuration\SystemConfig;
 use Intouch\Framework\Controllers\ActionResult;
 use Intouch\Framework\Controllers\ActionViewResult;
+use Intouch\Framework\Controllers\CacheTableDataResult;
 use Intouch\Framework\Controllers\ErrorResult;
 use Intouch\Framework\Controllers\ErrorViewResult;
+use Intouch\Framework\Controllers\FileDataResult;
 use Intouch\Framework\Controllers\ViewResult;
 use Intouch\Framework\Dao\ConnectionTypeEnum;
 use Intouch\Framework\Dao\Queryable;
@@ -47,7 +49,12 @@ use Intouch\Framework\Exceptions\BaseException;
 use Intouch\Framework\MailHelper\Mail;
 use Intouch\Framework\MailHelper\MailConfig;
 
+ 
+
 $router = null;
+
+$producto   =   Session::Instance()->producto;
+$issetStatus    =   isset(Session::Instance()->producto);
 
 // Asignar tipo de producto
 if (!isset(Session::Instance()->producto)) {
@@ -59,6 +66,8 @@ if (!isset(Session::Instance()->producto)) {
     }
 }
 
+$producto   =   Session::Instance()->producto;
+ 
 // Asignar idioma
 if (!isset(Session::Instance()->idioma)) {
     Session::Instance()->idioma = "es";
@@ -78,9 +87,7 @@ GenericDocument::AddToDictionary(DocumentTypeEnum::PLAN, PlanDocument::class, Pl
 $router = new Dispatcher();
 $GLOBALS['router'] = $router;
 
-// DEBUG MODE
-// Eliminar la cache
-RedisSvc::FlushAll();
+  
 
 // if (isset(Session::Instance()->usuario)) {
 //     $roles = Session::Instance()->usuario->Perfil->Roles;
@@ -130,6 +137,15 @@ try {
 
         $json = json_encode($result);
         echo $json;
+    }
+    else if ($result instanceof CacheTableDataResult) {
+        header('Content-Type: application/json');
+
+        $json = json_encode($result->Result);
+        echo $json;
+    }
+    else if ($result instanceof FileDataResult) {  
+        echo $result->Result;
     }
     else if ($result instanceof ActionViewResult) {
         header('Content-Type: application/json');
