@@ -29,11 +29,11 @@
     },
     "TI": {
         "Description": "LOCAL",
-        "Host": "192.168.4.130:3310",
+        "Host": "192.168.4.167:3306",
         "Database": "baseti",
-        "User": "botris",
-        "Password": "Mico2077.",
-        "Port": "3310",
+        "User": "root",
+        "Password": "",
+        "Port": "3306",
         "Type": "mysql"
     }
 }
