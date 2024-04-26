@@ -11,7 +11,7 @@
     },
     "core": {
         "Description": "LOCAL",
-        "Host": "192.168.4.167:3306",
+        "Host": "192.168.4.1:3306",
         "Database": "autogestores_core",
         "User": "root",
         "Password": "",
@@ -29,7 +29,7 @@
     },
     "TI": {
         "Description": "LOCAL",
-        "Host": "192.168.4.167:3306",
+        "Host": "192.168.4.1:3306",
         "Database": "baseti",
         "User": "root",
         "Password": "",
