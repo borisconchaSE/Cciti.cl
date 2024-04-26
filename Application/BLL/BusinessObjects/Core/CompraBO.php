@@ -280,14 +280,6 @@ class CompraBO
                 }
 
                 if(!empty($NuevoCompra->Proveedor)){
-                    $a = 1;
-                    $Nproveedor     = $NuevoCompra->idProveedor;
-                    $Rproveedor     = $NuevoCompra->Proveedor;
-                    $tipoProduct    = $NuevoCompra->tipo;
-                    $Eactivo        = $NuevoCompra->Estado_Activo;
-                    $OC             = $NuevoCompra->idEstador_oc;
-                    $FC             = $NuevoCompra->idEstador_FC;
-                    $Empresa        = $NuevoCompra->IdEmpresa;
 
                     // EN PRIMER LUGAR PROCEDEMOS A CREAR EL DTO DEL PRODUCTO
                     $OrdenDto     =   new ordencompraDto(
