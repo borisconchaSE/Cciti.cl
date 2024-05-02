@@ -176,13 +176,13 @@ $cellDefinitions    =   [
         // ],
     ),
     new JSTableCell(
-        PropertyName: 'Tipo_tonner',
+        PropertyName: 'Tipo_Tonner',
         Label: 'Tipo tonner',
         Colspan: 2,
         BodyClasses :   ["center"],
         WidgetFunction: function($x) {
             return new JSTableContent(
-                PropertyName: 'Tipo_tonner',
+                PropertyName: 'Tipo_Tonner',
                 JSFilterName: 'EstadoTipo'
             );
         },
@@ -191,7 +191,7 @@ $cellDefinitions    =   [
                 FunctionName:'EstadoTipo',
                 Script: [
                     '
-                    var newtipo = element.Tipo_tonner;
+                    var newtipo = element.Tipo_Tonner;
 
                     if ( newtipo == "Alternativo"){
                          return `<center> <span class="badge badge-soft-warning">Alternativo</span> </center>`;
