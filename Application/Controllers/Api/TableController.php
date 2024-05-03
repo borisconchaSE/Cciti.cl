@@ -103,8 +103,8 @@ class TableController extends BaseController
         
             $ColumnList     =   array_keys($datos->Values[0]);
 
-            $replacements = array(0 => 'Fecha Llegada', 1 => 'Nombre Producto', 3 => 'Precio Unitario',
-            8 => 'Estado producto', 7 => 'Tipo tonner');
+            $replacements = array(1 => 'Fecha Llegada', 2 => 'Nombre Producto', 4 => 'Precio Unitario',
+            9 => 'Estado producto', 8 => 'Tipo tonner');
             $final_array = array_replace($ColumnList, $replacements);
     
         }elseif($guid == "tbListadoEntregado"){
@@ -137,8 +137,8 @@ class TableController extends BaseController
         
             $ColumnList     =   array_keys($datos->Values[0]);
 
-            $replacements = array(0 => 'Fecha Entrega', 1 => 'Nombre Producto', 3 => 'Precio Producto', 6 => 'Empresa producto',
-            7 => 'Empresa asignado', 10 => 'Tipo tonner');
+            $replacements = array(1 => 'Fecha Entrega', 2 => 'Nombre Producto', 4 => 'Precio Producto', 7 => 'Empresa producto',
+            8 => 'Empresa asignado', 11 => 'Tipo tonner');
             $final_array = array_replace($ColumnList, $replacements);
 
         }elseif($guid == "tbListadoCompra"){
@@ -171,9 +171,9 @@ class TableController extends BaseController
         
             $ColumnList     =   array_keys($datos->Values[0]);
 
-            $replacements = array(0 => 'Fecha Compra', 1 => 'Nombre Producto', 4 => 'Orden Compra', 
-            5 => 'Factura Compra', 6 => 'Precio Unitario', 8 => 'Precio Total', 11 => 'Estado OC',
-            12 => 'Estado FC');
+            $replacements = array(0 => 'Id OC', 1 => 'Fecha Compra', 2 => 'Nombre Producto', 5 => 'Orden Compra', 
+            6 => 'Factura Compra', 7 => 'Precio Unitario', 9 => 'Precio Total', 12 => 'Estado OC',
+            13 => 'Estado FC');
             $final_array = array_replace($ColumnList, $replacements);
 
         }elseif($guid == "tbListadoActivos"){
@@ -204,9 +204,9 @@ class TableController extends BaseController
         
             $ColumnList     =   array_keys($datos->Values[0]);
 
-            $replacements = array(0 => 'Fecha Compra', 2 => 'Rut Proveedor', 4 => 'Nombre Producto', 
-            5 => 'Orden Compra', 6 => 'Factura Compra', 8 => 'Precio Total', 11 => 'Estado Activo', 
-            11 => 'Estado OC', 12 => 'Estado FC');
+            $replacements = array(0 => 'Id OC', 1 => 'Fecha Compra', 3 => 'Rut Proveedor', 5 => 'Nombre Producto', 
+            6 => 'Orden Compra', 7 => 'Factura Compra', 9 => 'Precio Total', 11 => 'Estado Activo', 
+            12 => 'Estado OC', 13 => 'Estado FC');
 
             $final_array = array_replace($ColumnList, $replacements);
 
@@ -238,8 +238,8 @@ class TableController extends BaseController
         
             $ColumnList     =   array_keys($datos->Values[0]);
 
-            $replacements = array(0 => 'Fecha Compra', 1 => 'Nombre Producto', 2 => 'Orden Compra',
-            3 => 'Factura Compra', 4 => 'Precio Total', 7 => 'Estado OC', 8 => 'Estado FC');
+            $replacements = array(0 => 'Id OC', 1 => 'Fecha Compra', 2 => 'Nombre Producto', 3 => 'Orden Compra',
+            4 => 'Factura Compra', 5 => 'Precio Total', 8 => 'Estado OC', 9 => 'Estado FC');
 
             $final_array = array_replace($ColumnList, $replacements);
 
