@@ -188,7 +188,7 @@ class StockBO
                 $UbicacionDto               =   $UbicacionSvc->FindByForeign('idubicacion',$DatosStock->idubicacion);
         
                 // GUARDAMOS LA INFORMACION OBTENIDA DE LOS DTO EN VARIABLES PARA INSERTARLOS EN LA BBDD
-                $FechaA_Data    =   $DatosStock->Fecha;
+                $FechaA_Data    =   $DatosStock->Fecha_Asignacion;
                 $DeptoData      =   $DepartamentoDto->Descripcion;
                 $EmpresaU       =   $EmpresaDto->Descripcion;
                 $UbicacionData  =   $UbicacionDto->Descripcion;
