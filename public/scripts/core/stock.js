@@ -226,6 +226,7 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
     var tipo                        =   eventInfo.FormData.tipo;
     var estado_stock                =   eventInfo.FormData.estado_stock;
     var idModelo                    =   eventInfo.FormData.idModelo;
+    var idCentro                    =   eventInfo.FormData.idCentro;
 
      
     var entity      =   {
@@ -246,6 +247,7 @@ function btnGuardarCambiosStock_OnClick(eventInfo){
             estado_stock                    :   estado_stock,
             idModelo                        :   idModelo,
             Fecha_Asignacion                :   Fecha_Asignacion,
+            idCentro                        :   idCentro,
         })
     }
 

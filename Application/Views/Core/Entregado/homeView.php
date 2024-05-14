@@ -193,6 +193,12 @@ $cellDefinitions    =   [
         BodyClasses :   ["center"]   
     ),
     new JSTableCell(
+        PropertyName: 'Centro',
+        Label: 'Centro',
+        Colspan: 2,
+        BodyClasses :   ["center"]   
+    ),
+    new JSTableCell(
         PropertyName: 'Tipo_Tonner',
         Label: 'Tipo tonner',
         Colspan: 2,

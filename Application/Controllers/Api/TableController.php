@@ -8,6 +8,7 @@ use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\Services\Core\stockSvc;
 use Application\BLL\Services\Core\VWActivosExcelSvc;
 use Application\BLL\Services\Core\VWCompraExcelSvc;
+use Application\BLL\Services\Core\VWEntregadoExcelSvc;
 use Application\BLL\Services\Core\VWExcelEntregadoSvc;
 use Application\BLL\Services\Core\VWGastosExcelSvc;
 use Application\BLL\Services\Core\VWStockExcelSvc;
@@ -110,7 +111,7 @@ class TableController extends BaseController
         }elseif($guid == "tbListadoEntregado"){
 
             ## VALIDAMOS SI EL INPUT ES CORRECTO
-            $VistaSvc           =   new VWExcelEntregadoSvc(ConnectionEnum::TI);
+            $VistaSvc           =   new VWEntregadoExcelSvc(ConnectionEnum::TI);
             $datos              =  $VistaSvc->GetAll();
 
             $cantidad = count((array)$datos->Values);
@@ -138,7 +139,7 @@ class TableController extends BaseController
             $ColumnList     =   array_keys($datos->Values[0]);
 
             $replacements = array(1 => 'Fecha Entrega', 2 => 'Nombre Producto', 4 => 'Precio Producto', 7 => 'Empresa producto',
-            8 => 'Empresa asignado', 11 => 'Tipo tonner');
+            8 => 'Empresa asignado', 12 => 'Tipo tonner');
             $final_array = array_replace($ColumnList, $replacements);
 
         }elseif($guid == "tbListadoCompra"){

@@ -5,9 +5,9 @@ use Intouch\Framework\Annotation\Attributes\Entity;
 use Intouch\Framework\Annotation\Attributes\EntityField;
 
 #[Entity(Schema: '')]
-class VWExcelEntregado
+class VWEntregadoExcel
 {
-    use VWExcelEntregadoT;
+    use VWEntregadoExcelT;
     
 	public int $id_stock = 0;
 	#[EntityField(DataType: 'datetime')]
@@ -21,6 +21,7 @@ class VWExcelEntregado
 	public ?string $Empresa_asignado = null;
 	public ?string $Departamento = null;
 	public ?string $Ubicacion = null;
+	public string $Centro = '';
 	public ?string $Tipo_Tonner = null;
 
     function __construct()

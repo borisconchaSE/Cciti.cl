@@ -1,17 +1,17 @@
 <?php
 namespace Application\Dao\Services\Core;
 
-use Application\Dao\Entities\Core\VWExcelEntregado;
+use Application\Dao\Entities\Core\VWEntregadoExcel;
 use Intouch\Framework\Dao\GenericDao;
 
-class VWExcelEntregadoDao extends GenericDao
+class VWEntregadoExcelDao extends GenericDao
 {
-    use VWExcelEntregadoDaoT;
+    use VWEntregadoExcelDaoT;
 
     function __construct($domain)
     {
         parent::__construct(
-            VWExcelEntregado::class,
+            VWEntregadoExcel::class,
             $domain
         );
     }

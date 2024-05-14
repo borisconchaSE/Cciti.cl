@@ -1,9 +1,9 @@
 <?php
 namespace Application\BLL\DataTransferObjects\Core;
 
-class VWExcelEntregadoDto
+class VWEntregadoExcelDto
 {
-    use VWExcelEntregadoDtoT;
+    use VWEntregadoExcelDtoT;
 
     public function __construct(
 		public int $id_stock = 0,
@@ -17,6 +17,7 @@ class VWExcelEntregadoDto
 		public ?string $Empresa_asignado = null,
 		public ?string $Departamento = null,
 		public ?string $Ubicacion = null,
+		public string $Centro = '',
 		public ?string $Tipo_Tonner = null
     ) {
 

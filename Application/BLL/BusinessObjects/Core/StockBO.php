@@ -9,6 +9,7 @@ use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\empresaSvc;
 use Application\BLL\Services\Core\ubicacionSvc;
+use Application\BLL\Services\Core\VWEntregadoExcelSvc;
 use Application\BLL\Services\Core\VWExcelEntregadoSvc;
 use Application\BLL\Services\Core\VWStockExcelSvc;
 use Intouch\Framework\Exceptions\BusinessException;
@@ -41,7 +42,7 @@ class StockBO
         // PARA ESO INICIAMOS INSTANCIANDO EL SERVICE CORRESPONDIENTE
         // al generar el service debemos especificar la conexión a usar (solo nombre)
    
-        $StockSvc           = new VWExcelEntregadoSvc(ConnectionEnum::TI);
+        $StockSvc           = new VWEntregadoExcelSvc(ConnectionEnum::TI);
         
         // en segundo lugar, obtenemos todos los registros disponibles en la BBDD
         // para esto usamos la propiedad GetAll del ORM interno del framework
@@ -211,6 +212,7 @@ class StockBO
                 $StockDto->idMarca                          =   $DatosStock->idMarca;
                 $StockDto->IdEmpresa                        =   $DatosStock->IdEmpresa;
                 $StockDto->idModelo                         =   $DatosStock->idModelo;
+                $StockDto->idCentro                         =   $DatosStock->idCentro;
 
                 // ACTUALIZAMOS LOS VALOREDE DE LA BBDD
                 $StockSvc->Update($StockDto);

@@ -28,6 +28,7 @@ class stock
 	public ?int $IdEmpresa = null;
 	public ?int $idModelo = null;
 	public ?int $idO_C = null;
+	public ?int $idCentro = null;
 
     function __construct()
     {

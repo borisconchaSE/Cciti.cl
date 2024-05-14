@@ -1,7 +1,7 @@
 <?php
 namespace Application\BLL\DataTransferObjects\Core;
 
-trait VWExcelEntregadoDtoT
+trait VWEntregadoExcelDtoT
 {
     function __get($name) {
 

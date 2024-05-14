@@ -233,6 +233,10 @@ class StockController extends BaseController
             throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Estado del stock invalido");
         }
 
+        if ( strlen($DatosStock->idCentro) < 1 ) {
+            throw new BusinessException(code: ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: "Estado del stock invalido");
+        }
+
         // -----------------------------------------------------------------------
         // UNA VEZ VALIDADO LOS INPUTS
         // PROCEDEMOS A INSTANCIAR EL BO 
