@@ -11,11 +11,11 @@
     },
     "core": {
         "Description": "LOCAL",
-        "Host": "localhost:3306",
+        "Host": "192.168.4.130:3310",
         "Database": "autogestores_core",
-        "User": "root",
-        "Password": "",
-        "Port": "3306",
+        "User": "botris",
+        "Password": "Mico2077.",
+        "Port": "3310",
         "Type": "mysql"
     },
     "audit_local": {
@@ -29,11 +29,11 @@
     },
     "TI": {
         "Description": "LOCAL",
-        "Host": "localhost:3306",
+        "Host": "192.168.4.130:3310",
         "Database": "baseti",
-        "User": "root",
-        "Password": "",
-        "Port": "3306",
+        "User": "botris",
+        "Password": "Mico2077.",
+        "Port": "3310",
         "Type": "mysql"
     }
 }
