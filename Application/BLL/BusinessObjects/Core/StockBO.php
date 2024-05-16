@@ -227,6 +227,7 @@ class StockBO
                 
                 //INYECTAMOS LOS NUEVOS DATOS QUE TENDRA EL PRODUCTO EN EL DTO
                 $StockDto->Fecha                            =   $FechaData;
+                $StockDto->Fecha_asignacion                 =   null;
                 $StockDto->Descripcion                      =   $DatosStock->Descripcion;
                 $StockDto->Cantidad                         =   $DatosStock->Cantidad;
                 $StockDto->Precio_Unitario                  =   $DatosStock->Precio_Unitario;
