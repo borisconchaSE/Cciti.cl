@@ -24,7 +24,6 @@ use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
 use Intouch\Framework\Widget\Text;
-use Karriere\JsonDecoder\Property;
 
 $BodyContent     =   new Container(
     Classes     :   ['alert alert-danger label-arrow'],

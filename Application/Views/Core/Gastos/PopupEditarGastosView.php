@@ -3,8 +3,6 @@
 use Application\BLL\DataTransferObjects\Core\empresaDto;
 use Application\BLL\DataTransferObjects\Core\estadoFCDto;
 use Application\BLL\DataTransferObjects\Core\estadoOCDto;
-use Application\BLL\DataTransferObjects\Core\marcaDto;
-use Application\BLL\DataTransferObjects\Core\modeloDto;
 use Application\BLL\DataTransferObjects\Core\proveedorDto;
 use Application\BLL\DataTransferObjects\Core\tipoproductoDto;
 use Intouch\Framework\Collection\GenericCollection;
@@ -23,7 +21,6 @@ use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
 use Intouch\Framework\Widget\Text;
-use Karriere\JsonDecoder\Property;
 
 $BodyContent     =   new Container(
     Classes     :   ['alert alert-danger label-arrow'],

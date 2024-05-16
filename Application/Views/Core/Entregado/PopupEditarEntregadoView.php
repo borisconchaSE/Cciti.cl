@@ -16,7 +16,6 @@ use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldText;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldTypeEnum;
 use Intouch\Framework\View\DisplayDefinitions\FormRowGroup;
-use Intouch\Framework\View\DisplayEventActions\RefreshListAction;
 use Intouch\Framework\View\DisplayEvents\FormButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\FormOnChangeEvent;
 use Intouch\Framework\Widget\Container;

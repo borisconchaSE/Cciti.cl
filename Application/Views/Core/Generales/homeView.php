@@ -8,8 +8,6 @@ use Intouch\Framework\View\Display;
 use Intouch\Framework\View\DisplayDefinitions\Button;
 use Intouch\Framework\View\DisplayDefinitions\JSTable\JSTableCell;
 use Intouch\Framework\View\DisplayDefinitions\JSTableButton;
-use Intouch\Framework\View\DisplayDefinitions\TableButton;
-use Intouch\Framework\View\DisplayDefinitions\TableCell;
 use Intouch\Framework\View\DisplayEvents\ButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\TableButtonOnClickEvent;
 use Intouch\Framework\Widget\Card;
@@ -18,11 +16,7 @@ use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\FaIcon;
 use Intouch\Framework\Widget\FaIconText;
 use Intouch\Framework\Widget\Html;
-use Intouch\Framework\Widget\JSTableContent;
-use Intouch\Framework\Widget\JSTableScriptFilter;
-use Intouch\Framework\Widget\Text;
 
-use function PHPSTORM_META\map;
 
 $AppName        =   SystemConfig::Instance()->ApplicationName ?: "App";
 $Usuario        =   Session::Instance()->usuario;
@@ -106,82 +100,19 @@ $cellDefinitions    =   [
         PropertyName: 'Empresa',
         Colspan: 2,
         Label: 'Empresa',
-        // PropertyList :[
-        //     "empresa"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'IdEmpresa',
-        //         JSFilterName: 'NombreEmpresa'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreEmpresa',
-        //         Script: [
-        //             '
-        //             var Empresa = element.empresa.Descripcion;
-
-        //             return `<center> <span class="Center">${Empresa}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Rut_Proveedor',
         Colspan: 2,
         Label: 'Rut Proveedor',
-        // PropertyList :[
-        //     "proveedor"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'Proveedor',
-        //         JSFilterName: 'RutProveedor'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'RutProveedor',
-        //         Script: [
-        //             '
-        //             var Rut = element.proveedor.Rut;
-
-        //             return `<center> <span class="Center">${Rut}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Proveedor',
         Colspan: 2,
         Label: 'Proveedor',
-        // PropertyList :[
-        //     "proveedor"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idProveedor',
-        //         JSFilterName: 'NombreProveedor'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreProveedor',
-        //         Script: [
-        //             '
-        //             var NombreP = element.proveedor.Nombre;
-
-        //             return `<center> <span class="Center">${NombreP}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Nombre_Producto',
@@ -217,109 +148,25 @@ $cellDefinitions    =   [
         PropertyName: 'Tipo',
         Colspan: 2,
         Label: 'Tipo',
-        // PropertyList :[
-        //     "tipoproducto"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'tipo',
-        //         JSFilterName: 'TipoProduct'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'TipoProduct',
-        //         Script: [
-        //             '
-        //             var TipoProducto = element.tipoproducto.DescripcionProducto;
-
-        //             return `<center> <span class="Center">${TipoProducto}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Estado_Activo',
         Colspan: 2,
         Label: 'Estado Activo',
-        // PropertyList :[
-        //     "estadosactivos"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'IdEstadoActivo',
-        //         JSFilterName: 'EstadoActivo'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'EstadoActivo',
-        //         Script: [
-        //             '
-        //             var Activo = element.estadosactivos.DescripcionActivo;
-
-        //             return `<center> <span class="Center">${Activo}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Estado_OC',
         Colspan: 2,
         Label: 'Estado OC',
-        // PropertyList :[
-        //     "estadoOC"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idEstado_oc',
-        //         JSFilterName: 'EstadoOC'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'EstadoOC',
-        //         Script: [
-        //             '
-        //             var OC = element.estadoOC.Descripcion;
-
-        //             return `<center> <span class="Center">${OC}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Estado_FC',
         Colspan: 2,
         Label: 'Estado FC',
-        // PropertyList :[
-        //     "estadoFC"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idEstado_FC',
-        //         JSFilterName: 'EstadoFC'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'EstadoFC',
-        //         Script: [
-        //             '
-        //             var FC = element.estadoFC.Descripcion;
-
-        //             return `<center> <span class="Center">${FC}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
 ] ;
  

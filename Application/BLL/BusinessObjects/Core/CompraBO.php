@@ -16,7 +16,6 @@ use Application\BLL\Services\Core\VWActivosExcelSvc;
 use Application\BLL\Services\Core\VWCompraExcelSvc;
 use Application\BLL\Services\Core\VWGastosExcelSvc;
 use Intouch\Framework\BLL\Service\GenericSvc;
-use Application\Dao\Entities\Core\VWCompraExcel;
 
 class CompraBO 
 {

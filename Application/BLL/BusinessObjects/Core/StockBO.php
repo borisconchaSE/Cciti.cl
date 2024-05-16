@@ -10,7 +10,6 @@ use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\empresaSvc;
 use Application\BLL\Services\Core\ubicacionSvc;
 use Application\BLL\Services\Core\VWEntregadoExcelSvc;
-use Application\BLL\Services\Core\VWExcelEntregadoSvc;
 use Application\BLL\Services\Core\VWStockExcelSvc;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;

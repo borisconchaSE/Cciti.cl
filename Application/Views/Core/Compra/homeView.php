@@ -19,7 +19,6 @@ use Intouch\Framework\Widget\Html;
 use Intouch\Framework\Widget\JSTableContent;
 use Intouch\Framework\Widget\JSTableScriptFilter;
 
-use function PHPSTORM_META\map;
 
 $AppName        =   SystemConfig::Instance()->ApplicationName ?: "App";
 $Usuario        =   Session::Instance()->usuario;
@@ -182,108 +181,24 @@ $cellDefinitions    =   [
         PropertyName: 'Proveedor',
         Colspan: 2,
         Label: 'Proveedor',
-        // PropertyList :[
-        //     "proveedor"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idProveedor',
-        //         JSFilterName: 'NombreProveedor'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreProveedor',
-        //         Script: [
-        //             '
-        //             var Proveedor = element.proveedor.Nombre;
-
-        //             return `<center> <span class="Center">${Proveedor}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Estado_OC',
         Colspan: 2,
         Label: 'Estado OC',
-        // PropertyList :[
-        //     "estadoOC"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idEstado_oc',
-        //         JSFilterName: 'NombreOC'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreOC',
-        //         Script: [
-        //             '
-        //             var EstadoOC = element.estadoOC.Descripcion;
-
-        //             return `<center> <span class="Center">${EstadoOC}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Estado_FC',
         Colspan: 2,
         Label: 'Estado FC',
-        // PropertyList :[
-        //     "estadoFC"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idEstado_FC',
-        //         JSFilterName: 'NombreFC'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreFC',
-        //         Script: [
-        //             '
-        //             var EstadoFC = element.estadoFC.Descripcion;
-
-        //             return `<center> <span class="Center">${EstadoFC}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),    new JSTableCell(
         PropertyName: 'Empresa',
         Colspan: 2,
         Label: 'Empresa',
-        // PropertyList :[
-        //     "empresa"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'IdEmpresa',
-        //         JSFilterName: 'NombreEmpresa'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreEmpresa',
-        //         Script: [
-        //             '
-        //             var Empresa = element.empresa.Descripcion;
-
-        //             return `<center> <span class="Center">${Empresa}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
 ] ;
 

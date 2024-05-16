@@ -17,7 +17,6 @@ use Intouch\Framework\Controllers\BaseController;
 use Intouch\Framework\Annotation\Attributes\ReturnActionResult;
 use Intouch\Framework\Annotation\Attributes\ReturnActionViewResult;
 use Intouch\Framework\Annotation\Attributes\Route;
-use Intouch\Framework\Dao\BindVariable;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;
 use Intouch\Framework\View\Display;

@@ -2,26 +2,18 @@
 
 namespace Application\Controllers\Api;
 
-use Application\BLL\BusinessEnumerations\RolesEnum;
 use Application\BLL\BusinessObjects\Listas\TableCacheBO;
-use Application\BLL\DataTransferObjects\Core\stockDto;
-use Application\BLL\Services\Core\stockSvc;
 use Application\BLL\Services\Core\VWActivosExcelSvc;
 use Application\BLL\Services\Core\VWCompraExcelSvc;
 use Application\BLL\Services\Core\VWEntregadoExcelSvc;
-use Application\BLL\Services\Core\VWExcelEntregadoSvc;
 use Application\BLL\Services\Core\VWGastosExcelSvc;
 use Application\BLL\Services\Core\VWStockExcelSvc;
-use Application\BLL\Services\Listas\ListaClientesSvc;
 use Application\Configuration\ConnectionEnum;
 use Application\Resources\AssetManagerFactory;
 use Intouch\Framework\Controllers\BaseController; 
-use Intouch\Framework\Annotation\Attributes\ReturnActionResult;
 use Intouch\Framework\Annotation\Attributes\ReturnCacheTableData;
 use Intouch\Framework\Annotation\Attributes\Route;
-use Intouch\Framework\Environment\RedisDataTable;
 use Intouch\Framework\Environment\Session;
-use Intouch\Framework\Environment\SessionRedis;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;
 use PhpOffice\PhpSpreadsheet\IOFactory;
