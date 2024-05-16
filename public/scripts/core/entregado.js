@@ -418,6 +418,121 @@ function validarInputsStock(frmkey){
     }
 }
 
+function frmEditarStock_IdEmpresaU_OnChange(eventInfo) {
+
+    var IdEmpresaU = eventInfo.FormData.IdEmpresaU;
+
+    if (IdEmpresaU != -1){
+        var entity      =   {
+            "DatosEmpresa"  :   JSON.stringify({
+    
+                IdEmpresaU                      :   IdEmpresaU
+            })
+        }
+        
+        const service = new OpcionesStockSvc();
+    
+        console.log(entity)
+     
+        service.GetbyEmpresa(
+            entity,
+            function(result){
+                debugger;
+                console.log(result);
+                $('#frmEditarStock-idDepto').html("")
+                var optios = ""
+                optios += `<option value="-1">Sin Seleccionar</option>`
+                $.each( result, function( key, value ) {
+                    optios += `<option value="${value.idDepto}">${value.Descripcion}</option>`
+                })
+                $('#frmEditarStock-idDepto').html(optios);
+            },
+            function(errorCode,errorMessage){ 
+                Toast.fire({
+                    icon: 'error',
+                    title: errorMessage
+                });
+            }
+        )
+    }
+}
+
+function frmEditarStock_idDepto_OnChange(eventInfo) {
+
+    var idDepto = eventInfo.FormData.idDepto;
+
+    if(idDepto != -1){
+        var entity      =   {
+            "DatosDepto"  :   JSON.stringify({
+    
+                idDepto                      :   idDepto
+            })
+        }
+        
+        const service = new OpcionesStockSvc(); 
+     
+        service.GetByDepto(
+            entity,
+            function(result){
+                debugger;
+                console.log(result);
+                $('#frmEditarStock-idubicacion').html("")
+                var optios = ""
+                optios += `<option value="-1">Sin Seleccionar</option>`
+                $.each( result, function( key, value ) {
+                    optios += `<option value="${value.idubicacion}">${value.Descripcion}</option>`
+                })
+                $('#frmEditarStock-idubicacion').html(optios);
+            },
+            function(errorCode,errorMessage){ 
+                Toast.fire({
+                    icon: 'error',
+                    title: errorMessage
+                });
+            }
+        )
+    }
+}
+
+function frmEditarStock_idubicacion_OnChange(eventInfo) {
+
+    var idubicacion = eventInfo.FormData.idubicacion;
+    var idDepto = eventInfo.FormData.idDepto;
+
+    if(idubicacion != -1){
+        var entity      =   {
+            "DatosUbi"  :   JSON.stringify({
+    
+                idubicacion                     :   idubicacion,
+                idDepto                         :   idDepto
+            })
+        }
+        
+        const service = new OpcionesStockSvc(); 
+     
+        service.GetByUbi(
+            entity,
+            function(result){
+                debugger;
+                console.log(result);
+                $('#frmEditarStock-idCentro').html("")
+                var optios = ""
+                optios += `<option value="-1">Sin Seleccionar</option>`
+                $.each( result, function( key, value ) {
+                    optios += `<option value="${value.idCentro}">${value.Descripcion}</option>`
+                })
+                $('#frmEditarStock-idCentro').html(optios);
+            },
+            function(errorCode,errorMessage){ 
+                Toast.fire({
+                    icon: 'error',
+                    title: errorMessage
+                });
+            }
+        )
+    }
+}
+
 function __tceu(btn){
 
     var me = $(btn)[0];

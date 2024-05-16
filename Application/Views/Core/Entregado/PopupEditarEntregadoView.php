@@ -1,5 +1,6 @@
 <?php
 
+use Application\BLL\DataTransferObjects\Core\centrocostosDto;
 use Application\BLL\DataTransferObjects\Core\departamentoDto;
 use Application\BLL\DataTransferObjects\Core\marcaDto;
 use Application\BLL\DataTransferObjects\Core\empresaDto;
@@ -15,6 +16,7 @@ use Intouch\Framework\View\DisplayDefinitions\FormRowFieldSelectDefinition;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldText;
 use Intouch\Framework\View\DisplayDefinitions\FormRowFieldTypeEnum;
 use Intouch\Framework\View\DisplayDefinitions\FormRowGroup;
+use Intouch\Framework\View\DisplayEventActions\RefreshListAction;
 use Intouch\Framework\View\DisplayEvents\FormButtonOnClickEvent;
 use Intouch\Framework\View\DisplayEvents\FormOnChangeEvent;
 use Intouch\Framework\Widget\Container;
@@ -77,6 +79,14 @@ if(!empty($data->Ubicacion->Values)){
     $Ubi        =   -1;
 }
 
+if(!empty($data->Centro->Values)){
+
+    $CentroU   =   $data->Centro->Values;
+    $CentroU   =   $CentroU[0]->idCentro;
+
+}else{
+    $CentroU   =   -1;
+}
 
 
 
@@ -184,9 +194,30 @@ if(!empty($data->DatosModelo)){
     ) ;
 }
 
+$Centro = [
+    new centrocostosDto(
+        idCentro            :   -1,
+        Descripcion         :   'Sin Seleccionar',
+        idubicacion         :   null,
+        idDepto             :   null,
+        IdEmpresa           :   null
+    )
+];
+
+if(!empty($data->DatosCentro)){
+
+    $Centro   = array_merge($Centro,$data->DatosCentro->Values);
+
+    $Centro   =   new GenericCollection(
+        DtoName     :   centrocostosDto::class,
+        Key         :   'idCentro',
+        Values      :   $Centro
+    ) ;
+}
+
 $EmpresaData    =   $data->Stock->IdEmpresa;
 $MarcaData      =   $data->Stock->idMarca;
-$ModeloData         =   $data->Stock->idModelo;
+$ModeloData     =   $data->Stock->idModelo;
 $FechaData      =   $data->Stock->Fecha_asignacion;
 $FechaData      =   date("d-m-Y", strtotime($FechaData));
 
@@ -221,7 +252,8 @@ if($data->Stock != null){
             "idMarca"           =>  $MarcaData,
             "idModelo"          =>  $ModeloData,
             "idDepto"           =>  $Depto,
-            "idubicacion"       =>  $Ubi
+            "idubicacion"       =>  $Ubi,
+            "idCentro"          =>  $CentroU,
 
          ],
         keyFieldName    :   'id_stock',
@@ -281,7 +313,8 @@ if($data->Stock != null){
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Cantidad',
                             Required        :   true,
-                            Colspan         :   4
+                            Colspan         :   4,
+                            Disabled        :   true
                         ),
                         new FormRowFieldText(
                             PropertyName    :   'Precio_Unitario',
@@ -289,12 +322,14 @@ if($data->Stock != null){
                             Label           :   'Precio Unitario',
                             Required        :   true,
                             Colspan         :   4,
+                            Disabled        :   true
                         ),
                         new FormRowFieldSelect(
                             PropertyName: 'idMarca',
                             Label: 'Marca',
                             Colspan: 4,
                             Required: true,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Marca,
                                 Key             : 'idMarca',
@@ -308,6 +343,7 @@ if($data->Stock != null){
                             Label: 'Modelo',
                             Colspan: 4,
                             Required: true,
+                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Modelo,
                                 Key             : 'idModelo',
@@ -316,6 +352,22 @@ if($data->Stock != null){
                                 DisplaySearch   : true
                             ), 
                         ),
+                        new FormRowFieldSelect(
+                            PropertyName    :   'IdEmpresa',
+                            Label           :   'Empresa Producto',
+                            Colspan         :   4,
+                            Required        : true,
+                            Disabled        : true,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Empresa,
+                                Key             : 'IdEmpresa',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $EmpresaData,
+                                DisplaySearch   : true
+                            ),
+                        ),
+                    ],
+                    [
                         new FormRowFieldSelect(
                             PropertyName: 'estado_stock',
                             Label: 'Estado Producto',
@@ -338,21 +390,6 @@ if($data->Stock != null){
                                 DisplaySearch   : true
                             ),
                             Events      :   [new FormOnChangeEvent()]
-                        ),
-                    ],
-                    [
-                        new FormRowFieldSelect(
-                            PropertyName    :   'IdEmpresa',
-                            Label           :   'Empresa Producto',
-                            Colspan         :   4,
-                            Required        : true,
-                            SelectDefinition: new FormRowFieldSelectDefinition(
-                                Values          : $Empresa,
-                                Key             : 'IdEmpresa',
-                                Description     : 'Descripcion',
-                                SelectedValue   : $EmpresaData,
-                                DisplaySearch   : true
-                            ),
                         ),
                         new FormRowFieldSelect(
                             PropertyName    :   'IdEmpresaU',
@@ -377,7 +414,8 @@ if($data->Stock != null){
                                 Key             : 'idDepto',
                                 Description     : 'Descripcion',
                                 SelectedValue   : $Depto,
-                                DisplaySearch   : true
+                                DisplaySearch   : true,
+                                LinkToList      : 'IdEmpresaU'
                             ),
                         ),
                         new FormRowFieldSelect(
@@ -390,8 +428,24 @@ if($data->Stock != null){
                                 Key             : 'idubicacion',
                                 Description     : 'Descripcion',
                                 SelectedValue   : $Ubi,
-                                DisplaySearch   : true
+                                DisplaySearch   : true,
+                                LinkToList: 'idDepto'
                             ),
+                        ),
+                        new FormRowFieldSelect(
+                            PropertyName    :   'idCentro',
+                            Label           :   'Centro de Costos',
+                            Colspan         :   4,
+                            Required        : false,
+                            SelectDefinition: new FormRowFieldSelectDefinition(
+                                Values          : $Centro,
+                                Key             : 'idCentro',
+                                Description     : 'Descripcion',
+                                SelectedValue   : $CentroU,
+                                DisplaySearch   : true,
+                                LinkToList: 'idubicacion'
+                            ),
+                            Events      :   [new FormOnChangeEvent()]
                         )
                     ]
                 ]
