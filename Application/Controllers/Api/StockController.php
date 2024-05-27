@@ -72,15 +72,20 @@ class StockController extends BaseController
         // PROCEDEMOS A BUSCAR LA INFORMACIÓN DEL STOCK A EDITAR EN LA BBDD
         $StockDto           =   (new StockBO())->GetStock($id_stock);
 
-        $userEmpresa        =   $StockDto->Empresa_asignado;
-        $idDepto            =   $StockDto->Departamento;
-        $idUbicacion        =   $StockDto->Ubicacion;
-        $idCentro           =   $StockDto->idCentro;
+        if($StockDto->Fecha_asignacion != null){
 
-        $IdEmpresa_U        =   $EmpresaSvc->GetBy(new BindVariable('Descripcion','=',$userEmpresa));
-        $Ubicacion          =   $UbicacionSvc->GetBy(new BindVariable('Descripcion','=',$idUbicacion));
-        $Departamento       =   $DepartamentoSvc->GetBy(new BindVariable('Descripcion','=',$idDepto));
-        $Centro             =   $CentroSvc->GetBy(new BindVariable('idCentro','=',$idCentro));
+            $userEmpresa        =   $StockDto->Empresa_asignado;
+            $idDepto            =   $StockDto->Departamento;
+            $idUbicacion        =   $StockDto->Ubicacion;
+            $idCentro           =   $StockDto->idCentro;
+    
+            $IdEmpresa_U        =   $EmpresaSvc->GetBy(new BindVariable('Descripcion','=',$userEmpresa));
+            $Ubicacion          =   $UbicacionSvc->GetBy(new BindVariable('Descripcion','=',$idUbicacion));
+            $Departamento       =   $DepartamentoSvc->GetBy(new BindVariable('Descripcion','=',$idDepto));
+            $Centro             =   $CentroSvc->GetBy(new BindVariable('idCentro','=',$idCentro));
+
+        }
+
         $DatosMarca         =   (new marcaSvc(ConnectionEnum::TI))->GetAll();
         $DatosEmpresa       =   (new empresaSvc(ConnectionEnum::TI))->GetAll();
         $DatosArea          =   (new departamentoSvc(ConnectionEnum::TI))->GetAll();

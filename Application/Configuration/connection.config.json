@@ -1,14 +1,4 @@
 {
-     
-    "default": {
-        "Description": "LOCAL",
-        "Host": "proyectobuc2.cpl0rcr8wloc.us-east-1.rds.amazonaws.com",
-        "Database": "Autogestores_Warehouse",
-        "User": "usr_autogestores_webapp",
-        "Password": "usr_at123312!!SDFSDFSDDGBKQWQWQWETGFD!!",
-        "Port": "3306",
-        "Type": "mysql"
-    },
     "core": {
         "Description": "LOCAL",
         "Host": "192.168.4.130:3310",
@@ -16,15 +6,6 @@
         "User": "botris",
         "Password": "Mico2077.",
         "Port": "3310",
-        "Type": "mysql"
-    },
-    "audit_local": {
-        "Description": "AUDIT LOCAL",
-        "Host": "proyectobuc2.cpl0rcr8wloc.us-east-1.rds.amazonaws.com",
-        "Database": "Autogestores_Core_audit",
-        "User": "usr_autogestores_webapp",
-        "Password": "usr_at123312!!SDFSDFSDDGBKQWQWQWETGFD!!",
-        "Port": "3306",
         "Type": "mysql"
     },
     "TI": {
