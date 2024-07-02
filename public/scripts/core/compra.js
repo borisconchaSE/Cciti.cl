@@ -255,7 +255,7 @@ function btnGuardarCambiosCompra_OnClick(eventInfo){
 
 
     var idO_C                       =   eventInfo.FormData.idO_C;
-    var Fecha_compra                =   eventInfo.FormData.Fecha_compra;
+    var Fecha_compra                =   eventInfo.FormData.Fecha_Compra;
     var Descripcion                 =   eventInfo.FormData.Descripcion;
     var idMarca                     =   eventInfo.FormData.idMarca;
     var idModelo                    =   eventInfo.FormData.idModelo;
@@ -359,13 +359,13 @@ function validarInputsCompra(frmkey){
     /* ------------------------------------------------------------------------------------------------ */
     var statusInputFecha = ValidarInput(
         true,/* Invocamos la función que permite validar los inputs */
-        `${frmkey}-Fecha_compra`, /* facilitamos el ID del input que debemos validar */
+        `${frmkey}-Fecha_Compra`, /* facilitamos el ID del input que debemos validar */
         function(x){ /* -- Llamamos una función anonima con la logica que se debe cumplir */
 
             /* validamos el input ingresado */
             x = validarTextoInput(x)
 
-            $(`${frmkey}-Fecha_compra`).val(x)
+            $(`${frmkey}-Fecha_Compra`).val(x)
             
             y = x.length;
             

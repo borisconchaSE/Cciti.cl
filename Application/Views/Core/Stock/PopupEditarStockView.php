@@ -223,8 +223,7 @@ if($data->Stock != null){
                             FieldType       :   FormRowFieldTypeEnum::INPUT_TEXT,
                             Label           :   'Nombre Producto',
                             Required        :   true,
-                            Colspan         :   4,
-                            Disabled        :   true
+                            Colspan         :   4
                         ), 
                         new FormRowFieldText(
                             PropertyName    :   'Fecha',
@@ -250,7 +249,6 @@ if($data->Stock != null){
                             Label: 'Tipo',
                             Colspan: 4,
                             Required: true,
-                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : [
                                     (object)    [
@@ -300,7 +298,6 @@ if($data->Stock != null){
                             Label: 'Marca',
                             Colspan: 4,
                             Required: true,
-                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Marca,
                                 Key             : 'idMarca',
@@ -314,7 +311,6 @@ if($data->Stock != null){
                             Label: 'Modelo',
                             Colspan: 4,
                             Required: true,
-                            Disabled        :   true,
                             SelectDefinition: new FormRowFieldSelectDefinition(
                                 Values          : $Modelo,
                                 Key             : 'idModelo',

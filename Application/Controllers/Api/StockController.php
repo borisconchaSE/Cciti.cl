@@ -254,10 +254,10 @@ class StockController extends BaseController
 
         // PROCEDEMOS A ACTUALIZAR LA INFORMACIÓN EN LA BBDD
         $status         =   $StockBO->UpdateStock($DatosStock);
-        $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$DatosStock->idMarca);
-        $Modelo         =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('idModelo',$DatosStock->idModelo);
+        // $Marca          =   (new marcaSvc(ConnectionEnum::TI))->FindByForeign('idMarca',$DatosStock->idMarca);
+        // $Modelo         =   (new modeloSvc(ConnectionEnum::TI))->FindByForeign('idModelo',$DatosStock->idModelo);
 
-        $Empresa        =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosStock->IdEmpresa);
+        // $Empresa        =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosStock->IdEmpresa);
         $EmpresaU       =   (new empresaSvc(ConnectionEnum::TI))->FindByForeign('IdEmpresa',$DatosStock->IdEmpresaU);
         $Depto          =   (new departamentoSvc(ConnectionEnum::TI))->FindByForeign('idDepto',$DatosStock->idDepto);
         $Ubicacion      =   (new ubicacionSvc(ConnectionEnum::TI))->FindByForeign('idubicacion',$DatosStock->idubicacion);
@@ -272,9 +272,9 @@ class StockController extends BaseController
             "Cantidad"              =>  $DatosStock->Cantidad,
             "Precio_Unitario"       =>  $DatosStock->Precio_Unitario,
             "Precio_total"          =>  $DatosStock->Precio_total,
-            "idMarca"               =>  $Marca->Descripcion,
-            "idModelo"              =>  $Modelo->Descripcion,
-            "IdEmpresa"             =>  $Empresa->Descripcion,
+            "idMarca"               =>  $DatosStock->idMarca,
+            "idModelo"              =>  $DatosStock->idModelo,
+            "IdEmpresa"             =>  $DatosStock->IdEmpresa,
             "IdEmpresaU"            =>  $EmpresaU->Descripcion,
             "idDepto"               =>  $Depto->Descripcion,
             "idubicacion"           =>  $Ubicacion->Descripcion,
@@ -320,7 +320,7 @@ class StockController extends BaseController
     public function lista(string $guid, string $filename) : void
     {
 
-        if (!str_contains($guid,"tbListadoStock")){
+        if (!str_contains($guid,"tbListado")){
             throw new BusinessException(code:ExceptionCodesEnum::ERR_INVALID_PARAMETER,message:'ACCESO DENEGADO');
         } 
  

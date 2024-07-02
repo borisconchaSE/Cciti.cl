@@ -98,82 +98,19 @@ $cellDefinitions    =   [
         PropertyName: 'Marca',
         Label: 'Marca',
         Colspan: 2,
-        // PropertyList :[
-        //     "marca"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idMarca',
-        //         JSFilterName: 'NombreMarca'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreMarca',
-        //         Script: [
-        //             '
-        //             var Marca = element.marca.Descripcion;
-
-        //             return `<center> <span class="Center">${Marca}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Modelo',
         Label: 'Modelo',
         Colspan: 2,
-        // PropertyList :[
-        //     "modelo"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'idModelo',
-        //         JSFilterName: 'NombreModelo'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreModelo',
-        //         Script: [
-        //             '
-        //             var Modelo = element.modelo.Descripcion;
-
-        //             return `<center> <span class="Center">${Modelo}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Empresa',
         Colspan: 2,
         Label: 'Empresa producto',
-        // PropertyList :[
-        //     "empresa"
-        // ],
         BodyClasses :   ["center"],
-        // WidgetFunction: function($x) {
-        //     return new JSTableContent(
-        //         PropertyName: 'IdEmpresa',
-        //         JSFilterName: 'NombreEmpresa'
-        //     );
-        // },
-        // JSDataFilter: [
-        //     new JSTableScriptFilter(
-        //         FunctionName:'NombreEmpresa',
-        //         Script: [
-        //             '
-        //             var Empresa = element.empresa.Descripcion;
-
-        //             return `<center> <span class="Center">${Empresa}</span> </center>`;
-        //             '
-        //         ]
-        //     )
-        // ],
     ),
     new JSTableCell(
         PropertyName: 'Tipo_Tonner',

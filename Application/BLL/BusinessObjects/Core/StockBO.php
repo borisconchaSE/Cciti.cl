@@ -8,9 +8,13 @@ use Intouch\Framework\BLL\Service\GenericSvc;
 use Application\BLL\DataTransferObjects\Core\stockDto;
 use Application\BLL\Services\Core\departamentoSvc;
 use Application\BLL\Services\Core\empresaSvc;
+use Application\BLL\Services\Core\marcaSvc;
+use Application\BLL\Services\Core\modeloSvc;
 use Application\BLL\Services\Core\ubicacionSvc;
 use Application\BLL\Services\Core\VWEntregadoExcelSvc;
 use Application\BLL\Services\Core\VWStockExcelSvc;
+use Intouch\Framework\Environment\RedisDataTable;
+use Intouch\Framework\Environment\Session;
 use Intouch\Framework\Exceptions\BusinessException;
 use Intouch\Framework\Exceptions\ExceptionCodesEnum;
 
@@ -161,6 +165,12 @@ class StockBO
         // INSTANCIAMOS EL SERVICE DE LAS UBICACIONES(PAICAVI, OHIGGINS, ETC) PERTENECIENTES A LA COMPAÑIA
         $UbicacionSvc               =   new ubicacionSvc(ConnectionEnum::TI);
 
+        // INSTANCIAMOS EL SERVICE DE LAS MARCAS
+        $MarcaSvc                   =   new marcaSvc(ConnectionEnum::TI);
+
+        // INSTANCIAMOS EL SERVICE DE LOS MODELOS
+        $ModeloSvc                  =   new modeloSvc(ConnectionEnum::TI);
+
         // BUSCAMOS EL DTO DEL STOCK
         $StockDto         =   $StockSvc->FindByForeign('id_stock',$DatosStock->id_stock);
 
@@ -175,6 +185,8 @@ class StockBO
             //OBTENERMOS EL ESTADO DEL PRODUCTO
             $estado = $DatosStock->estado_stock;
 
+            GenericSvc::BeginMultipleOperations(ConnectionEnum::TI); 
+
             //VALIDAMOS EL ESTADO DEL PRODUCTO PARA SABER DE QUE VISTA PROVIENE ESTE(ACTUAL O ENTREGADO)
             if($estado == "Entregado"){
         
@@ -186,12 +198,24 @@ class StockBO
 
                 // BUSCAMOS LA INFORMACION DE LA UBICACION
                 $UbicacionDto               =   $UbicacionSvc->FindByForeign('idubicacion',$DatosStock->idubicacion);
+
+                // BUSCAMOS LA INFORMACION DE LA EMPRESA PRODUCTO
+                $EmpresaProductoDto         =   $EmpresaSvc->FindByForeign('IdEmpresa',$DatosStock->IdEmpresa);
+
+                // BUSCAMOS LA INFORMACION DEL MODELO
+                $ModeloDto                  =   $ModeloSvc->FindByForeign('idModelo',$DatosStock->idModelo);
+                
+                // BUSCAMOS LA INFORMACION DE LA MARCA
+                $MarcaDto                   =   $MarcaSvc->FindByForeign('idMarca',$DatosStock->idMarca);
         
                 // GUARDAMOS LA INFORMACION OBTENIDA DE LOS DTO EN VARIABLES PARA INSERTARLOS EN LA BBDD
-                $FechaA_Data    =   $DatosStock->Fecha_Asignacion;
-                $DeptoData      =   $DepartamentoDto->Descripcion;
-                $EmpresaU       =   $EmpresaDto->Descripcion;
-                $UbicacionData  =   $UbicacionDto->Descripcion;
+                $FechaA_Data        =   $DatosStock->Fecha_Asignacion;
+                $DeptoData          =   $DepartamentoDto->Descripcion;
+                $MarcaCache         =   $MarcaDto->Descripcion;
+                $ModeloCache        =   $ModeloDto->Descripcion;
+                $EmpresaCache       =   $EmpresaProductoDto->Descripcion;
+                $EmpresaU           =   $EmpresaDto->Descripcion;
+                $UbicacionData      =   $UbicacionDto->Descripcion;
 
                 //ESTANDARIZAMOS LA FECHA AL FORMATO DE LA BBDD
                 $FechaA_Data    =   date("Y-m-d", strtotime($FechaA_Data));
@@ -216,13 +240,51 @@ class StockBO
                 // ACTUALIZAMOS LOS VALOREDE DE LA BBDD
                 $StockSvc->Update($StockDto);
 
+                $DatosStock->idMarca                        =   $MarcaCache;
+                $DatosStock->idModelo                       =   $ModeloCache;
+                $DatosStock->IdEmpresa                      =   $EmpresaCache;
+                $DatosStock->Fecha                          =   $FechaA_Data;
+
+                GenericSvc::SaveMultipleOperations();
+
+                $guid               =   "tbListadoStock";
+                $UsuarioId          =   Session::Instance()->usuario->IdUsuario;
+                $guidSearch         =   "RPHPDATATABLE_".$UsuarioId."_".$guid; 
+                $namedguid          =   $UsuarioId."_".$guid;
+                ## VALIDAMOS SI EL INPUT ES CORRECTO
+                $CacheData      =   RedisDataTable::Instance()->$guidSearch;
+    
+                $CacheData->Values      =   array_map(function($x) use($DatosStock) { 
+                    
+                    if ($x['id_stock'] == $DatosStock->id_stock){ 
+                        
+                    };
+    
+                    return $x;
+    
+                },$CacheData->Values); 
+    
+                RedisDataTable::Instance()->$namedguid   =   $CacheData; 
+
                 return true;
 
             }elseif($estado == "En Stock"){
 
+                // BUSCAMOS LA INFORMACION DE LA EMPRESA
+                $EmpresaDto                 =   $EmpresaSvc->FindByForeign('IdEmpresa',$DatosStock->IdEmpresa);
+
+                // BUSCAMOS LA INFORMACION DEL MODELO
+                $ModeloDto                  =   $ModeloSvc->FindByForeign('idModelo',$DatosStock->idModelo);
+
+                // BUSCAMOS LA INFORMACION DE LA MARCA
+                $MarcaDto                   =   $MarcaSvc->FindByForeign('idMarca',$DatosStock->idMarca);
+
                 //ESTANDARIZAMOS LA FECHA AL FORMATO DE LA BBDD
-                $FechaData      =   $DatosStock->Fecha;
-                $FechaData      =   date("Y-m-d", strtotime($FechaData));
+                $FechaData          =   $DatosStock->Fecha;
+                $MarcaCache         =   $MarcaDto->Descripcion;
+                $ModeloCache        =   $ModeloDto->Descripcion;
+                $EmpresaCache       =   $EmpresaDto->Descripcion;
+                $FechaData          =   date("Y-m-d", strtotime($FechaData));
                 
                 //INYECTAMOS LOS NUEVOS DATOS QUE TENDRA EL PRODUCTO EN EL DTO
                 $StockDto->Fecha                            =   $FechaData;
@@ -239,6 +301,42 @@ class StockBO
                 
                 // ACTUALIZAMOS LOS VALORES EN LA BBDD
                 $StockSvc->Update($StockDto);
+
+                $DatosStock->idMarca                        =   $MarcaCache;
+                $DatosStock->idModelo                       =   $ModeloCache;
+                $DatosStock->IdEmpresa                      =   $EmpresaCache;
+                $DatosStock->Fecha                          =   $FechaData;
+
+                GenericSvc::SaveMultipleOperations();
+
+                $guid               =   "tbListadoStock";
+                $UsuarioId          =   Session::Instance()->usuario->IdUsuario;
+                $guidSearch         =   "RPHPDATATABLE_".$UsuarioId."_".$guid; 
+                $namedguid          =   $UsuarioId."_".$guid;
+                ## VALIDAMOS SI EL INPUT ES CORRECTO
+                $CacheData      =   RedisDataTable::Instance()->$guidSearch;
+    
+                $CacheData->Values      =   array_map(function($x) use($DatosStock) { 
+                    
+                    if ($x['id_stock'] == $DatosStock->id_stock){ 
+    
+                        $x['Fecha_Llegada']                 =   $DatosStock->Fecha;
+                        $x['Nombre_Producto']               =   ucwords($DatosStock->Descripcion);
+                        $x['Cantidad']                      =   $DatosStock->Cantidad;
+                        $x['Precio_Unitario']               =   $DatosStock->Precio_Unitario;
+                        $x['Marca']                         =   $DatosStock->idMarca;
+                        $x['Modelo']                        =   $DatosStock->idModelo;
+                        $x['Empresa']                       =   $DatosStock->IdEmpresa;
+                        $x['Tipo_Tonner']                   =   $DatosStock->tipo;
+                        $x['Estado_Producto']               =   $DatosStock->estado_stock;
+    
+                    };
+    
+                    return $x;
+    
+                },$CacheData->Values); 
+    
+                RedisDataTable::Instance()->$namedguid   =   $CacheData; 
     
                 return true;
 
@@ -247,6 +345,7 @@ class StockBO
 
         } catch (\Exception $ex) {
 
+            GenericSvc::UndoMultipleOperations();
             return false;
 
         }

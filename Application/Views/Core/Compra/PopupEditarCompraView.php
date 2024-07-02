@@ -23,6 +23,7 @@ use Intouch\Framework\Widget\Container;
 use Intouch\Framework\Widget\Definitions\ActionButton\ButtonStyleEnum;
 use Intouch\Framework\Widget\PopUpContent;
 use Intouch\Framework\Widget\Text;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
 
 $BodyContent     =   new Container(
     Classes     :   ['alert alert-danger label-arrow'],
@@ -224,10 +225,10 @@ if($data->Compra != null){
                             PropertyName    :   'idO_C',
                         ),
                         new FormRowFieldDate(
-                            PropertyName    :   'Fecha_compra',
+                            PropertyName    :   'Fecha_Compra',
                             FieldType       :   FormRowFieldTypeEnum::INPUT_DATE,
                             Label           :   'Fecha Compra',
-                            Placeholder     :   $FechaData,    
+                            Placeholder     :   $FechaData,
                             Required        :   true,
                             Colspan         :   4, 
                             Events          :   [

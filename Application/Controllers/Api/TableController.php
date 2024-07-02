@@ -30,7 +30,10 @@ class TableController extends BaseController
     #[ReturnCacheTableData]
     public function getdata($guid) 
     {
- 
+        
+        if (!str_contains($guid,"tbListado")){
+            throw new BusinessException(code:ExceptionCodesEnum::ERR_INVALID_PARAMETER,message:'ACCESO DENEGADO');
+        }
         
         
         $RequestData    =   (object)$_REQUEST;
@@ -45,8 +48,6 @@ class TableController extends BaseController
             throw new BusinessException(code: ExceptionCodesEnum::ERR_DATA_READ,message:'INFORMACIÓN NO DISPONIBLE');
         }
         
-
- 
 
         return  TableCacheBO::GetForDataTable(
             guid            :   $guid,

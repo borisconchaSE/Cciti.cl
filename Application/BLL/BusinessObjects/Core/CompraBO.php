@@ -16,6 +16,7 @@ use Application\BLL\Services\Core\VWActivosExcelSvc;
 use Application\BLL\Services\Core\VWCompraExcelSvc;
 use Application\BLL\Services\Core\VWGastosExcelSvc;
 use Intouch\Framework\BLL\Service\GenericSvc;
+use Intouch\Framework\Dao\BindVariable;
 
 class CompraBO 
 {
@@ -213,6 +214,7 @@ class CompraBO
                         idMarca                     :   $NuevoCompra->idMarca,
                         tipo                        :   $Tipo,
                         estado_stock                :   $estado_stock,
+                        idO_C                       :   $OrdenDto->idO_C,
                         idModelo                    :   $NuevoCompra->idModelo
                     );
     
@@ -234,6 +236,7 @@ class CompraBO
                         idMarca                     :   $NuevoCompra->idMarca,
                         tipo                        :   $Tipo,
                         estado_stock                :   $estado_stock,
+                        idO_C                       :   $OrdenDto->idO_C,
                         idModelo                    :   $NuevoCompra->idModelo
                     );
     
@@ -349,15 +352,28 @@ class CompraBO
     public function UpdateCompra($DatosCompra){
 
         //INSTANCIAMOS EL SERVICIO DE ORDERCOMPRA
-        $CompraSvc      = new ordencompraSvc(ConnectionEnum::TI);
+        $CompraSvc          =   new ordencompraSvc(ConnectionEnum::TI);
+
+        //INSTANCIAMOS EL SERVICIO DE STOCK
+        $StockSvc           =   new stockSvc(ConnectionEnum::TI);
 
         // BUSCAMOS EL DTO DE LA COMPRA CON SU INFORMCAION
-        $CompraDto         =   $CompraSvc->FindByForeign('idO_C',$DatosCompra->idO_C);
+        $CompraDto          =   $CompraSvc->FindByForeign('idO_C',$DatosCompra->idO_C);
+
+        // BUSCAMOS EÑ DTO DE EL STOCK CON SU INFORMACION
+        $StockDto           =   $StockSvc->GetBy(new BindVariable('idO_C','=',$DatosCompra->idO_C)); 
 
         // VALIDAMOS SI LA COMPRA EXISTE DENTRO DE LA BBDD
         if ($CompraDto == null){
             throw new BusinessException(code:ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: 'El producto no se encuentra disponble');
         }
+
+        // VALIDAMOS SI LA COMPRA EXISTE DENTRO DE LA BBDD
+        if ($StockDto == null){
+            throw new BusinessException(code:ExceptionCodesEnum::ERR_INVALID_PARAMETER, message: 'El producto no se encuentra disponble');
+        }
+
+        GenericSvc::BeginMultipleOperations(ConnectionEnum::TI);
 
         // PROCEDEMOS DENTRO DE UN TRY CATCH A PROCESAR LA SOLICITUD
         try{
@@ -389,6 +405,9 @@ class CompraBO
 
                 //GUARDAMOS LA DESCRIPCION PARA MODIFICARLA EN LA BBDD
                 $Modelo         =   $Modelo->Descripcion;
+
+                //OBTENEMOS EL TIPO DEL PRODUCTO
+                $Tipo                   =   $DatosCompra->tipo;
             }
 
             //ESTANDARIZAMOS LA FECHA AL FORMATO DE LA BBDD
@@ -423,11 +442,70 @@ class CompraBO
             // ACTUALIZAMOS LOS VALORES DEL PRODUCTO EN LA BBDD
             $CompraSvc->Update($CompraDto);
 
+
+            // ACTUALIZAMOS LOS VALORES DE EL O LOS PRODUCTOS EN LA BD DE STOCK
+            foreach ($StockDto as $datos) {
+
+                //INYECTAMOS LOS NUEVOS DATOS QUE TENDRA EL PRODUCTO EN EL DTO
+                $datos->Fecha                           =   $FechaData;
+                $datos->Descripcion                     =   $DatosCompra->Descripcion;
+                $datos->Precio_Unitario                 =   $DatosCompra->Precio_U;
+                $datos->Precio_total                    =   $DatosCompra->Precio_U;
+                $datos->idMarca                         =   $DatosCompra->idMarca;
+                $datos->idModelo                        =   $DatosCompra->idModelo;
+                $datos->IdEmpresa                       =   $DatosCompra->IdEmpresa;
+                $datos->tipo                            =   $CompraDto->tipo;
+
+                $StockSvc->Update($datos);
+            }
+
+            if(count($StockDto->Values) < $DatosCompra->Cantidad){
+
+                //ASIGNAMOS EL VALOR GENERICO DEL PARA INSERTAR EN ALGUNOS CAMPOS DE STOCK
+                $user           = "Sin Asignar";
+                $estado_stock   = "En Stock";
+
+                $limite         = ($DatosCompra->Cantidad - count($StockDto->Values));
+
+                $ciclo          = 1;
+
+                $StockDto     =   new stockDto(
+                    Fecha                       :   $FechaData,
+                    Descripcion                 :   $DatosCompra->Descripcion,
+                    Empresa_asignado            :   $user,
+                    Departamento                :   $user,
+                    Ubicacion                   :   $user,
+                    Cantidad                    :   1,
+                    Precio_Unitario             :   $DatosCompra->Precio_U,
+                    Precio_total                :   $DatosCompra->Precio_total,
+                    estado_stock                :   $estado_stock,
+                    tipo                        :   $Tipo,
+                    idMarca                     :   $DatosCompra->idMarca,
+                    IdEmpresa                   :   $DatosCompra->IdEmpresa,
+                    idModelo                    :   $DatosCompra->idModelo,
+                    idO_C                       :   $DatosCompra->idO_C
+                );
+
+                while($ciclo <= $limite){
+
+                    // INSERTAMOS LA INFORMACION A LA BBDD DE STOCK
+                    $StockDto                   =   $StockSvc->Insert($StockDto);
+
+                    // SUMAMOS 1 A LAS VECES QUE TIENE QUE ITERAR EL CICLO PARA PODER SALIR DE ESTE
+                    $ciclo  = $ciclo+1;
+                };
+
+            }elseif(count($StockDto->Values) > $DatosCompra->Cantidad){
+                
+            }
+
+            GenericSvc::SaveMultipleOperations();
             return true;
 
 
         } catch (\Exception $ex) {
 
+            GenericSvc::UndoMultipleOperations();
             return false;
 
         }
