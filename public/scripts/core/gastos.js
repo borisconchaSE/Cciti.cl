@@ -1,7 +1,7 @@
 function btnNuevaCompra_OnClick(eventInfo){
 
     debugger;
-    var identificador   =   eventInfo.Element.innerText;
+    var identificador   =   "Agregar Producto";
 
     const PopupAgregarProducto = NewPopUp({
         dismissOnOutsideClick : true
