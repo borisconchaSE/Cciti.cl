@@ -33,8 +33,6 @@ class CompraController extends BaseController
     #[ReturnActionViewResult]
     public function PopupAgregarProducto($identificador) 
     {
-
-        // PROCEDEMOS A BUSCAR LA INFORMACIÓN QUE USAREMOS EN LA VISTA
         
 
         // OBTENEMOS TODAS LAS MARCAS EXISTENTES EN LA BBDD
